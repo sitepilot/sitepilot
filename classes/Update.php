@@ -82,26 +82,34 @@ final class Update
      */
     public static function check_plugin_theme_updates()
     {
-        @Puc_v4_Factory::buildUpdateChecker(
-            Model::get_update_server_url(true),
-            SITEPILOT_FILE,
-            'sitepilot'
-        );
-
-        foreach (apply_filters('sp_update_plugins', []) as $plugin) {
+        if (strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
             @Puc_v4_Factory::buildUpdateChecker(
-                trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $plugin['slug'],
-                $plugin['file'],
-                $plugin['slug']
+                Model::get_update_server_url(true),
+                SITEPILOT_FILE,
+                'sitepilot'
             );
         }
 
+        foreach (apply_filters('sp_update_plugins', []) as $plugin) {
+            $plugin_version = (get_plugin_data($plugin['file']))['Version'];
+            if (strpos($plugin_version, 'SP_VERSION') === false) {
+                @Puc_v4_Factory::buildUpdateChecker(
+                    trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $plugin['slug'],
+                    $plugin['file'],
+                    $plugin['slug']
+                );
+            }
+        }
+
         foreach (apply_filters('sp_update_themes', []) as $theme) {
-            @Puc_v4_Factory::buildUpdateChecker(
-                trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $theme['slug'],
-                $theme['file'],
-                $theme['slug']
-            );
+            $theme_version = (wp_get_theme($theme['slug']))->get('Version');
+            if (strpos($theme_version, 'SP_VERSION') === false) {
+                @Puc_v4_Factory::buildUpdateChecker(
+                    trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $theme['slug'],
+                    $theme['file'],
+                    $theme['slug']
+                );
+            }
         }
     }
 }
