@@ -55,15 +55,10 @@ final class Settings
     static public function styles_scripts()
     {
         // Styles
-        wp_enqueue_style('sp-admin-settings', SITEPILOT_URL . 'assets/css/sp-admin-settings.css', array(), SITEPILOT_VERSION);
-        wp_enqueue_style('jquery-multiselect', SITEPILOT_URL . 'assets/css/jquery.multiselect.css', array(), SITEPILOT_VERSION);
-        wp_enqueue_style('jquery-tiptip', SITEPILOT_URL . 'assets/css/jquery.tiptip.css', array(), SITEPILOT_VERSION);
-
+        wp_enqueue_style('sitepilot-plugin', SITEPILOT_URL . 'assets/dist/css/admin-settings.css', array(), SITEPILOT_VERSION);
+        
         // Scripts
-        wp_enqueue_script('sp-admin-settings', SITEPILOT_URL . 'assets/js/sp-admin-settings.js', array(), SITEPILOT_VERSION);
-        wp_enqueue_script('jquery-actual', SITEPILOT_URL . 'assets/js/jquery.actual.min.js', array('jquery'), SITEPILOT_VERSION);
-        wp_enqueue_script('jquery-multiselect', SITEPILOT_URL . 'assets/js/jquery.multiselect.js', array('jquery'), SITEPILOT_VERSION);
-        wp_enqueue_script('jquery-tiptip', SITEPILOT_URL . 'assets/js/jquery.tiptip.min.js', array('jquery'), SITEPILOT_VERSION, true);
+        wp_enqueue_script('sitepilot-plugin', SITEPILOT_URL . 'assets/dist/js/admin-settings.js', array(), SITEPILOT_VERSION);
     }
 
     /**
