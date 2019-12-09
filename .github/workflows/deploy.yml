@@ -17,6 +17,8 @@ jobs:
     - name: Install packages
       run: | 
         composer install --no-dev
+        npm install
+        npm run production
     - uses: docker://sitepilot/wp-ftp-deploy:latest
       env:
         SP_UPDATE_VER: v3
