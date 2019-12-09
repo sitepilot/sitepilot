@@ -32,7 +32,7 @@ final class Update
      */
     static public function action_setup()
     {
-        // Make sure the user is logged in or this is a fresh install.
+        // Make sure the user is logged in or if this is a fresh install.
         if (!is_user_logged_in() && Model::get_version()) {
             return;
         }
