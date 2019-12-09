@@ -4,7 +4,7 @@
  * Plugin Name: Sitepilot
  * Plugin URI: https://sitepilot.io/
  * Description: A plugin for managing and developing WordPress websites.
- * Version: 1.0.0
+ * Version: {{SP_VERSION}}
  * Author: Sitepilot
  * Author URI: https://sitepilot.io/
  * Copyright: (c) 2019 Sitepilot
