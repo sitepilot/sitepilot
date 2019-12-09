@@ -1,0 +1,15 @@
+{
+    "name": "sitepilot/sitepilot",
+    "description": "A plugin for managing and developing WordPress websites.",
+    "type": "project",
+    "license": "GNU General Public License v2.0",
+    "require": {
+        "yahnis-elsts/plugin-update-checker": "^4.8",
+        "maknz/slack": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sitepilot\\": "classes/"
+        }
+    }
+}

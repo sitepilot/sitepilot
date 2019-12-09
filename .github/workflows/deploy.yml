@@ -1,0 +1,27 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - github-actions
+    tags:
+      - '*'
+      
+jobs:
+  deploy:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install packages
+      run: | 
+        composer install --no-dev
+    - uses: docker://sitepilot/wp-ftp-deploy:latest
+      env:
+        SP_UPDATE_VER: v3
+        SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
+    - uses: actions/upload-artifact@master
+      with:
+        name: package
+        path: ./sp-deploy/package
