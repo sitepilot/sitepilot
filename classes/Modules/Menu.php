@@ -83,7 +83,7 @@ final class Menu extends Module
     {
         wp_enqueue_style(
             'sitepilot-admin',
-            SITEPILOT_URL . 'assets/css/sitepilot-menu.css',
+            SITEPILOT_URL . 'assets/dist/css/admin-menu.css',
             array(),
             SITEPILOT_VERSION
         );
