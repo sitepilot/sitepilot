@@ -38,7 +38,7 @@ final class Update
         }
 
         // Check if this is a beta version.
-        if (strpos(SITEPILOT_VERSION, '{{SP_VERSION}}') !== false) {
+        if (strpos(SITEPILOT_VERSION, 'SP_VERSION') !== false) {
             self::$isBeta = true;
         }
 
