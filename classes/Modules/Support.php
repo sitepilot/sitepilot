@@ -69,7 +69,7 @@ final class Support extends Module
             'slack_webhook' => [
                 'type' => 'text',
                 'label' => __('Slack Webhook', 'sitepilot'),
-                'default' => 'Sitepilot',
+                'default' => '',
                 'help' => __('Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.', 'sitepilot')
             ],
             'whitelisted_ips' => [
