@@ -1,6 +1,6 @@
 # Sitepilot
 
-> A WordPress plugin developed by Sitepilot for managing and developing websites. You can use this plugin to speed up development and to give your clients a better (branded) WordPress experience.
+> A WordPress plugin for managing and developing websites. You can use this plugin to speed up development and to give your clients a better (branded) WordPress experience.
 
 _Please note: Sitepilot is currently under active development and will be released early 2020._
 
