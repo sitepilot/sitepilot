@@ -17,7 +17,7 @@ jobs:
           npm run production
           sed -i s/{{SP_SLACK_WEBHOOK}}/${{ secrets.SP_SLACK_WEBHOOK }}/g classes/Modules/Support.php
           sed -i s/{{SP_WHITELISTED_IPS}}/${{ secrets.SP_WHITELISTED_IPS }}/g classes/Modules/Support.php
-          sed -i s/{{SP_SUPPORT_SCRIPT}}/"${{ secrets.SP_SUPPORT_SCRIPT }}"/g classes/Modules/Support.php
+          sed -i s/{{SP_SUPPORT_SCRIPT}}/`${{ secrets.SP_SUPPORT_SCRIPT }}`/g classes/Modules/Support.php
       - uses: docker://sitepilot/wp-ftp-deploy:latest
         env:
           SP_UPDATE_VER: v3
