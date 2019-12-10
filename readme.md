@@ -6,8 +6,8 @@ _Please note: Sitepilot is currently under active development and will be releas
 
 [🚀 Download the latest version of Sitepilot here.](https://update.sitepilot.io/v3/download/sitepilot)
 
-![Modules](assets/dist/img/sitepilot-modules.jpg)
-![Branding](assets/dist/img/sitepilot-branding.jpg)
+![Modules](assets/img/sitepilot-modules.jpg)
+![Branding](assets/img/sitepilot-branding.jpg)
 
 ## Usage
 
