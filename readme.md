@@ -36,7 +36,7 @@ Functionalities for supporting clients.
 
 * Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.
 * Insert a comma separated list of IPs which are allowed to login using the Slack login feature.
-* Paste a support script which will be injected into the admin footer (for example the [Helpscout Beacon](https://docs.helpscout.com/article/1250-beacon-jumpstart-guide) support beacon script).
+* Insert a (support) script which will be injected into the admin footer (for example the [Helpscout Beacon](https://docs.helpscout.com/article/1250-beacon-jumpstart-guide) script).
 
 ### Client Role
 
