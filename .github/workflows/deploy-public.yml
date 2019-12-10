@@ -20,4 +20,6 @@ jobs:
           sed -i s/{{SP_SUPPORT_SCRIPT}}//g classes/Modules/Support.php
       - uses: docker://sitepilot/wp-ftp-deploy:latest
         env:
+          SP_UPDATE_VER: public-v1
+          SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.SP_GITHUB_TOKEN }}

@@ -118,7 +118,7 @@ final class Model
      */
     static public function get_update_server_url($disable_filter = false)
     {
-        $url = 'https://update.sitepilot.io/v3';
+        $url = 'https://update.sitepilot.io/public/v1';
 
         if ($disable_filter) {
             return $url;

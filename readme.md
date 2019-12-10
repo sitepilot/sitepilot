@@ -76,7 +76,7 @@ It is possible to register your plugin / theme to the internal updater using fil
  */
 function sp_filter_update_server_url()
 {
-    return 'https://update.sitepilot.io/v3';
+    return 'https://update.sitepilot.io/public/v1';
 }
 
 add_filter('sp_update_server_url', 'sp_filter_update_server_url');

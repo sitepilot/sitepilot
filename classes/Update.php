@@ -84,7 +84,7 @@ final class Update
     {
         if (strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
             @Puc_v4_Factory::buildUpdateChecker(
-                Model::get_update_server_url(true),
+                Model::get_update_server_url(),
                 SITEPILOT_FILE,
                 'sitepilot'
             );
