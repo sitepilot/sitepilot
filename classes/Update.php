@@ -82,9 +82,12 @@ final class Update
      */
     public static function check_plugin_theme_updates()
     {
-        if (strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
+        if (true || strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
             @Puc_v4_Factory::buildUpdateChecker(
-                Model::get_update_server_url(),
+                add_query_arg([
+                    'action' => 'get_metadata',
+                    'slug' => 'sitepilot'
+                ], Model::get_update_server_url()),
                 SITEPILOT_FILE,
                 'sitepilot'
             );
@@ -94,7 +97,10 @@ final class Update
             $plugin_version = (get_plugin_data($plugin['file']))['Version'];
             if (strpos($plugin_version, 'SP_VERSION') === false) {
                 @Puc_v4_Factory::buildUpdateChecker(
-                    trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $plugin['slug'],
+                    add_query_arg([
+                        'action' => 'get_metadata',
+                        'slug' => $plugin['slug']
+                    ], Model::get_update_server_url()),
                     $plugin['file'],
                     $plugin['slug']
                 );
@@ -105,7 +111,10 @@ final class Update
             $theme_version = (wp_get_theme($theme['slug']))->get('Version');
             if (strpos($theme_version, 'SP_VERSION') === false) {
                 @Puc_v4_Factory::buildUpdateChecker(
-                    trailingslashit(Model::get_update_server_url()) . '?action=get_metadata&slug=' . $theme['slug'],
+                    add_query_arg([
+                        'action' => 'get_metadata',
+                        'slug' => $theme['slug']
+                    ], Model::get_update_server_url()),
                     $theme['file'],
                     $theme['slug']
                 );
