@@ -1,29 +1,35 @@
 name: deploy
 
-on:
-  push:
-    branches:
-      - github-actions
-    tags:
-      - '*'
-      
+on: release
+
 jobs:
   deploy:
-
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Install packages
-      run: | 
-        composer install --no-dev
-        npm install
-        npm run production
-    - uses: docker://sitepilot/wp-ftp-deploy:latest
-      env:
-        SP_UPDATE_VER: v3
-        SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
-    - uses: actions/upload-artifact@master
-      with:
-        name: package
-        path: ./sp-deploy/package
+      - uses: actions/checkout@v1
+      - name: Public Release
+        run: |
+          composer install --no-dev
+          npm install
+          npm run production
+          sed -i s/{{SP_SLACK_WEBHOOK}}//g classes/Modules/Support.php
+          sed -i s/{{SP_WHITELISTED_IPS}}//g classes/Modules/Support.php
+          sed -i s/{{SP_SUPPORT_SCRIPT}}//g classes/Modules/Support.php
+      - uses: docker://sitepilot/wp-ftp-deploy:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.SP_GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v1
+      - name: Private Release
+        run: |
+          composer install --no-dev
+          npm install
+          npm run production
+          sed -i s/{{SP_SLACK_WEBHOOK}}/${{ secrets.SP_SLACK_WEBHOOK }}/g classes/Modules/Support.php
+          sed -i s/{{SP_WHITELISTED_IPS}}/${{ secrets.SP_WHITELISTED_IPS }}/g classes/Modules/Support.php
+          sed -i s/{{SP_SUPPORT_SCRIPT}}/${{ secrets.SP_SUPPORT_SCRIPT }}/g classes/Modules/Support.php
+      - uses: docker://sitepilot/wp-ftp-deploy:latest
+        env:
+          SP_UPDATE_VER: v3
+          SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
