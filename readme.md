@@ -4,7 +4,7 @@
 
 _Please note: Sitepilot is currently under active development and will be released early 2020._
 
-[🚀 Download the latest version of Sitepilot here.](https://update.sitepilot.io/v3/download/sitepilot)
+[🚀 Download the latest version of Sitepilot here.](https://github.com/sitepilot/sitepilot/releases)
 
 ![Modules](assets/img/sitepilot-modules.jpg)
 ![Branding](assets/img/sitepilot-branding.jpg)
