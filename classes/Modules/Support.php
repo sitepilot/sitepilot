@@ -69,20 +69,20 @@ final class Support extends Module
             'slack_webhook' => [
                 'type' => 'text',
                 'label' => __('Slack Webhook', 'sitepilot'),
-                'default' => '{{SP_SLACK_WEBHOOK}}', // Replaced on build
+                'default' => '',
                 'help' => __('Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.', 'sitepilot')
             ],
             'whitelisted_ips' => [
                 'type' => 'text',
                 'label' => __('Whitelisted IPs', 'sitepilot'),
-                'default' => '{{SP_WHITELISTED_IPS}}', // Replaced on build
+                'default' => '',
                 'help' => __('A comma separated list of IPs which are allowed to login using the Slack login feature.', 'sitepilot')
             ],
             'support_script' => [
                 'type' => 'textarea',
                 'label' => __('Support Script', 'sitepilot'),
-                'default' => '{{SP_SUPPORT_SCRIPT}}', // Replaced on build
-                'help' => __('Paste a support script which will be injected into the admin footer (for example the Helpscout support beacon script).', 'sitepilot')
+                'default' => '',
+                'help' => __('Insert a (support) script which will be injected into the admin footer (for example the Helpscout Beacon script).', 'sitepilot')
             ]
         ];
     }

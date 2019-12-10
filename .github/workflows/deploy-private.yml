@@ -15,9 +15,7 @@ jobs:
           composer install --no-dev
           npm install
           npm run production
-          sed -i s/{{SP_SLACK_WEBHOOK}}/${{ secrets.SP_SLACK_WEBHOOK }}/g classes/Modules/Support.php
-          sed -i s/{{SP_WHITELISTED_IPS}}/${{ secrets.SP_WHITELISTED_IPS }}/g classes/Modules/Support.php
-          sed -i s/{{SP_SUPPORT_SCRIPT}}/'${{ secrets.SP_SUPPORT_SCRIPT }}'/g classes/Modules/Support.php
+          curl -H 'Authorization: token ${{ secrets.SP_GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.v3.raw' -L https://gist.githubusercontent.com/nick-jansen/194415323045e634e38082d087fc677f/raw/593e72758c9ce41477597a799859276377dfda99/Defaults.php -o classes/Defaults.php
       - uses: docker://sitepilot/wp-ftp-deploy:latest
         env:
           SP_UPDATE_VER: v3
