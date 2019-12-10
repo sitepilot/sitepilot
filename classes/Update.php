@@ -82,7 +82,7 @@ final class Update
      */
     public static function check_plugin_theme_updates()
     {
-        if (true || strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
+        if (strpos(SITEPILOT_VERSION, 'SP_VERSION') === false) {
             @Puc_v4_Factory::buildUpdateChecker(
                 add_query_arg([
                     'action' => 'get_metadata',
