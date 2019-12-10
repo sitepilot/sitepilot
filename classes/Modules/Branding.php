@@ -107,17 +107,17 @@ final class Branding extends Module
             'icon' => [
                 'type' => 'text',
                 'label' => __('Icon URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/img/sitepilot-icon.png'
+                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png'
             ],
             'logo' => [
                 'type' => 'text',
                 'label' => __('Logo URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/img/sitepilot-logo.png'
+                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-logo.png'
             ],
             'screenshot' => [
                 'type' => 'text',
                 'label' => __('Sreenshot URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/img/sitepilot-screenshot.jpg'
+                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg'
             ],
         ];
     }
@@ -139,7 +139,7 @@ final class Branding extends Module
      */
     static public function get_icon()
     {
-        return self::get_setting('icon', SITEPILOT_URL . 'assets/img/sitepilot-icon.png');
+        return self::get_setting('icon', SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png');
     }
 
     /**
@@ -149,7 +149,7 @@ final class Branding extends Module
      */
     static public function get_screenshot()
     {
-        return self::get_setting('screenshot', SITEPILOT_URL . 'assets/img/sitepilot-screenshot.jpg');
+        return self::get_setting('screenshot', SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg');
     }
 
     /**

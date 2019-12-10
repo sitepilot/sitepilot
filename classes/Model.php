@@ -59,7 +59,7 @@ final class Model
             return $class::get_icon();
         }
 
-        return SITEPILOT_URL . 'assets/img/sitepilot-icon.png';
+        return SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png';
     }
 
     /**
@@ -75,7 +75,7 @@ final class Model
             return $class::get_screenshot();
         }
 
-        return SITEPILOT_URL . 'assets/img/sitepilot-screenshot.jpg';
+        return SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg';
     }
 
     /**
