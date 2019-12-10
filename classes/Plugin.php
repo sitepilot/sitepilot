@@ -26,6 +26,11 @@ final class Plugin
     {
         Update::init();
         Settings::init();
+
+        $client_class = '\Sitepilot\Defaults';
+        if (method_exists($client_class, 'init')) {
+            ($client_class)::init();
+        }
     }
 
     /**

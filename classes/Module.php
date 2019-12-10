@@ -110,7 +110,7 @@ class Module
      */
     static public function is_setting_enabled($setting)
     {
-        return in_array($setting, self::get_enabled_settings());
+        return apply_filters('sp_' . static::$module . '_setting_enabled_' . $setting, in_array($setting, self::get_enabled_settings()));
     }
 
     /**
@@ -132,11 +132,18 @@ class Module
      * @param mixed $default
      * @return mixed
      */
-    static public function get_setting($setting, $default = false)
+    static public function get_setting($setting, $default = '')
     {
         $settings = self::get_settings();
+        $return = '';
 
-        return array_key_exists($setting, $settings) && !empty($settings[$setting]) ? $settings[$setting] : $default;
+        if (array_key_exists($setting, $settings) && !empty($settings[$setting])) {
+            $return = $settings[$setting];
+        } else {
+            $return = $default;
+        }
+
+        return apply_filters('sp_' . static::$module . '_setting_' . $setting, $return);
     }
 
     /**
