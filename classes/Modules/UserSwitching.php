@@ -33,7 +33,7 @@ final class UserSwitching extends Module
      *
      * @var string
      */
-    public static $application = 'Sitepilot/UserSwitching';
+    static protected $application = 'Sitepilot/Module/UserSwitching';
 
     /**
      * @return void
@@ -64,11 +64,11 @@ final class UserSwitching extends Module
     /**
      * Adds a 'Switch To' link to each list of user actions on the Users screen.
      *
-     * @param string[] $actions
-     * @param WP_User  $user
-     * @return string[] $actions
+     * @param array $actions
+     * @param WP_User $user
+     * @return array
      */
-    static public function filter_user_row_actions(array $actions, \WP_User $user)
+    static public function filter_user_row_actions(array $actions, WP_User $user)
     {
         if (current_user_can('sp_user_switching', $user->ID) && get_current_user_id() != $user->ID) {
             $link = wp_nonce_url(add_query_arg(array(
@@ -88,7 +88,7 @@ final class UserSwitching extends Module
     }
 
     /**
-     * Loads actions depending on the 'action' query var.
+     * Load actions depending on the 'action' query var.
      * 
      * @return void
      */
@@ -143,9 +143,9 @@ final class UserSwitching extends Module
      *
      * @param  WP_User $new_user 
      * @param  WP_User $old_user
-     * @return string $redirect_to
+     * @return string
      */
-    protected static function get_redirect(WP_User $new_user = null, WP_User $old_user = null)
+    static private function get_redirect(WP_User $new_user = null, WP_User $old_user = null)
     {
         if (!empty($_REQUEST['redirect_to'])) {
             $redirect_to           = self::remove_query_args(wp_unslash($_REQUEST['redirect_to']));
@@ -168,9 +168,9 @@ final class UserSwitching extends Module
      * Removes a list of common confirmation-style query args from an URL.
      *
      * @param  string $url
-     * @return string $url
+     * @return string
      */
-    public static function remove_query_args($url)
+    static private function remove_query_args($url)
     {
         if (function_exists('wp_removable_query_args')) {
             $url = remove_query_arg(wp_removable_query_args(), $url);
@@ -184,7 +184,7 @@ final class UserSwitching extends Module
      *
      * @return bool
      */
-    public static function secure_auth_cookie()
+    static private function secure_auth_cookie()
     {
         return (is_ssl() && ('https' === parse_url(wp_login_url(), PHP_URL_SCHEME)));
     }
@@ -192,9 +192,9 @@ final class UserSwitching extends Module
     /**
      * Gets the value of the auth cookie containing the list of originating users.
      *
-     * @return string[] Array of originating user authentication cookie values. Empty array if there are none.
+     * @return array $cookie
      */
-    static public function user_switching_get_auth_cookie()
+    static private function user_switching_get_auth_cookie()
     {
         if (UserSwitching::secure_auth_cookie()) {
             $auth_cookie_name = 'wordpress_user_sw_secure_' . COOKIEHASH;
@@ -214,11 +214,11 @@ final class UserSwitching extends Module
     /**
      * Switches the current logged in user to the specified user.
      *
-     * @param  int  $user_id
-     * @param  bool $remember
+     * @param int $user_id
+     * @param bool $remember
      * @return false|WP_User
      */
-    function switch_to_user($user_id, $remember = false)
+    static public function switch_to_user($user_id, $remember = false)
     {
         $user = get_userdata($user_id);
 
