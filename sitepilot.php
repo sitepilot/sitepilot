@@ -18,15 +18,15 @@ if (defined('SITEPILOT_VERSION')) {
     return;
 }
 
-// Require Composer autoloader if it exists
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once 'vendor/autoload.php';
-}
-
 // Useful global constants
 define('SITEPILOT_VERSION', '{{SP_VERSION}}');
 define('SITEPILOT_FILE', trailingslashit(dirname(__FILE__)) . 'sitepilot.php');
 define('SITEPILOT_DIR', plugin_dir_path(SITEPILOT_FILE));
 define('SITEPILOT_URL', plugins_url('/', SITEPILOT_FILE));
+
+// Require Composer autoloader if it exists
+if (file_exists(SITEPILOT_DIR . '/vendor/autoload.php')) {
+    require_once SITEPILOT_DIR . 'vendor/autoload.php';
+}
 
 Sitepilot\Plugin::init();
