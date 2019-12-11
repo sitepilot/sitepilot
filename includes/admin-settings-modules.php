@@ -54,6 +54,12 @@
 					<?php _e('Support', 'sitepilot'); ?>
 				</label>
 			</p>
+			<p>
+				<label>
+					<input class="sp-module-cb" type="checkbox" name="sp-modules[]" value="user-switching" <?php echo in_array('user-switching', $enabled_modules) ? 'checked' : ''; ?> />
+					<?php _e('User Switching', 'sitepilot'); ?>
+				</label>
+			</p>
 
 			<?php if (Sitepilot\Modules\ThemeBeaverBuilder::is_active()) : ?>
 				<p>

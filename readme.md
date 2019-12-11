@@ -30,6 +30,14 @@ Cleanup the WordPress admin interface.
 * Deactivate WordPress logo in the admin bar.
 * Deactivate default WordPress dashboard widgets.
 
+### Client Role
+
+Setup a custom client role and select capabilities.
+
+### Menu
+
+Register an admin menu with server information and WordPress statistics.
+
 ### Support
 
 Functionalities for supporting clients.
@@ -38,9 +46,9 @@ Functionalities for supporting clients.
 * Insert a comma separated list of IPs which are allowed to login using the Slack login feature.
 * Insert a (support) script which will be injected into the admin footer (for example the [Helpscout Beacon](https://docs.helpscout.com/article/1250-beacon-jumpstart-guide) script).
 
-### Client Role
+### User Switching
 
-Setup a custom client role and select capabilities.
+Allow administrators (and users with the 'sp_user_switching' capability) to impersonate a user.
 
 ### Beaver Builder Theme
 
