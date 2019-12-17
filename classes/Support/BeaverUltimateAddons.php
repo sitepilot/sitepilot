@@ -3,45 +3,18 @@
 namespace Sitepilot\Support;
 
 use Sitepilot\Model;
-use Sitepilot\Module;
 use Sitepilot\Support\BeaverBuilder;
 
-final class BeaverUltimateAddons extends Module
+final class BeaverUltimateAddons
 {
-    /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'support-beaver-ultimate-addons';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Ultimate Addons';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Support settings for the Beaver Builder Ultimate Addons plugin.';
-
-    /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 32;
-
     /**
      * @return void
      */
     static public function init()
     {
-        parent::init();
+        if (!self::is_active()) {
+            return;
+        }
 
         if (BeaverBuilder::is_setting_enabled('filter_admin_settings_capability')) {
             add_action('admin_menu', __CLASS__ . '::action_admin_menu', 99);

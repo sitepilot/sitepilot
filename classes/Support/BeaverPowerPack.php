@@ -3,46 +3,19 @@
 namespace Sitepilot\Support;
 
 use Sitepilot\Model;
-use Sitepilot\Module;
 use Sitepilot\Support\BeaverBuilder;
 use BB_PowerPack_Admin_Settings;
 
-final class BeaverPowerPack extends Module
+final class BeaverPowerPack
 {
-    /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'support-beaver-power-pack';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Power Pack';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Support settings for the Beaver Builder Power Pack plugin.';
-
-    /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 31;
-
     /**
      * @return void
      */
     static public function init()
     {
-        parent::init();
+        if (!self::is_active()) {
+            return;
+        }
 
         if (BeaverBuilder::is_setting_enabled('filter_admin_settings_capability')) {
             add_action('admin_menu', __CLASS__ . '::action_admin_menu', 99);
@@ -70,7 +43,7 @@ final class BeaverPowerPack extends Module
     public static function action_saved()
     {
         Model::disable_cache();
-        
+
         if (method_exists('BB_PowerPack_Admin_Settings', 'update_option') && BeaverBuilder::is_setting_enabled('filter_power_pack_branding')) {
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_name', Model::get_branding_name() . ' Power Pack');
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_desc', 'A set of custom, creative, unique modules for '  . Model::get_branding_name() . ' Builder to speed up your web design and development process.');

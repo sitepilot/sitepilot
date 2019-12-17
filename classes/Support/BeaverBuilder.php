@@ -73,6 +73,10 @@ final class BeaverBuilder extends Module
                 });
             }
         }
+
+        /* Add-ons */
+        BeaverPowerPack::init();
+        BeaverUltimateAddons::init();
     }
 
     /**
