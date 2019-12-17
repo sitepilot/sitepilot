@@ -3,8 +3,8 @@
 namespace Sitepilot\Modules;
 
 use Sitepilot\Module;
-use Sitepilot\Modules\Astra;
-use Sitepilot\Modules\BeaverBuilder;
+use Sitepilot\Support\Astra;
+use Sitepilot\Support\BeaverBuilder;
 
 final class Modules extends Module
 {
@@ -45,7 +45,7 @@ final class Modules extends Module
     static public function fields()
     {
         return [
-            'astra' => [
+            'support-astra' => [
                 'type' => 'checkbox',
                 'label' => __("Astra", 'sitepilot'),
                 'active' => Astra::is_active()
@@ -54,7 +54,7 @@ final class Modules extends Module
                 'type' => 'checkbox',
                 'label' => __("Autopilot", 'sitepilot'),
             ],
-            'beaver-builder' => [
+            'support-beaver-builder' => [
                 'type' => 'checkbox',
                 'label' => __("Beaver Builder", 'sitepilot'),
                 'active' => BeaverBuilder::is_active()

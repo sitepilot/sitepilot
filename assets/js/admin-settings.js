@@ -40,12 +40,12 @@ export default class SPAdminSettings {
         $('.sp-cleanup-cb').on('click', {module: 'cleanup'}, this._checkboxClicked);
         $('.sp-autopilot-all-cb').on('click', {module: 'autopilot'}, this._allCheckboxClicked);
         $('.sp-autopilot-cb').on('click', {module: 'autopilot'}, this._checkboxClicked);
-        $('.sp-beaver-builder-all-cb').on('click', {module: 'beaver-builder'}, this._allCheckboxClicked);
-        $('.sp-beaver-builder-cb').on('click', {module: 'beaver-builder'}, this._checkboxClicked);
-        $('.sp-astra-all-cb').on('click', {module: 'astra'}, this._allCheckboxClicked);
-        $('.sp-astra-cb').on('click', {module: 'astra'}, this._checkboxClicked);
         $('.sp-client-role-all-cb').on('click', {module: 'client-role'}, this._allCheckboxClicked);
         $('.sp-client-role-cb').on('click', {module: 'client-role'}, this._checkboxClicked);
+        $('.sp-support-beaver-builder-all-cb').on('click', {module: 'support-beaver-builder'}, this._allCheckboxClicked);
+        $('.sp-support-beaver-builder-cb').on('click', {module: 'support-beaver-builder'}, this._checkboxClicked);
+        $('.sp-support-astra-all-cb').on('click', {module: 'support-astra'}, this._allCheckboxClicked);
+        $('.sp-support-astra-cb').on('click', {module: 'support-astra'}, this._checkboxClicked);
     }
 
     /**

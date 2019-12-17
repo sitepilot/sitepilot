@@ -44,7 +44,15 @@ final class Sitepilot
     static public function init_modules()
     {
         foreach (Modules::get_enabled_settings() as $module) {
-            $class = 'Sitepilot\Modules\\';
+            $class = 'Sitepilot\\';
+
+            if (strpos($module, 'support-') !== false) {
+                $module = str_replace('support-', '', $module);
+                $class .= 'Support\\';
+            } else {
+                $class .= 'Modules\\';
+            }
+
             $class_words = explode('-', $module);
             foreach ($class_words as $word) {
                 $class .= ucfirst($word);

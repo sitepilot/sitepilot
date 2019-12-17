@@ -1,6 +1,6 @@
 <?php
 
-namespace Sitepilot\Modules;
+namespace Sitepilot\Support;
 
 use Sitepilot\Model;
 use Sitepilot\Module;
@@ -12,7 +12,7 @@ final class BeaverBuilder extends Module
      *
      * @var string
      */
-    static protected $module = 'beaver-builder';
+    static protected $module = 'support-beaver-builder';
 
     /**
      * The module name.

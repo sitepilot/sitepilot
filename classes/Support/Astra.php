@@ -1,6 +1,6 @@
 <?php
 
-namespace Sitepilot\Modules;
+namespace Sitepilot\Support;
 
 use Sitepilot\Model;
 use Sitepilot\Module;
@@ -12,7 +12,7 @@ final class Astra extends Module
      *
      * @var string
      */
-    static protected $module = 'astra';
+    static protected $module = 'support-astra';
 
     /**
      * The module name.
