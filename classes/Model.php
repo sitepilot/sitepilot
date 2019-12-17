@@ -5,6 +5,40 @@ namespace Sitepilot;
 final class Model
 {
     /**
+     * When enabled the module uses an internal cache to serve settings.
+     *
+     * @var boolean
+     */
+    private static $cache_enabled = true;
+
+    /**
+     * Holds cache data.
+     *
+     * @var array
+     */
+    private static $cache = [];
+
+    /**
+     * Disable the cache.
+     *
+     * @return void
+     */
+    public static function disable_cache()
+    {
+        self::$cache_enabled = false;
+    }
+
+    /**
+     * Enable the cache.
+     *
+     * @return void
+     */
+    public static function cache_enable()
+    {
+        self::$cache_enabled = true;
+    }
+
+    /**
      * Get plugin version.
      *
      * @return string
@@ -157,6 +191,10 @@ final class Model
      */
     static public function get_admin_settings_option($key, $network_override = true, $default = false)
     {
+        if (self::$cache_enabled && isset(self::$cache[$key])) {
+            return self::$cache[$key];
+        }
+
         if (is_network_admin()) {
             $value = get_site_option($key, $default);
         } elseif (!$network_override && self::is_multisite()) {
@@ -166,6 +204,10 @@ final class Model
             $value = false === $value ? get_site_option($key, $default) : $value;
         } else {
             $value = get_option($key, $default);
+        }
+
+        if ($value != $default) {
+            self::$cache[$key] = $value;
         }
 
         return $value;
