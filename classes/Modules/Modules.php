@@ -22,6 +22,13 @@ final class Modules extends Module
      */
     static protected $name = 'Modules';
 
+     /**
+     * The module description.
+     *
+     * @var string
+     */
+    static protected $description = 'Select which modules you would like to enable.';
+
     /**
      * The module menu priority.
      *
@@ -45,23 +52,18 @@ final class Modules extends Module
     static public function fields()
     {
         return [
-            'support-astra' => [
-                'type' => 'checkbox',
-                'label' => __("Astra", 'sitepilot'),
-                'active' => Astra::is_active()
+            'category-1' => [
+                'label' => __('Modules', 'sitepilot'),
+                'type' => 'category'
             ],
             'autopilot' => [
                 'type' => 'checkbox',
                 'label' => __("Autopilot", 'sitepilot'),
             ],
-            'support-beaver-builder' => [
-                'type' => 'checkbox',
-                'label' => __("Beaver Builder", 'sitepilot'),
-                'active' => BeaverBuilder::is_active()
-            ],
             'branding' => [
                 'type' => 'checkbox',
                 'label' => __("Branding", 'sitepilot'),
+                'help' => __('White label WordPress and this plugin.', 'sitepilot')
             ],
             'cleanup' => [
                 'type' => 'checkbox',
@@ -82,7 +84,24 @@ final class Modules extends Module
             'user-switching' => [
                 'type' => 'checkbox',
                 'label' => __("User Switching", 'sitepilot'),
-            ]
+            ],
+            'category-2' => [
+                'label' => __('Theme & Plugin Support', 'sitepilot'),
+                'type' => 'category',
+                'active' => (Astra::is_active() || BeaverBuilder::is_active())
+            ],
+            'support-astra' => [
+                'type' => 'checkbox',
+                'label' => __("Astra", 'sitepilot'),
+                'active' => Astra::is_active(),
+                'help' => __('Enable support for Astra theme.', 'sitepilot')
+            ],
+            'support-beaver-builder' => [
+                'type' => 'checkbox',
+                'label' => __("Beaver Builder", 'sitepilot'),
+                'active' => BeaverBuilder::is_active(),
+                'help' => __('Enable support for Beaver Builder plugin, themer, theme and addons.', 'sitepilot')
+            ],
         ];
     }
 }

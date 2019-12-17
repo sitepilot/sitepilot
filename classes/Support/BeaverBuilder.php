@@ -26,7 +26,7 @@ final class BeaverBuilder extends Module
      *
      * @var string
      */
-    static protected $description = 'Compatibility settings for the Beaver Builder plugin and theme.';
+    static protected $description = 'Support settings for the Beaver Builder plugin and theme.';
 
     /**
      * The module menu priority.
@@ -34,6 +34,11 @@ final class BeaverBuilder extends Module
      * @var string
      */
     static protected $priority = 30;
+
+    /**
+     * 
+     */
+    static public $admin_settings_cap = 'sp_builder_admin_settings';
 
     /**
      * @return void
@@ -62,9 +67,9 @@ final class BeaverBuilder extends Module
                 add_filter('fl_builder_get_templates', __CLASS__ . '::filter_builder_templates', 99, 2);
             }
             if (self::is_setting_enabled('filter_admin_settings_capability')) {
-                get_role('administrator')->add_cap('sp_builder_admin_settings');
+                get_role('administrator')->add_cap(self::$admin_settings_cap);
                 add_filter('fl_builder_admin_settings_capability', function () {
-                    return "sp_builder_admin_settings";
+                    return \Sitepilot\Support\BeaverBuilder::$admin_settings_cap;
                 });
             }
         }
@@ -108,15 +113,33 @@ final class BeaverBuilder extends Module
     static public function fields()
     {
         return [
+            'category-1' => [
+                'label' => __('Branding', 'sitepilot'),
+                'type' => 'category'
+            ],
             'filter_theme_branding' => [
                 'type' => 'checkbox',
-                'label' => __('White label theme.', 'sitepilot'),
+                'label' => __('White label Beaver Builder theme.', 'sitepilot'),
                 'active' => self::is_theme_active()
             ],
             'filter_plugin_branding' => [
                 'type' => 'checkbox',
-                'label' => __('White label plugin.', 'sitepilot'),
+                'label' => __('White label Beaver Builder plugin.', 'sitepilot'),
                 'active' => self::is_builder_active()
+            ],
+            'filter_power_pack_branding' => [
+                'type' => 'checkbox',
+                'label' => __('White label Power Pack plugin.', 'sitepilot'),
+                'active' => BeaverPowerPack::is_active()
+            ],
+            'filter_ultimate_addons_branding' => [
+                'type' => 'checkbox',
+                'label' => __('White label Ultimate Addons plugin.', 'sitepilot'),
+                'active' => BeaverUltimateAddons::is_active()
+            ],
+            'category-2' => [
+                'label' => __('Builder Settings', 'sitepilot'),
+                'type' => 'category'
             ],
             'filter_builder_modules' => [
                 'type' => 'checkbox',
@@ -130,8 +153,8 @@ final class BeaverBuilder extends Module
             ],
             'filter_admin_settings_capability' => [
                 'type' => 'checkbox',
-                'label' => __('Register custom admin settings capability.', 'sitepilot'),
-                'help' => __("Change the admin settings capability of the builder to 'sp_builder_admin_settings'.", 'sitepilot'),
+                'label' => __('Use custom admin settings capability.', 'sitepilot'),
+                'help' => sprintf(__("Change the admin settings capability of the builder (and addons) to '%s' to prevent client access.", 'sitepilot'), self::$admin_settings_cap),
                 'active' => self::is_builder_active()
             ]
         ];

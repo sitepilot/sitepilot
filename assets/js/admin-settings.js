@@ -44,6 +44,10 @@ export default class SPAdminSettings {
         $('.sp-client-role-cb').on('click', {module: 'client-role'}, this._checkboxClicked);
         $('.sp-support-beaver-builder-all-cb').on('click', {module: 'support-beaver-builder'}, this._allCheckboxClicked);
         $('.sp-support-beaver-builder-cb').on('click', {module: 'support-beaver-builder'}, this._checkboxClicked);
+        $('.sp-support-beaver-power-pack-all-cb').on('click', {module: 'support-beaver-power-pack'}, this._allCheckboxClicked);
+        $('.sp-support-beaver-power-pack-cb').on('click', {module: 'support-beaver-power-pack'}, this._checkboxClicked);
+        $('.sp-support-beaver-ultimate-addons-all-cb').on('click', {module: 'support-beaver-ultimate-addons'}, this._allCheckboxClicked);
+        $('.sp-support-beaver-ultimate-addons-cb').on('click', {module: 'support-beaver-ultimate-addons'}, this._checkboxClicked);
         $('.sp-support-astra-all-cb').on('click', {module: 'support-astra'}, this._allCheckboxClicked);
         $('.sp-support-astra-cb').on('click', {module: 'support-astra'}, this._checkboxClicked);
     }
