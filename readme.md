@@ -11,7 +11,7 @@ _Please note: Sitepilot is currently under active development and will be releas
 
 ## Usage
 
-Sitepilot provides several modules for managing and developing WordPress websites for clients. All functionalities are disabled by default but can be enabled through a settings page in the WordPress admin dashboard. Sitepilot is compatible with multiple plugins / themes to control the branding and functionality of them.
+Sitepilot provides several modules for managing and developing WordPress websites for clients. All functionalities are disabled by default but can be enabled through a settings page in the WordPress admin dashboard.
 
 ## Modules
 
@@ -19,16 +19,16 @@ Sitepilot provides several modules for managing and developing WordPress website
 
 White label WordPress and this plugin.
 
-* Show 'powered by' text in theme head.
-* Show 'powered by' text in admin footer.
-* Replace the default WordPress login logo.
+- Show 'powered by' text in theme head.
+- Show 'powered by' text in admin footer.
+- Replace the default WordPress login logo.
 
 ### Cleanup
 
 Cleanup the WordPress admin interface.
 
-* Deactivate WordPress logo in the admin bar.
-* Deactivate default WordPress dashboard widgets.
+- Deactivate WordPress logo in the admin bar.
+- Deactivate default WordPress dashboard widgets.
 
 ### Client Role
 
@@ -42,44 +42,43 @@ Register an admin menu with server information and WordPress statistics.
 
 Functionalities for supporting clients.
 
-* Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.
-* Insert a comma separated list of IPs which are allowed to login using the Slack login feature.
-* Insert a (support) script which will be injected into the admin footer (for example the [Helpscout Beacon](https://docs.helpscout.com/article/1250-beacon-jumpstart-guide) script).
+- Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.
+- Insert a comma separated list of IPs which are allowed to login using the Slack login feature.
+- Insert a (support) script which will be injected into the admin footer (for example the [Helpscout Beacon](https://docs.helpscout.com/article/1250-beacon-jumpstart-guide) script).
 
 ### User Switching
 
 Allow administrators (and users with the 'sp_user_switching' capability) to impersonate a user.
 
-### Beaver Builder Theme
+## Compatibility
 
-Compatibility settings for the Beaver Builder theme.
+Sitepilot is compatible with some plugins / themes to control the branding and functionality of them.
 
-* White label theme.
-
-### Astra Theme
+### Astra
 
 Compatibility settings for the Astra theme.
 
-* White label theme and Pro addon.
+- White label theme and Pro addon.
 
-### Beaver Builder Plugin
+### Beaver Builder
 
-Compatibility settings for the Beaver Builder plugin.
+Compatibility settings for the Beaver Builder plugin and theme.
 
-* White label plugin.
-* Deactivate all default builder modules.
-* Deactivate all default builder templates. 
+- White label plugin.
+- White label theme.
+- Deactivate all default builder modules.
+- Deactivate all default builder templates.
 
-### Update
+## Update
 
-It is possible to register your plugin / theme to the internal updater using filters. The updater is checking a custom [update server](https://github.com/YahnisElsts/wp-update-server) for updates.
+The plugin is updated using a [plugin update checker](https://github.com/YahnisElsts/plugin-update-checker). It is possible to register your plugin / theme to the internal updater using filters. The updater is checking a custom [update server](https://github.com/YahnisElsts/wp-update-server) for updates.
 
-#### Update Server URL
+### Update Server URL
 
 ```php
 /**
  * Change the update server URL.
- * 
+ *
  * @return string $url
  */
 function sp_filter_update_server_url()
@@ -90,12 +89,12 @@ function sp_filter_update_server_url()
 add_filter('sp_update_server_url', 'sp_filter_update_server_url');
 ```
 
-#### Theme Updater
+### Theme Updater
 
 ```php
 /**
  * Register theme to the updater.
- * 
+ *
  * @param array $themes
  * @return array $themes
  */
@@ -112,12 +111,12 @@ function sp_filter_update_themes(array $themes)
 add_filter('sp_update_themes', 'sp_filter_update_themes');
 ```
 
-#### Plugin Updater
+### Plugin Updater
 
 ```php
 /**
  * Register plugin to the updater.
- * 
+ *
  * @param array $plugins
  * @return array $plugins
  */

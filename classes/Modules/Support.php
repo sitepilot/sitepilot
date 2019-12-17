@@ -5,11 +5,6 @@ namespace Sitepilot\Modules;
 use Sitepilot\Module;
 use Maknz\Slack\Client;
 
-/**
- * This module is responsible for supporting clients.
- *
- * @since 1.0.0
- */
 final class Support extends Module
 {
     /**
@@ -38,7 +33,7 @@ final class Support extends Module
      *
      * @var string
      */
-    static protected $priority = 400;
+    static protected $priority = 80;
 
     /**
      * @return void
@@ -59,11 +54,11 @@ final class Support extends Module
     }
 
     /**
-     * Returns module settings.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         return [
             'slack_webhook' => [

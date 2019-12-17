@@ -2,11 +2,8 @@
 
 namespace Sitepilot;
 
-/**
- * Handles logic for the admin settings page.
- *
- * @since 1.0
- */
+use Sitepilot\Modules\Modules;
+
 final class Settings
 {
     /**
@@ -41,6 +38,8 @@ final class Settings
 
         add_action('admin_menu', __CLASS__ . '::menu');
 
+        Modules::init();
+
         if (isset($_REQUEST['page']) && 'sitepilot-settings' == $_REQUEST['page']) {
             add_action('admin_enqueue_scripts', __CLASS__ . '::styles_scripts');
             self::save();
@@ -56,7 +55,7 @@ final class Settings
     {
         // Styles
         wp_enqueue_style('sitepilot-plugin', SITEPILOT_URL . 'assets/dist/css/admin-settings.css', array(), SITEPILOT_VERSION);
-        
+
         // Scripts
         wp_enqueue_script('sitepilot-plugin', SITEPILOT_URL . 'assets/dist/js/admin-settings.js', array(), SITEPILOT_VERSION);
     }
@@ -144,13 +143,7 @@ final class Settings
      */
     static public function render_nav_items()
     {
-        $item_data = apply_filters('sp_admin_settings_nav_items', array(
-            'modules'     => array(
-                'title'    => __('Modules', 'sitepilot'),
-                'show'     => true,
-                'priority' => 100,
-            )
-        ));
+        $item_data = apply_filters('sp_admin_settings_nav_items', array());
 
         $sorted_data = array();
 
@@ -262,35 +255,10 @@ final class Settings
             return;
         }
 
-        self::save_enabled_modules();
-
         /**
          * Let extensions hook into saving.
          * @see sp_admin_settings_save
          */
         do_action('sp_admin_settings_save');
-    }
-
-    /**
-     * Saves the enabled modules.
-     *
-     * @access private
-     * @return void
-     */
-    static private function save_enabled_modules()
-    {
-        if (isset($_POST['sp-modules-nonce']) && wp_verify_nonce($_POST['sp-modules-nonce'], 'modules')) {
-
-            $modules = array();
-
-            if (isset($_POST['sp-modules']) && is_array($_POST['sp-modules'])) {
-                $modules = array_map('sanitize_text_field', $_POST['sp-modules']);
-            }
-
-            Model::update_admin_settings_option('_sp_enabled_modules', $modules, true);
-
-            // Redirect after we saved the module settings (because some functions need to load early)
-            wp_redirect(get_admin_url(null, 'options-general.php?page=sitepilot-settings'));
-        }
     }
 }

@@ -32,18 +32,18 @@ export default class SPAdminSettings {
     {
         $('.sp-settings-nav a').on('click', this._navClicked);
         $('.sp-override-ms-cb').on('click', this._overrideCheckboxClicked);
-        $('.sp-module-all-cb').on('click', {module: 'module'}, this._allCheckboxClicked);
-        $('.sp-module-cb').on('click', {module: 'module'}, this._checkboxClicked);
+        $('.sp-modules-all-cb').on('click', {module: 'modules'}, this._allCheckboxClicked);
+        $('.sp-modules-cb').on('click', {module: 'modules'}, this._checkboxClicked);
         $('.sp-branding-all-cb').on('click', {module: 'branding'}, this._allCheckboxClicked);
         $('.sp-branding-cb').on('click', {module: 'branding'}, this._checkboxClicked);
         $('.sp-cleanup-all-cb').on('click', {module: 'cleanup'}, this._allCheckboxClicked);
         $('.sp-cleanup-cb').on('click', {module: 'cleanup'}, this._checkboxClicked);
-        $('.sp-theme-beaver-builder-all-cb').on('click', {module: 'theme-beaver-builder'}, this._allCheckboxClicked);
-        $('.sp-theme-beaver-builder-cb').on('click', {module: 'theme-beaver-builder'}, this._checkboxClicked);
-        $('.sp-plugin-beaver-builder-all-cb').on('click', {module: 'plugin-beaver-builder'}, this._allCheckboxClicked);
-        $('.sp-plugin-beaver-builder-cb').on('click', {module: 'plugin-beaver-builder'}, this._checkboxClicked);
-        $('.sp-theme-astra-all-cb').on('click', {module: 'theme-astra'}, this._allCheckboxClicked);
-        $('.sp-theme-astra-cb').on('click', {module: 'theme-astra'}, this._checkboxClicked);
+        $('.sp-autopilot-all-cb').on('click', {module: 'autopilot'}, this._allCheckboxClicked);
+        $('.sp-autopilot-cb').on('click', {module: 'autopilot'}, this._checkboxClicked);
+        $('.sp-beaver-builder-all-cb').on('click', {module: 'beaver-builder'}, this._allCheckboxClicked);
+        $('.sp-beaver-builder-cb').on('click', {module: 'beaver-builder'}, this._checkboxClicked);
+        $('.sp-astra-all-cb').on('click', {module: 'astra'}, this._allCheckboxClicked);
+        $('.sp-astra-cb').on('click', {module: 'astra'}, this._checkboxClicked);
         $('.sp-client-role-all-cb').on('click', {module: 'client-role'}, this._allCheckboxClicked);
         $('.sp-client-role-cb').on('click', {module: 'client-role'}, this._checkboxClicked);
     }

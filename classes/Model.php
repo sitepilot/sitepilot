@@ -2,11 +2,6 @@
 
 namespace Sitepilot;
 
-use Sitepilot\Modules\Branding;
-
-/**
- * Model class.
- */
 final class Model
 {
     /**
@@ -138,7 +133,7 @@ final class Model
     }
 
     /**
-     * Restrict builder settings accessibility based on the defined capability.
+     * Restrict settings accessibility based on the defined capability.
      *
      * @return void
      */

@@ -5,26 +5,21 @@ namespace Sitepilot\Modules;
 use Sitepilot\Model;
 use Sitepilot\Module;
 
-/**
- * Compatibility settings for the Astra theme.
- *
- * @since 1.0.0
- */
-final class ThemeAstra extends Module
+final class Astra extends Module
 {
     /**
      * The unique module id.
      *
      * @var string
      */
-    static protected $module = 'theme-astra';
+    static protected $module = 'astra';
 
     /**
      * The module name.
      *
      * @var string
      */
-    static protected $name = 'Astra Theme';
+    static protected $name = 'Astra';
 
     /**
      * The module description.
@@ -38,7 +33,7 @@ final class ThemeAstra extends Module
      *
      * @var string
      */
-    static protected $priority = 700;
+    static protected $priority = 10;
 
     /**
      * @return void
@@ -63,11 +58,11 @@ final class ThemeAstra extends Module
     }
 
     /**
-     * Returns module settings.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         return [
             'filter_theme_branding' => [

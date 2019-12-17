@@ -5,11 +5,6 @@ namespace Sitepilot\Modules;
 use Sitepilot\Model;
 use Sitepilot\Module;
 
-/**
- * This module is responsible for setting up a client role.
- *
- * @since 1.0.0
- */
 final class ClientRole extends Module
 {
     /**
@@ -38,7 +33,7 @@ final class ClientRole extends Module
      *
      * @var string
      */
-    static protected $priority = 401;
+    static protected $priority = 60;
 
     /**
      * @return void
@@ -51,11 +46,11 @@ final class ClientRole extends Module
     }
 
     /**
-     * Returns module settings.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         $settings = [];
         $capabilities = get_role('administrator')->capabilities;

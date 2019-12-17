@@ -2,7 +2,9 @@
 
 namespace Sitepilot;
 
-final class Plugin
+use Sitepilot\Modules\Modules;
+
+final class Sitepilot
 {
     /**
      * Initialize plugin.
@@ -24,23 +26,24 @@ final class Plugin
      */
     static private function init_classes()
     {
+        // Load defaults (only used for Sitepilot clients)
+        $defaults_class = '\Sitepilot\Defaults';
+        if (method_exists($defaults_class, 'init')) {
+            ($defaults_class)::init();
+        }
+
         Update::init();
         Settings::init();
-
-        $client_class = '\Sitepilot\Defaults';
-        if (method_exists($client_class, 'init')) {
-            ($client_class)::init();
-        }
     }
 
     /**
-     * Initialize module classes.
+     * Initialize plugin modules.
      * 
      * @return void
      */
     static public function init_modules()
     {
-        foreach (Model::get_enabled_modules() as $module) {
+        foreach (Modules::get_enabled_settings() as $module) {
             $class = 'Sitepilot\Modules\\';
             $class_words = explode('-', $module);
             foreach ($class_words as $word) {

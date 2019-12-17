@@ -29,4 +29,4 @@ if (file_exists(SITEPILOT_DIR . '/vendor/autoload.php')) {
     require_once SITEPILOT_DIR . 'vendor/autoload.php';
 }
 
-Sitepilot\Plugin::init();
+Sitepilot\Sitepilot::init();
