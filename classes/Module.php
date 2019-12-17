@@ -50,6 +50,16 @@ class Module
     }
 
     /**
+     * Returns the module ID.
+     *
+     * @return string $id
+     */
+    static public function get_id()
+    {
+        return get_called_class()::$module;
+    }
+
+    /**
      * Returns module setting fields.
      *
      * @return void
