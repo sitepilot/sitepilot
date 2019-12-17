@@ -26,7 +26,7 @@ final class BeaverBuilder extends Module
      *
      * @var string
      */
-    static protected $description = 'Support settings for the Beaver Builder plugin and theme.';
+    static protected $description = 'Support settings for the Beaver Builder plugin, theme and add-ons.';
 
     /**
      * The module menu priority.
@@ -154,7 +154,7 @@ final class BeaverBuilder extends Module
             'filter_admin_settings_capability' => [
                 'type' => 'checkbox',
                 'label' => __('Use custom admin settings capability.', 'sitepilot'),
-                'help' => sprintf(__("Change the admin settings capability of the builder (and addons) to '%s' to prevent client access.", 'sitepilot'), self::$admin_settings_cap),
+                'help' => sprintf(__("Change the admin settings capability of the builder (and add-ons) to '%s' to prevent client access.", 'sitepilot'), self::$admin_settings_cap),
                 'active' => self::is_builder_active()
             ]
         ];

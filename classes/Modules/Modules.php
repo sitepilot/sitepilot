@@ -100,7 +100,7 @@ final class Modules extends Module
                 'type' => 'checkbox',
                 'label' => __("Beaver Builder", 'sitepilot'),
                 'active' => BeaverBuilder::is_active(),
-                'help' => __('Enable support for Beaver Builder plugin, themer, theme and addons.', 'sitepilot')
+                'help' => __('Enable support for Beaver Builder plugin, themer, theme and add-ons.', 'sitepilot')
             ],
         ];
     }
