@@ -50,6 +50,16 @@ class Module
     }
 
     /**
+     * Allow module to disable itself by overriding the is_active method.
+     *
+     * @return boolean
+     */
+    static public function is_active()
+    {
+        return true;
+    }
+
+    /**
      * Returns the module ID.
      *
      * @return string $id
