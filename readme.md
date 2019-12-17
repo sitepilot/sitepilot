@@ -6,8 +6,8 @@ _Please note: Sitepilot is currently under active development and will be releas
 
 [🚀 Download the latest version of Sitepilot here.](https://github.com/sitepilot/sitepilot/releases)
 
-![Modules](assets/img/sitepilot-modules.jpg)
-![Branding](assets/img/sitepilot-branding.jpg)
+![Modules](assets/img/sitepilot-modules.png)
+![Branding](assets/img/sitepilot-branding.png)
 
 ## Usage
 
@@ -50,22 +50,24 @@ Functionalities for supporting clients.
 
 Allow administrators (and users with the 'sp_user_switching' capability) to impersonate a user.
 
-## Compatibility
+## Plugin & Theme Support
 
 Sitepilot is compatible with some plugins / themes to control the branding and functionality of them.
 
 ### Astra
 
-Compatibility settings for the Astra theme.
+Support settings for the Astra theme.
 
 - White label theme and Pro addon.
 
 ### Beaver Builder
 
-Compatibility settings for the Beaver Builder plugin and theme.
+Support settings for the Beaver Builder plugin, theme and add-ons.
 
-- White label plugin.
-- White label theme.
+- White label builder plugin.
+- White label builder theme (if installed).
+- White label Power Pack plugin (if installed).
+- White label Ultimate Addons plugin (if installed).
 - Deactivate all default builder modules.
 - Deactivate all default builder templates.
 - Change the admin settings capability of the builder.
