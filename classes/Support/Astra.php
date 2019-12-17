@@ -26,7 +26,7 @@ final class Astra extends Module
      *
      * @var string
      */
-    static protected $description = 'Compatibility settings for the Astra theme.';
+    static protected $description = 'Support settings for the Astra theme.';
 
     /**
      * The module menu priority.
