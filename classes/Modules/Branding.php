@@ -76,8 +76,9 @@ final class Branding extends Module
                 'type' => 'checkbox',
                 'label' => __("Replace the default WordPress login logo.", 'sitepilot'),
             ],
-            'separator' => [
-                'type' => 'separator'
+            'category-1' => [
+                'label' => __('Settings', 'sitepilot'),
+                'type' => 'category'
             ],
             'name' => [
                 'type' => 'text',

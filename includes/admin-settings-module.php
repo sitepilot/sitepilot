@@ -2,7 +2,7 @@
 
     <form class="sp-settings-form-content" action="<?php Sitepilot\Settings::render_form_action($class::$module); ?>" method="post">
 
-        <h3 class="sp-settings-form-header"><?= sprintf(__('%s Settings', 'sitepilot'), $class::$name) ?></h3>
+        <h2 class="sp-settings-form-header"><?= sprintf(__('%s Settings', 'sitepilot'), $class::$name) ?></h2>
         <p><?= $class::$description ?></p>
 
         <hr />
@@ -36,13 +36,15 @@
                             <?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?>
                         </label>
                     <?php elseif ($setting['type'] == 'text') : ?>
-                        <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
+                        <p style="margin-bottom: 5px;"><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></p>
                         <input type="text" name="sp-<?= $class::$module ?>[<?= $key ?>]" value="<?= $class::get_setting($key, $setting['default']) ?>" class="regular-text" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?> />
                     <?php elseif ($setting['type'] == 'textarea') : ?>
-                        <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
+                        <p style="margin-bottom: 5px;"><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></p>
                         <textarea name="sp-<?= $class::$module ?>[<?= $key ?>]" class="regular-text" rows="6" style="width: 100%;" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?>><?= $class::get_setting($key, $setting['default']) ?></textarea>
                     <?php elseif ($setting['type'] == 'separator') : ?>
                         <hr />
+                    <?php elseif ($setting['type'] == 'category') : ?>
+                        <h4 style="margin-top: 25px;"><?= $setting['label'] ?></h4>
                     <?php endif; ?>
                 </p>
             <?php endif; ?>
