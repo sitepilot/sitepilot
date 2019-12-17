@@ -68,6 +68,7 @@ Compatibility settings for the Beaver Builder plugin and theme.
 - White label theme.
 - Deactivate all default builder modules.
 - Deactivate all default builder templates.
+- Change the admin settings capability of the builder.
 
 ## Update
 

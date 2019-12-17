@@ -61,6 +61,12 @@ final class BeaverBuilder extends Module
             if (self::is_setting_enabled('filter_builder_templates')) {
                 add_filter('fl_builder_get_templates', __CLASS__ . '::filter_builder_templates', 99, 2);
             }
+            if (self::is_setting_enabled('filter_admin_settings_capability')) {
+                get_role('administrator')->add_cap('sp_builder_admin_settings');
+                add_filter('fl_builder_admin_settings_capability', function () {
+                    return "sp_builder_admin_settings";
+                });
+            }
         }
     }
 
@@ -120,6 +126,12 @@ final class BeaverBuilder extends Module
             'filter_builder_templates' => [
                 'type' => 'checkbox',
                 'label' => __('Remove all default builder templates.', 'sitepilot'),
+                'active' => self::is_builder_active()
+            ],
+            'filter_admin_settings_capability' => [
+                'type' => 'checkbox',
+                'label' => __('Register custom admin settings capability.', 'sitepilot'),
+                'help' => __("Change the admin settings capability of the builder to 'sp_builder_admin_settings'.", 'sitepilot'),
                 'active' => self::is_builder_active()
             ]
         ];
