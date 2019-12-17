@@ -33,6 +33,7 @@
                                 <input class="sp-<?= $class::$module ?>-cb" type="checkbox" name="sp-<?= $class::$module ?>-enabled[]" value="<?= $key ?>" <?php echo $class::is_setting_enabled($key) ? 'checked' : ''; ?> <?= has_filter('sp_' . $class::$module . '_setting_enabled_' . $key) ? 'disabled' : '' ?> />
                             <?php endif ?>
                             <?= $setting['label'] ?>
+                            <?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?>
                         </label>
                     <?php elseif ($setting['type'] == 'text') : ?>
                         <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
