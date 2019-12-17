@@ -4,11 +4,6 @@ namespace Sitepilot\Modules;
 
 use Sitepilot\Module;
 
-/**
- * This module is responsible for branding WordPress.
- *
- * @since 1.0.0
- */
 final class Branding extends Module
 {
     /**
@@ -37,7 +32,7 @@ final class Branding extends Module
      *
      * @var string
      */
-    static protected $priority = 200;
+    static protected $priority = 40;
 
     /**
      * @return void
@@ -62,11 +57,11 @@ final class Branding extends Module
     }
 
     /**
-     * Returns module settings.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         return [
             'action_powered_by_head' => [

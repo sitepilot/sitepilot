@@ -26,7 +26,7 @@ final class UserSwitching extends Module
      *
      * @var string
      */
-    static protected $priority = 501;
+    static protected $priority = 90;
 
     /**
      * The name used to identify the application during a WordPress redirect.

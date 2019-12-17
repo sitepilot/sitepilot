@@ -50,25 +50,20 @@ Functionalities for supporting clients.
 
 Allow administrators (and users with the 'sp_user_switching' capability) to impersonate a user.
 
-### Beaver Builder Theme
+### Beaver Builder
 
-Compatibility settings for the Beaver Builder theme.
+Compatibility settings for the Beaver Builder plugin and theme.
 
+* White label plugin.
 * White label theme.
+* Deactivate all default builder modules.
+* Deactivate all default builder templates. 
 
-### Astra Theme
+### Astra
 
 Compatibility settings for the Astra theme.
 
 * White label theme and Pro addon.
-
-### Beaver Builder Plugin
-
-Compatibility settings for the Beaver Builder plugin.
-
-* White label plugin.
-* Deactivate all default builder modules.
-* Deactivate all default builder templates. 
 
 ### Update
 

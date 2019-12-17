@@ -4,11 +4,6 @@ namespace Sitepilot;
 
 use Puc_v4_Factory;
 
-/**
- * Responsible for updating the plugin.
- *
- * @since 1.0.0
- */
 final class Update
 {
     public static $isBeta = false;

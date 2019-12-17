@@ -5,40 +5,35 @@ namespace Sitepilot\Modules;
 use Sitepilot\Model;
 use Sitepilot\Module;
 
-/**
- * Compatibility settings for the Beaver Builder plugin.
- *
- * @since 1.0.0
- */
-final class PluginBeaverBuilder extends Module
+final class BeaverBuilder extends Module
 {
     /**
      * The unique module id.
      *
      * @var string
      */
-    static protected $module = 'plugin-beaver-builder';
+    static protected $module = 'beaver-builder';
 
     /**
      * The module name.
      *
      * @var string
      */
-    static protected $name = 'Beaver Builder Plugin';
+    static protected $name = 'Beaver Builder';
 
     /**
      * The module description.
      *
      * @var string
      */
-    static protected $description = 'Compatibility settings for the Beaver Builder plugin.';
+    static protected $description = 'Compatibility settings for the Beaver Builder plugin and theme.';
 
     /**
      * The module menu priority.
      *
      * @var string
      */
-    static protected $priority = 601;
+    static protected $priority = 30;
 
     /**
      * @return void
@@ -47,17 +42,25 @@ final class PluginBeaverBuilder extends Module
     {
         parent::init();
 
-        if (self::is_setting_enabled('filter_plugin_branding')) {
-            require_once(SITEPILOT_DIR . 'includes/builder/FLBuilderWhiteLabel.php');
-            add_filter('all_plugins', __CLASS__ . '::filter_plugins');
+        /* Theme */
+        if (self::is_theme_active()) {
+            if (self::is_setting_enabled('filter_theme_branding')) {
+                add_filter('wp_prepare_themes_for_js', __CLASS__ . '::filter_themes');
+            }
         }
 
-        if (self::is_setting_enabled('filter_builder_modules')) {
-            add_filter('fl_builder_register_module', __CLASS__ . '::filter_builder_modules', 99, 2);
-        }
-
-        if (self::is_setting_enabled('filter_builder_templates')) {
-            add_filter('fl_builder_get_templates', __CLASS__ . '::filter_builder_templates', 99, 2);
+        /* Builder */
+        if (self::is_builder_active()) {
+            if (self::is_setting_enabled('filter_plugin_branding')) {
+                require_once(SITEPILOT_DIR . 'includes/builder/FLBuilderWhiteLabel.php');
+                add_filter('all_plugins', __CLASS__ . '::filter_plugins');
+            }
+            if (self::is_setting_enabled('filter_builder_modules')) {
+                add_filter('fl_builder_register_module', __CLASS__ . '::filter_builder_modules', 99, 2);
+            }
+            if (self::is_setting_enabled('filter_builder_templates')) {
+                add_filter('fl_builder_get_templates', __CLASS__ . '::filter_builder_templates', 99, 2);
+            }
         }
     }
 
@@ -68,28 +71,56 @@ final class PluginBeaverBuilder extends Module
      */
     static public function is_active()
     {
+        return self::is_builder_active() || self::is_theme_active();
+    }
+
+    /**
+     * Checks if Beaver Builder plugin is active.
+     *
+     * @return boolean
+     */
+    static public function is_builder_active()
+    {
         return defined('FL_BUILDER_VERSION');
     }
 
     /**
-     * Returns module settings.
+     * Checks if Beaver Builder theme is active.
+     *
+     * @return boolean
+     */
+    static public function is_theme_active()
+    {
+        return defined('FL_THEME_VERSION');
+    }
+
+    /**
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         return [
+            'filter_theme_branding' => [
+                'type' => 'checkbox',
+                'label' => __('White label theme.', 'sitepilot'),
+                'active' => self::is_theme_active()
+            ],
             'filter_plugin_branding' => [
                 'type' => 'checkbox',
                 'label' => __('White label plugin.', 'sitepilot'),
+                'active' => self::is_builder_active()
             ],
             'filter_builder_modules' => [
                 'type' => 'checkbox',
                 'label' => __('Remove all default builder modules.', 'sitepilot'),
+                'active' => self::is_builder_active()
             ],
             'filter_builder_templates' => [
                 'type' => 'checkbox',
                 'label' => __('Remove all default builder templates.', 'sitepilot'),
+                'active' => self::is_builder_active()
             ]
         ];
     }
@@ -115,6 +146,25 @@ final class PluginBeaverBuilder extends Module
         }
 
         return $plugins;
+    }
+
+    /**
+     * White labels the builder theme on the themes page.
+     *
+     * @param array $themes An array data for each theme.
+     * @return array
+     */
+    static public function filter_themes($themes)
+    {
+        if (isset($themes['bb-theme'])) {
+            $themes['bb-theme']['name'] =  Model::get_branding_name() . " Theme";
+            $themes['bb-theme']['description'] = "Base theme used for website development.";
+            $themes['bb-theme']['author'] = Model::get_branding_name();
+            $themes['bb-theme']['authorAndUri'] = '<a href="' . Model::get_branding_website() . '">' . Model::get_branding_name() . '</a>';
+            $themes['bb-theme']['screenshot'] = array(Model::get_branding_screenshot());
+        }
+
+        return $themes;
     }
 
     /**

@@ -4,11 +4,6 @@ namespace Sitepilot;
 
 use Sitepilot\Model;
 
-/**
- * The base module class.
- *
- * @since 1.0.0
- */
 class Module
 {
     /**
@@ -54,39 +49,20 @@ class Module
         }
     }
 
-    static public function settings()
-    {
-        return [];
-    }
-
     /**
-     * Adds module nav items to the admin settings.
-     *
-     * @param array $nav_items
-     * @return array
-     */
-    static public function filter_admin_settings_nav_items($nav_items)
-    {
-        if (count(get_called_class()::settings()) > 0) {
-            $nav_items[static::$module] = array(
-                'title' => static::$name,
-                'show' => is_network_admin() || !Model::is_multisite(),
-                'priority' => static::$priority
-            );
-        }
-
-        return $nav_items;
-    }
-
-    /**
-     * Renders the admin settings module forms.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function action_admin_settings_render_forms()
+    static public function get_fields()
     {
-        $class = get_called_class();
-        include SITEPILOT_DIR . 'includes/admin-settings-module.php';
+        $fields = [];
+
+        if (method_exists(get_called_class(), 'fields')) {
+            $fields = get_called_class()::fields();
+        }
+
+        return apply_filters('sp_' . static::$module . '_fields', $fields);
     }
 
     /**
@@ -96,9 +72,9 @@ class Module
      */
     static public function get_enabled_settings()
     {
-        $settings = Model::get_admin_settings_option('_sp_enabled_' . static::$module . '_settings', true, []);
+        $settings = Model::get_admin_settings_option('_sp_' . static::$module . '_enabled_settings', true, []);
 
-        return apply_filters('sp_enabled_' . static::$module . '_settings', $settings);
+        return apply_filters('sp_' . static::$module . '_enabled_settings', $settings);
     }
 
     /**
@@ -110,7 +86,7 @@ class Module
      */
     static public function is_setting_enabled($setting)
     {
-        return apply_filters('sp_' . static::$module . '_setting_enabled_' . $setting, in_array($setting, self::get_enabled_settings()));
+        return apply_filters('sp_' . static::$module . '_enabled_setting_' . $setting, in_array($setting, self::get_enabled_settings()));
     }
 
     /**
@@ -155,13 +131,43 @@ class Module
     {
         $count = 0;
 
-        foreach (get_called_class()::settings() as $setting) {
-            if ($setting['type'] == 'checkbox') {
+        foreach (get_called_class()::get_fields() as $setting) {
+            if ($setting['type'] == 'checkbox' && (!isset($setting['active']) || $setting['active'])) {
                 $count++;
             }
         }
 
         return $count;
+    }
+
+    /**
+     * Adds module nav items to the admin settings.
+     *
+     * @param array $nav_items
+     * @return array
+     */
+    static public function filter_admin_settings_nav_items($nav_items)
+    {
+        if (count(get_called_class()::get_fields()) > 0) {
+            $nav_items[static::$module] = array(
+                'title' => static::$name,
+                'show' => is_network_admin() || !Model::is_multisite(),
+                'priority' => static::$priority
+            );
+        }
+
+        return $nav_items;
+    }
+
+    /**
+     * Renders the admin settings module forms.
+     *
+     * @return void
+     */
+    static public function action_admin_settings_render_forms()
+    {
+        $class = get_called_class();
+        include SITEPILOT_DIR . 'includes/admin-settings-module.php';
     }
 
     /** 
@@ -178,7 +184,7 @@ class Module
                 $enabled = array_map('sanitize_text_field', $_POST['sp-' . static::$module . '-enabled']);
             }
 
-            Model::update_admin_settings_option('_sp_enabled_' . static::$module . '_settings', $enabled, true);
+            Model::update_admin_settings_option('_sp_' . static::$module . '_enabled_settings', $enabled, true);
 
             $settings = array();
 

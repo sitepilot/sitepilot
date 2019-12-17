@@ -4,11 +4,6 @@ namespace Sitepilot\Modules;
 
 use Sitepilot\Module;
 
-/**
- * This module is responsible for cleaning up WordPress.
- *
- * @since 1.0.0
- */
 final class Cleanup extends Module
 {
     /**
@@ -37,7 +32,7 @@ final class Cleanup extends Module
      *
      * @var string
      */
-    static protected $priority = 300;
+    static protected $priority = 50;
     
     /**
      * @return void
@@ -56,11 +51,11 @@ final class Cleanup extends Module
     }
 
     /**
-     * Returns module settings.
+     * Returns module setting fields.
      *
      * @return void
      */
-    static public function settings()
+    static public function fields()
     {
         return [
             'filter_admin_bar' => [

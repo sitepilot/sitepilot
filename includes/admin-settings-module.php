@@ -21,28 +21,30 @@
             </p>
         <?php endif; ?>
 
-        <?php foreach ($class::settings() as $key => $setting) : ?>
-            <p>
-                <?php if ($setting['type'] == 'checkbox') : ?>
-                    <label>
-                        <?php if (has_filter('sp_' . $class::$module . '_setting_enabled_' . $key)) : ?>
-                            <input class="sp-<?= $class::$module ?>-cb" type="checkbox" name="sp-<?= $class::$module ?>-fake[]" value="<?= $key ?>" <?php echo $class::is_setting_enabled($key) ? 'checked' : ''; ?> disabled />
-                            <input type="hidden" name="sp-<?= $class::$module ?>-enabled[]" value="<?= $key ?>" />
-                        <?php else : ?>
-                            <input class="sp-<?= $class::$module ?>-cb" type="checkbox" name="sp-<?= $class::$module ?>-enabled[]" value="<?= $key ?>" <?php echo $class::is_setting_enabled($key) ? 'checked' : ''; ?> <?= has_filter('sp_' . $class::$module . '_setting_enabled_' . $key) ? 'disabled' : '' ?> />
-                        <?php endif ?>
-                        <?= $setting['label'] ?>
-                    </label>
-                <?php elseif ($setting['type'] == 'text') : ?>
-                    <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
-                    <input type="text" name="sp-<?= $class::$module ?>[<?= $key ?>]" value="<?= $class::get_setting($key, $setting['default']) ?>" class="regular-text" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?> />
-                <?php elseif ($setting['type'] == 'textarea') : ?>
-                    <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
-                    <textarea name="sp-<?= $class::$module ?>[<?= $key ?>]" class="regular-text" rows="6" style="width: 100%;" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?>><?= $class::get_setting($key, $setting['default']) ?></textarea>
-                <?php elseif ($setting['type'] == 'separator') : ?>
-                    <hr />
-                <?php endif; ?>
-            </p>
+        <?php foreach ($class::get_fields() as $key => $setting) : ?>
+            <?php if (!isset($setting['active']) || $setting['active']) : ?>
+                <p>
+                    <?php if ($setting['type'] == 'checkbox') : ?>
+                        <label>
+                            <?php if (has_filter('sp_' . $class::$module . '_enabled_setting_' . $key)) : ?>
+                                <input class="sp-<?= $class::$module ?>-cb" type="checkbox" name="sp-<?= $class::$module ?>-fake[]" value="<?= $key ?>" <?php echo $class::is_setting_enabled($key) ? 'checked' : ''; ?> disabled />
+                                <input type="hidden" name="sp-<?= $class::$module ?>-enabled[]" value="<?= $key ?>" />
+                            <?php else : ?>
+                                <input class="sp-<?= $class::$module ?>-cb" type="checkbox" name="sp-<?= $class::$module ?>-enabled[]" value="<?= $key ?>" <?php echo $class::is_setting_enabled($key) ? 'checked' : ''; ?> <?= has_filter('sp_' . $class::$module . '_setting_enabled_' . $key) ? 'disabled' : '' ?> />
+                            <?php endif ?>
+                            <?= $setting['label'] ?>
+                        </label>
+                    <?php elseif ($setting['type'] == 'text') : ?>
+                        <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
+                        <input type="text" name="sp-<?= $class::$module ?>[<?= $key ?>]" value="<?= $class::get_setting($key, $setting['default']) ?>" class="regular-text" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?> />
+                    <?php elseif ($setting['type'] == 'textarea') : ?>
+                        <h4><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></h4>
+                        <textarea name="sp-<?= $class::$module ?>[<?= $key ?>]" class="regular-text" rows="6" style="width: 100%;" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?>><?= $class::get_setting($key, $setting['default']) ?></textarea>
+                    <?php elseif ($setting['type'] == 'separator') : ?>
+                        <hr />
+                    <?php endif; ?>
+                </p>
+            <?php endif; ?>
         <?php endforeach; ?>
 
         <p class="submit">

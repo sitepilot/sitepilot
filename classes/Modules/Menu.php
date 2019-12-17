@@ -5,11 +5,6 @@ namespace Sitepilot\Modules;
 use Sitepilot\Model;
 use Sitepilot\Module;
 
-/**
- * This module is responsible for cleaning up WordPress.
- *
- * @since 1.0.0
- */
 final class Menu extends Module
 {
     /**
@@ -31,7 +26,7 @@ final class Menu extends Module
      *
      * @var string
      */
-    static protected $priority = 500;
+    static protected $priority = 70;
     
     /**
      * @return void
