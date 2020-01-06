@@ -22,7 +22,7 @@ final class Modules extends Module
      */
     static protected $name = 'Modules';
 
-     /**
+    /**
      * The module description.
      *
      * @var string
@@ -73,9 +73,17 @@ final class Modules extends Module
                 'type' => 'checkbox',
                 'label' => __("Client Role", 'sitepilot'),
             ],
+            'log' => [
+                'type' => 'checkbox',
+                'label' => __("Log", 'sitepilot'),
+            ],
             'menu' => [
                 'type' => 'checkbox',
                 'label' => __("Menu", 'sitepilot'),
+            ],
+            'report' => [
+                'type' => 'checkbox',
+                'label' => __("Report", 'sitepilot'),
             ],
             'support' => [
                 'type' => 'checkbox',

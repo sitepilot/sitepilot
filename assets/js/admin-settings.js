@@ -42,6 +42,8 @@ export default class SPAdminSettings {
         $('.sp-autopilot-cb').on('click', {module: 'autopilot'}, this._checkboxClicked);
         $('.sp-client-role-all-cb').on('click', {module: 'client-role'}, this._allCheckboxClicked);
         $('.sp-client-role-cb').on('click', {module: 'client-role'}, this._checkboxClicked);
+        $('.sp-report-all-cb').on('click', {module: 'report'}, this._allCheckboxClicked);
+        $('.sp-report-cb').on('click', {module: 'report'}, this._checkboxClicked);
         $('.sp-support-beaver-builder-all-cb').on('click', {module: 'support-beaver-builder'}, this._allCheckboxClicked);
         $('.sp-support-beaver-builder-cb').on('click', {module: 'support-beaver-builder'}, this._checkboxClicked);
         $('.sp-support-beaver-power-pack-all-cb').on('click', {module: 'support-beaver-power-pack'}, this._allCheckboxClicked);
@@ -157,7 +159,14 @@ export default class SPAdminSettings {
         if($(this).is(':checked')) {
             $('.sp-' + event.data.module + '-cb').prop('checked', true);
         } else {
-            $('.sp-' + event.data.module + '-cb').prop('checked', false);
+            $('.sp-' + event.data.module + '-cb').each(function(){
+                console.log($(this).prop('disabled'));
+                if($(this).prop('disabled')) {
+                    $(this).prop('checked', true);
+                } else {
+                    $(this).prop('checked', false);
+                }
+            });
         }
     }
 
