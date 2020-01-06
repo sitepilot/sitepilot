@@ -34,37 +34,49 @@ final class Sitepilot
 
         Update::init();
         Settings::init();
+        Shortcodes::init();
+    }
+
+    /** 
+     * Returns the module class based on its name.
+     * 
+     * @param string $module
+     * @return string $class
+     */
+    static public function get_module_class($module)
+    {
+        $class = 'Sitepilot\\';
+
+        if (strpos($module, 'support-') !== false) {
+            $module = str_replace('support-', '', $module);
+            $class .= 'Support\\';
+        } else {
+            $class .= 'Modules\\';
+        }
+
+        $class_words = explode('-', $module);
+        foreach ($class_words as $word) {
+            $class .= ucfirst($word);
+        }
+
+        return $class;
     }
 
     /**
-     * Initialize plugin modules.
+     * Initialize modules.
      * 
      * @return void
      */
     static public function init_modules()
     {
         foreach (Modules::get_enabled_settings() as $module) {
-            $class = 'Sitepilot\\';
+            $class = self::get_module_class($module);
+            if ($class::is_active()) $class::before_init();
+        }
 
-            if (strpos($module, 'support-') !== false) {
-                $module = str_replace('support-', '', $module);
-                $class .= 'Support\\';
-            } else {
-                $class .= 'Modules\\';
-            }
-
-            $class_words = explode('-', $module);
-            foreach ($class_words as $word) {
-                $class .= ucfirst($word);
-            }
-
-            if (method_exists($class, 'init')) {
-                if (method_exists($class, 'is_active')) {
-                    if ($class::is_active()) $class::init();
-                } else {
-                    $class::init();
-                }
-            }
+        foreach (Modules::get_enabled_settings() as $module) {
+            $class = self::get_module_class($module);
+            if ($class::is_active()) $class::init();
         }
     }
 }
