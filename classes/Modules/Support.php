@@ -2,8 +2,9 @@
 
 namespace Sitepilot\Modules;
 
+use Sitepilot\Model;
 use Sitepilot\Module;
-use Maknz\Slack\Client;
+use Sitepilot\Modules\Slack;
 
 final class Support extends Module
 {
@@ -36,6 +37,13 @@ final class Support extends Module
     static protected $priority = 80;
 
     /**
+     * Require other modules.
+     *
+     * @var string
+     */
+    static protected $require = ['slack'];
+
+    /**
      * @return void
      */
     static public function init()
@@ -46,11 +54,9 @@ final class Support extends Module
             add_action('in_admin_footer', __CLASS__ . '::action_support_script');
         }
 
-        if (self::get_setting('slack_webhook')) {
-            add_filter('login_headerurl', __CLASS__ . '::filter_login_logo');
-            add_action('init', __CLASS__ . '::action_login_by_key');
-            add_action('init', __CLASS__ . '::action_generate_key');
-        }
+        add_filter('login_headerurl', __CLASS__ . '::filter_login_logo');
+        add_action('init', __CLASS__ . '::action_login_by_key');
+        add_action('init', __CLASS__ . '::action_generate_key');
     }
 
     /**
@@ -61,12 +67,6 @@ final class Support extends Module
     static public function fields()
     {
         return [
-            'slack_webhook' => [
-                'type' => 'text',
-                'label' => __('Slack Webhook', 'sitepilot'),
-                'default' => '',
-                'help' => __('Log in as administrator using a Slack webhook by clicking the WordPress logo on the login page.', 'sitepilot')
-            ],
             'whitelisted_ips' => [
                 'type' => 'text',
                 'label' => __('Whitelisted IPs', 'sitepilot'),
@@ -120,7 +120,7 @@ final class Support extends Module
             update_option('_sp_support_login_key', $key);
             update_option('_sp_support_login_key_expire', $expire);
 
-            self::send_login_url(
+            Slack::send(
                 ":key: Login Key: " . get_bloginfo('url'),
                 "A new login key was requested for " . get_bloginfo('name') . " (" . get_bloginfo('url') . ") .\n\nLogin here: " . admin_url() . "?sitepilot-login=" . $key . "\n\nGood luck!",
                 ['color' => '#3498db', 'toText' => false]
@@ -145,7 +145,7 @@ final class Support extends Module
             $login_user = $users[0]->data->ID;
             wp_set_auth_cookie($login_user);
 
-            update_option('_sp_support_last_login', time());
+            Model::set_last_support_login_date();
 
             wp_redirect(admin_url());
             exit;
@@ -220,33 +220,5 @@ final class Support extends Module
         }
 
         return false;
-    }
-
-    /**
-     * Send the login URL to Slack.
-     *
-     * @param $title
-     * @param $text
-     * @param array $params
-     */
-    public static function send_login_url($title, $text, $params = array())
-    {
-        $defaults = [
-            'color' => 'success',
-            'toText' => true
-        ];
-        $params = $params + $defaults;
-
-        if ($params['toText']) {
-            $text = new Html2Text($text);
-            $text = $text->getText();
-        }
-
-        $client = new Client(self::get_setting('slack_webhook'));
-        $client->to($params['channel'])->attach([
-            'fallback' => $title,
-            'text' => $text,
-            'color' => $params['color'],
-        ])->send($title);
     }
 }
