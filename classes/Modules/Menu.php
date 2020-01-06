@@ -109,10 +109,10 @@ final class Menu extends Module
         echo '<p>';
         echo __('Last update', 'sitepilot') . ': ' . (!empty($last_update) ? date_i18n(get_option('date_format') .
             ' ' . get_option('time_format'), $last_update) : '-') . '<br />';
-        echo __('Last support login', 'sitepilot') . ': ' . (!empty($last_login) ? date_i18n(get_option('date_format') .
-            ' ' . get_option('time_format'), $last_login) : '-') . '<br />';
         echo __('Last report', 'sitepilot') . ': ' . (!empty($last_report) ? date_i18n(get_option('date_format') .
             ' ' . get_option('time_format'), $last_report) : '-') . '<br />';
+        echo __('Last support login', 'sitepilot') . ': ' . (!empty($last_login) ? date_i18n(get_option('date_format') .
+            ' ' . get_option('time_format'), $last_login) : '-') . '<br />';
         echo '</p>';
 
         echo '<h3 style="font-weight: 400;">' . __('Contact', 'sitepilot') . '</h3>';
