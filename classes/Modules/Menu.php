@@ -27,7 +27,7 @@ final class Menu extends Module
      * @var string
      */
     static protected $priority = 70;
-    
+
     /**
      * @return void
      */
@@ -102,14 +102,17 @@ final class Menu extends Module
         echo __('PHP Version', 'sitepilot') . ': v' . phpversion();
         echo '</p>';
 
-        $core_update = get_option('sitepilot_last_update', '-');
-        $last_login = get_option('sitepilot_last_login', '-');
+        $last_update = Model::get_last_update_date();
+        $last_login = Model::get_last_support_login_date();
+        $last_report = Model::get_last_report_date();
 
         echo '<p>';
-        echo __('Last update', 'sitepilot') . ': ' . ($core_update != '-' ? date_i18n(get_option('date_format') .
-            ' ' . get_option('time_format'), $core_update) : $core_update) . '<br />';
-        echo __('Last login', 'sitepilot') . ': ' . ($last_login != '-' ? date_i18n(get_option('date_format') .
-            ' ' . get_option('time_format'), $last_login) : $last_login) . '<br />';
+        echo __('Last update', 'sitepilot') . ': ' . (!empty($last_update) ? date_i18n(get_option('date_format') .
+            ' ' . get_option('time_format'), $last_update) : '-') . '<br />';
+        echo __('Last support login', 'sitepilot') . ': ' . (!empty($last_login) ? date_i18n(get_option('date_format') .
+            ' ' . get_option('time_format'), $last_login) : '-') . '<br />';
+        echo __('Last report', 'sitepilot') . ': ' . (!empty($last_report) ? date_i18n(get_option('date_format') .
+            ' ' . get_option('time_format'), $last_report) : '-') . '<br />';
         echo '</p>';
 
         echo '<h3 style="font-weight: 400;">' . __('Contact', 'sitepilot') . '</h3>';
