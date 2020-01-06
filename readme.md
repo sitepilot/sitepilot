@@ -48,7 +48,9 @@ Send maintenance / update reports to clients (using Mailgun).
 
 - Set the report interval (in days).
 - Set the report subject and message.
-- Send a copy to a Slack webhook.
+- Send a copy of each report to Slack.
+
+![Report](assets/img/sitepilot-report.png)
 
 ### Support
 
