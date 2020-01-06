@@ -50,7 +50,7 @@ Send maintenance / update reports to clients (using Mailgun).
 - Set the report subject and message.
 - Send a copy of each report to Slack.
 
-![Report](assets/img/sitepilot-report.png)
+[You can find an example report here.](assets/img/sitepilot-report.png)
 
 ### Support
 
