@@ -9,7 +9,7 @@
 
         <?php
         $enabled_settings = $class::get_enabled_settings();
-        $checked = in_array('all', $enabled_settings) && $class::get_checkbox_count() + 1 == count($enabled_settings) ? 'checked' : '';
+        $checked = $class::get_checkbox_count() == count($enabled_settings) ? 'checked' : '';
         ?>
 
         <?php if ($class::get_checkbox_count() > 0) : ?>
