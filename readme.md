@@ -34,9 +34,21 @@ Cleanup the WordPress admin interface.
 
 Setup a custom client role and select capabilities.
 
+### Log
+
+Log all updates (plugin, theme and core) to a custom post.
+
 ### Menu
 
 Register an admin menu with server information and WordPress statistics.
+
+### Report
+
+Send maintenance / update reports to clients (using Mailgun).
+
+- Set the report interval (in days).
+- Set the report subject and message.
+- Send a copy to a Slack webhook.
 
 ### Support
 
