@@ -53,7 +53,7 @@ final class Report extends Module
 
         /* Actions */
         add_action('sp_report_send', __CLASS__ . '::send_report');
-        
+
         add_action("init", function () {
             if (!wp_next_scheduled('sp_report_send')) {
                 wp_schedule_event(time(), "daily", "sp_report_send");
@@ -109,7 +109,7 @@ final class Report extends Module
         $settings['mail_message'] =  [
             'type' => 'textarea',
             'label' => __('Mail message', 'sitepilot'),
-            'default' => __('<p>Hello [sp_report_name],</p><p>We have performed the following updates to [sp_domain] in the past week:</p>[sp_log_list]<p>Reply to this email if you have any questions about one of these updates, we are happy to help.</p><p>Best regards,<br />Team [sp_branding_name]</p><p><img src="[sp_branding_logo]" width="100px" /></p>', 'sitepilot'),
+            'default' => __('<p>Hello [sp_report_name],</p><p>We have performed the following updates to [sp_domain] in the past [sp_report_interval] days:</p>[sp_log_list]<p>Reply to this email if you have any questions about one of these updates, we are happy to help.</p><p>Best regards,<br />Team [sp_branding_name]</p><p><img src="[sp_branding_logo]" width="100px" /></p>', 'sitepilot'),
             'help' => __('The message (HTML) which will be send to the recipients (available shortcodes: [sp_report_name], [sp_domain], [sp_log_list], [sp_branding_name]).', 'sitepilot')
         ];
 
@@ -124,8 +124,9 @@ final class Report extends Module
     public static function send_report()
     {
         $seconds_in_day = 86400;
+        $interval_days = self::get_setting('interval');
 
-        if ((time() - Model::get_last_report_date()) > (self::get_setting('interval') * $seconds_in_day)) {
+        if ((time() - Model::get_last_report_date()) > ($interval_days * $seconds_in_day)) {
             $log = Log::get(array(
                 'date_query' => array(
                     array(
@@ -144,6 +145,7 @@ final class Report extends Module
                 }
 
                 $body = str_replace("[sp_log_list]", "<ul> $log_list </ul>", $body);
+                $body = str_replace("[sp_report_interval]", $interval_days, $body);
                 $subject = do_shortcode(self::get_setting('mail_subject'));
                 $settings = self::get_enabled_settings();
 
