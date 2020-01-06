@@ -108,6 +108,22 @@ final class Model
     }
 
     /**
+     * Returns the custom branding logo url.
+     *
+     * @return string
+     */
+    static public function get_branding_logo()
+    {
+        $class = 'Sitepilot\Modules\Branding';
+
+        if (method_exists($class, 'get_logo')) {
+            return $class::get_logo();
+        }
+
+        return SITEPILOT_URL . 'assets/dist/img/sitepilot-logo.png';
+    }
+
+    /**
      * Returns the custom branding website.
      *
      * @return string
@@ -140,6 +156,22 @@ final class Model
     }
 
     /**
+     * Returns the custom branding support email.
+     *
+     * @return string
+     */
+    static public function get_branding_support_email()
+    {
+        $class = 'Sitepilot\Modules\Branding';
+
+        if (method_exists($class, 'get_support_email')) {
+            return $class::get_support_email();
+        }
+
+        return 'support@sitepilot.io';
+    }
+
+    /**
      * Returns plugin / theme update server url.
      *
      * @param bool $disable_filter
@@ -154,6 +186,66 @@ final class Model
         }
 
         return apply_filters('sp_update_server_url', $url);
+    }
+
+    /**
+     * Returns the last update timestamp.
+     *
+     * @return int $time
+     */
+    static public function get_last_update_date()
+    {
+        return self::get_admin_settings_option('_sp_last_update_date');
+    }
+
+    /**
+     * Save the last update timestamp.
+     *
+     * @return void
+     */
+    static public function set_last_update_date()
+    {
+        return self::update_admin_settings_option('_sp_last_update_date', time());
+    }
+
+    /**
+     * Returns the last report timestamp.
+     *
+     * @return int $time
+     */
+    static public function get_last_report_date()
+    {
+        return self::get_admin_settings_option('_sp_last_report_date');
+    }
+
+    /**
+     * Save the last report timestamp.
+     *
+     * @return void
+     */
+    static public function set_last_report_date()
+    {
+        return self::update_admin_settings_option('_sp_last_report_date', time());
+    }
+
+    /**
+     * Returns the last support login timestamp.
+     *
+     * @return int $time
+     */
+    static public function get_last_support_login_date()
+    {
+        return self::get_admin_settings_option('_sp_last_support_login_date');
+    }
+
+    /**
+     * Save the last support login timestamp.
+     *
+     * @return void
+     */
+    static public function set_last_support_login_date()
+    {
+        return self::update_admin_settings_option('_sp_last_support_login_date', time());
     }
 
     /**

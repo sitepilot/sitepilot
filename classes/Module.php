@@ -35,6 +35,13 @@ class Module
     static protected $priority = 999;
 
     /**
+     * Require other modules.
+     *
+     * @var string
+     */
+    static protected $require = [];
+
+    /**
      * @return void
      */
     static public function init()
@@ -47,6 +54,38 @@ class Module
             add_action('sp_admin_settings_render_forms', get_called_class() . '::action_admin_settings_render_forms');
             add_action('sp_admin_settings_save', get_called_class() . '::action_save_settings');
         }
+    }
+
+    /**
+     * Runs before module initialization.
+     *
+     * @return void
+     */
+    static public function before_init()
+    {
+        if (count(get_called_class()::$require) > 0) {
+            foreach (get_called_class()::$require as $module) {
+                add_filter('sp_modules_enabled_setting_' . $module, '__return_true');
+            }
+
+            add_filter('sp_modules_enabled_settings', get_called_class() . '::filter_enabled_modules', 10, 1);
+        }
+    }
+
+    /**
+     * Enable required modules.
+     *
+     * @param array $modules
+     * @return void
+     */
+    static public function filter_enabled_modules($modules)
+    {
+        foreach (get_called_class()::$require as $module) {
+            if (!in_array($module, $modules)) {
+                $modules[] = $module;
+            }
+        }
+        return $modules;
     }
 
     /**
@@ -72,7 +111,7 @@ class Module
     /**
      * Returns module setting fields.
      *
-     * @return void
+     * @return array
      */
     static public function get_fields()
     {
@@ -93,6 +132,10 @@ class Module
     static public function get_enabled_settings()
     {
         $settings = Model::get_admin_settings_option('_sp_' . static::$module . '_enabled_settings', true, []);
+
+        if (false !== $key = array_search('all', $settings)) {
+            unset($settings[$key]);
+        }
 
         return apply_filters('sp_' . static::$module . '_enabled_settings', $settings);
     }
@@ -136,7 +179,14 @@ class Module
         if (array_key_exists($setting, $settings) && !empty($settings[$setting])) {
             $return = $settings[$setting];
         } else {
-            $return = $default;
+            if (!empty($default)) {
+                $return = $default;
+            } else {
+                $fields = self::get_fields();
+                if (array_key_exists($setting, $fields) && isset($fields[$setting]['default'])) {
+                    $return = $fields[$setting]['default'];
+                }
+            }
         }
 
         return apply_filters('sp_' . static::$module . '_setting_' . $setting, $return);
@@ -215,10 +265,31 @@ class Module
 
             Model::update_admin_settings_option('_sp_' . static::$module . '_settings', $settings, true);
 
+            get_called_class()::saved();
             do_action('sp_module_' . static::$module . '_saved');
 
-            // Redirect after we saved the module settings (because some functions need to load early)
+            // Redirect after module settings are saved (because some functions need to load early)
             wp_redirect(get_admin_url(null, 'options-general.php?page=sitepilot-settings'));
         }
+    }
+
+    /**
+     * Called when the module settings are saved.
+     *
+     * @return void
+     */
+    static public function saved()
+    {
+        // Nothing here
+    }
+
+    /**
+     * Called when the modules are saved.
+     * 
+     * @return void
+     */
+    static public function modules_saved()
+    {
+        // Nothing here 
     }
 }

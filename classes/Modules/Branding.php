@@ -95,6 +95,11 @@ final class Branding extends Module
                 'label' => __('Support URL', 'sitepilot'),
                 'default' => 'https://help.sitepilot.io'
             ],
+            'support_email' => [
+                'type' => 'text',
+                'label' => __('Support Email', 'sitepilot'),
+                'default' => 'support@sitepilot.io'
+            ],
             'powered_by_text' => [
                 'type' => 'text',
                 'label' => __('Powered By Text', 'sitepilot'),
@@ -169,6 +174,16 @@ final class Branding extends Module
     }
 
     /**
+     * Returns the custom support email.
+     *
+     * @return string
+     */
+    static public function get_support_email()
+    {
+        return self::get_setting('support_email', 'support@sitepilot.io');
+    }
+
+    /**
      * Returns the custom powered by text.
      *
      * @return string
@@ -229,7 +244,7 @@ final class Branding extends Module
      */
     public static function action_login_style()
     {
-       ?>
+?>
         <style>
             .login h1 a {
                 background-image: url(<?= self::get_setting('logo') ?>) !important;
@@ -241,6 +256,6 @@ final class Branding extends Module
                 margin-top: 10px !important;
             }
         </style>
-       <?php
+<?php
     }
 }
