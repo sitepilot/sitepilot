@@ -37,10 +37,10 @@
                         </label>
                     <?php elseif ($setting['type'] == 'text') : ?>
                         <p style="margin-bottom: 5px;"><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></p>
-                        <input type="text" name="sp-<?= $class::$module ?>[<?= $key ?>]" value="<?= $class::get_setting($key, $setting['default']) ?>" class="regular-text" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?> />
+                        <input type="text" name="sp-<?= $class::$module ?>[<?= $key ?>]" value="<?= $class::get_setting($key) ?>" class="regular-text" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?> />
                     <?php elseif ($setting['type'] == 'textarea') : ?>
                         <p style="margin-bottom: 5px;"><?= $setting['label'] ?><?php if (isset($setting['help']) && !empty($setting['help'])) : ?> <i class="dashicons dashicons-editor-help" title="<?= $setting['help'] ?>"></i><?php endif; ?></p>
-                        <textarea name="sp-<?= $class::$module ?>[<?= $key ?>]" class="regular-text" rows="6" style="width: 100%;" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?>><?= $class::get_setting($key, $setting['default']) ?></textarea>
+                        <textarea name="sp-<?= $class::$module ?>[<?= $key ?>]" class="regular-text" rows="6" style="width: 100%;" <?= has_filter('sp_' . $class::$module . '_setting_' . $key) ? 'readonly' : '' ?>><?= $class::get_setting($key) ?></textarea>
                     <?php elseif ($setting['type'] == 'separator') : ?>
                         <hr />
                     <?php elseif ($setting['type'] == 'category') : ?>

@@ -111,7 +111,7 @@ class Module
     /**
      * Returns module setting fields.
      *
-     * @return void
+     * @return array
      */
     static public function get_fields()
     {
@@ -179,7 +179,14 @@ class Module
         if (array_key_exists($setting, $settings) && !empty($settings[$setting])) {
             $return = $settings[$setting];
         } else {
-            $return = $default;
+            if (!empty($default)) {
+                $return = $default;
+            } else {
+                $fields = self::get_fields();
+                if (array_key_exists($setting, $fields) && isset($fields[$setting]['default'])) {
+                    $return = $fields[$setting]['default'];
+                }
+            }
         }
 
         return apply_filters('sp_' . static::$module . '_setting_' . $setting, $return);
