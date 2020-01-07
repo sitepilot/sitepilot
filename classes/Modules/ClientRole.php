@@ -29,13 +29,6 @@ final class ClientRole extends Module
     static protected $description = 'Setup a custom client role and select capabilities.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 60;
-
-    /**
      * @return void
      */
     static public function init()

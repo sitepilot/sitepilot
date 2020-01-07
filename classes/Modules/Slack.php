@@ -30,13 +30,6 @@ final class Slack extends Module
     static protected $description = 'Settings for sending messages to Slack.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 72;
-
-    /**
      * Require other modules.
      *
      * @var string

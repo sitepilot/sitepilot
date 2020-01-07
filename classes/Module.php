@@ -32,7 +32,7 @@ class Module
      *
      * @var string
      */
-    static protected $priority = 999;
+    static protected $priority = 50;
 
     /**
      * Require other modules.

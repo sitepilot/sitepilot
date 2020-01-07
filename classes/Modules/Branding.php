@@ -28,13 +28,6 @@ final class Branding extends Module
     static protected $description = 'White label WordPress and this plugin.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 40;
-
-    /**
      * @return void
      */
     static public function init()

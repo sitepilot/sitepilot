@@ -29,13 +29,6 @@ final class Log extends Module
     static protected $description = 'Log site updates and changes.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 61;
-
-    /**
      * Require other modules.
      *
      * @var string
