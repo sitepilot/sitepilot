@@ -116,6 +116,7 @@ final class Settings
         if (!empty($icon)) {
             echo '<img role="presentation" src="' . $icon . '" />';
         }
+
         /* translators: %s: builder branded name */
         echo '<span>' . sprintf(_x('%s Settings', '%s stands for custom branded "Sitepilot" name.', 'sitepilot '), $name) . '</span>';
     }
@@ -144,17 +145,23 @@ final class Settings
     static public function render_nav_items()
     {
         $item_data = apply_filters('sp_admin_settings_nav_items', array());
-
         $sorted_data = array();
 
         foreach ($item_data as $key => $data) {
             $data['key'] = $key;
-            $sorted_data[$data['priority']] = $data;
+            $data['title'] = apply_filters('sp_settings_module_title_' . $data['key'], $data['title']);
+            $sorted_data[$data['priority'] . '-' . sanitize_title_with_dashes($data['title'])] = $data;
         }
 
         ksort($sorted_data);
 
+        $is_support = false;
         foreach ($sorted_data as $data) {
+            if (!$is_support && strpos($data['key'], 'support-') !== false) {
+                echo '</ul><h4>&nbsp;' . __('Plugin & Theme Support', 'sitepilot') . '</h4><ul>';
+                $is_support = true;
+            }
+
             if ($data['show']) {
                 echo '<li><a href="#' . $data['key'] . '">' . $data['title'] . '</a></li>';
             }

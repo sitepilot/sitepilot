@@ -32,26 +32,8 @@ export default class SPAdminSettings {
     {
         $('.sp-settings-nav a').on('click', this._navClicked);
         $('.sp-override-ms-cb').on('click', this._overrideCheckboxClicked);
-        $('.sp-modules-all-cb').on('click', {module: 'modules'}, this._allCheckboxClicked);
-        $('.sp-modules-cb').on('click', {module: 'modules'}, this._checkboxClicked);
-        $('.sp-branding-all-cb').on('click', {module: 'branding'}, this._allCheckboxClicked);
-        $('.sp-branding-cb').on('click', {module: 'branding'}, this._checkboxClicked);
-        $('.sp-cleanup-all-cb').on('click', {module: 'cleanup'}, this._allCheckboxClicked);
-        $('.sp-cleanup-cb').on('click', {module: 'cleanup'}, this._checkboxClicked);
-        $('.sp-autopilot-all-cb').on('click', {module: 'autopilot'}, this._allCheckboxClicked);
-        $('.sp-autopilot-cb').on('click', {module: 'autopilot'}, this._checkboxClicked);
         $('.sp-client-role-all-cb').on('click', {module: 'client-role'}, this._allCheckboxClicked);
         $('.sp-client-role-cb').on('click', {module: 'client-role'}, this._checkboxClicked);
-        $('.sp-report-all-cb').on('click', {module: 'report'}, this._allCheckboxClicked);
-        $('.sp-report-cb').on('click', {module: 'report'}, this._checkboxClicked);
-        $('.sp-support-beaver-builder-all-cb').on('click', {module: 'support-beaver-builder'}, this._allCheckboxClicked);
-        $('.sp-support-beaver-builder-cb').on('click', {module: 'support-beaver-builder'}, this._checkboxClicked);
-        $('.sp-support-beaver-power-pack-all-cb').on('click', {module: 'support-beaver-power-pack'}, this._allCheckboxClicked);
-        $('.sp-support-beaver-power-pack-cb').on('click', {module: 'support-beaver-power-pack'}, this._checkboxClicked);
-        $('.sp-support-beaver-ultimate-addons-all-cb').on('click', {module: 'support-beaver-ultimate-addons'}, this._allCheckboxClicked);
-        $('.sp-support-beaver-ultimate-addons-cb').on('click', {module: 'support-beaver-ultimate-addons'}, this._checkboxClicked);
-        $('.sp-support-astra-all-cb').on('click', {module: 'support-astra'}, this._allCheckboxClicked);
-        $('.sp-support-astra-cb').on('click', {module: 'support-astra'}, this._checkboxClicked);
     }
 
     /**

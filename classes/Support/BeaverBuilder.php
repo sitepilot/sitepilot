@@ -33,7 +33,7 @@ final class BeaverBuilder extends Module
      *
      * @var string
      */
-    static protected $priority = 30;
+    static protected $priority = 90;
 
     /**
      * 

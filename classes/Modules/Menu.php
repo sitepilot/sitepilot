@@ -22,13 +22,6 @@ final class Menu extends Module
     static protected $name = 'Menu';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 70;
-
-    /**
      * @return void
      */
     static public function init()

@@ -12,7 +12,7 @@
         $checked = $class::get_checkbox_count() == count($enabled_settings) ? 'checked' : '';
         ?>
 
-        <?php if ($class::get_checkbox_count() > 0) : ?>
+        <?php if ($class::$all_checkbox && $class::get_checkbox_count() > 0) : ?>
             <p>
                 <label>
                     <input class="sp-<?= $class::$module ?>-all-cb" type="checkbox" name="sp-<?= $class::$module ?>-enabled[]" value="all" <?php echo $checked; ?> />

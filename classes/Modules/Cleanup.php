@@ -26,13 +26,6 @@ final class Cleanup extends Module
      * @var string
      */
     static protected $description = 'Cleanup the WordPress admin interface.';
-
-    /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 50;
     
     /**
      * @return void

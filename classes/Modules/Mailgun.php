@@ -30,13 +30,6 @@ final class Mailgun extends Module
     static protected $description = 'Settings for sending email through Mailgun.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 62;
-
-    /**
      * Require other modules.
      *
      * @var string

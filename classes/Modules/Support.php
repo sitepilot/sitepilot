@@ -30,13 +30,6 @@ final class Support extends Module
     static protected $description = 'Functionalities for supporting clients.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 80;
-
-    /**
      * Require other modules.
      *
      * @var string

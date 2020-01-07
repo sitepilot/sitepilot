@@ -31,13 +31,6 @@ final class Report extends Module
     static protected $description = 'Send a site report to clients.';
 
     /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 71;
-
-    /**
      * Require other modules.
      *
      * @var string

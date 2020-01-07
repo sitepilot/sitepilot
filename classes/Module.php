@@ -32,7 +32,7 @@ class Module
      *
      * @var string
      */
-    static protected $priority = 999;
+    static protected $priority = 50;
 
     /**
      * Require other modules.
@@ -40,6 +40,13 @@ class Module
      * @var string
      */
     static protected $require = [];
+
+    /**
+     * Show 'all' checkbox at the top of the settings page.
+     *
+     * @var boolean
+     */
+    static protected $all_checkbox = false;
 
     /**
      * @return void

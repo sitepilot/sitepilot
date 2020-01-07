@@ -33,7 +33,7 @@ final class Astra extends Module
      *
      * @var string
      */
-    static protected $priority = 10;
+    static protected $priority = 90;
 
     /**
      * @return void
