@@ -94,7 +94,7 @@ final class Modules extends Module
                 'label' => __("User Switching", 'sitepilot'),
             ],
             'category-2' => [
-                'label' => __('Theme & Plugin Support', 'sitepilot'),
+                'label' => __('Plugin & Theme Support', 'sitepilot'),
                 'type' => 'category',
                 'active' => (Astra::is_active() || BeaverBuilder::is_active())
             ],
