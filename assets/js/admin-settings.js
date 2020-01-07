@@ -52,6 +52,8 @@ export default class SPAdminSettings {
         $('.sp-support-beaver-ultimate-addons-cb').on('click', {module: 'support-beaver-ultimate-addons'}, this._checkboxClicked);
         $('.sp-support-astra-all-cb').on('click', {module: 'support-astra'}, this._allCheckboxClicked);
         $('.sp-support-astra-cb').on('click', {module: 'support-astra'}, this._checkboxClicked);
+        $('.sp-support-worker-all-cb').on('click', {module: 'support-worker'}, this._allCheckboxClicked);
+        $('.sp-support-worker-cb').on('click', {module: 'support-worker'}, this._checkboxClicked);
     }
 
     /**

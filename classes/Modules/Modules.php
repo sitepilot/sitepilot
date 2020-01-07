@@ -4,6 +4,7 @@ namespace Sitepilot\Modules;
 
 use Sitepilot\Module;
 use Sitepilot\Support\Astra;
+use Sitepilot\Support\Worker;
 use Sitepilot\Support\BeaverBuilder;
 
 final class Modules extends Module
@@ -56,10 +57,6 @@ final class Modules extends Module
                 'label' => __('Modules', 'sitepilot'),
                 'type' => 'category'
             ],
-            'autopilot' => [
-                'type' => 'checkbox',
-                'label' => __("Autopilot", 'sitepilot'),
-            ],
             'branding' => [
                 'type' => 'checkbox',
                 'label' => __("Branding", 'sitepilot'),
@@ -109,6 +106,12 @@ final class Modules extends Module
                 'label' => __("Beaver Builder", 'sitepilot'),
                 'active' => BeaverBuilder::is_active(),
                 'help' => __('Enable support for Beaver Builder plugin, themer, theme and add-ons.', 'sitepilot')
+            ],
+            'support-worker' => [
+                'type' => 'checkbox',
+                'label' => apply_filters('sp_settings_module_title_support-worker', __("Worker", 'sitepilot')),
+                'active' => Worker::is_active(),
+                'help' => apply_filters('sp_settings_module_description_support-worker', __('Enable support for ManageWP worker plugin.', 'sitepilot'))
             ],
         ];
     }
