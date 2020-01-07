@@ -29,6 +29,13 @@ final class ClientRole extends Module
     static protected $description = 'Setup a custom client role and select capabilities.';
 
     /**
+     * Show 'all' checkbox at the top of the settings page.
+     *
+     * @var boolean
+     */
+    static protected $all_checkbox = true;
+
+    /**
      * @return void
      */
     static public function init()
