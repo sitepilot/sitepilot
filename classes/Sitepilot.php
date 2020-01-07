@@ -71,12 +71,12 @@ final class Sitepilot
     {
         foreach (Modules::get_enabled_settings() as $module) {
             $class = self::get_module_class($module);
-            if ($class::is_active()) $class::before_init();
+            if (class_exists($class) && $class::is_active()) $class::before_init();
         }
 
         foreach (Modules::get_enabled_settings() as $module) {
             $class = self::get_module_class($module);
-            if ($class::is_active()) $class::init();
+            if (class_exists($class) && $class::is_active()) $class::init();
         }
     }
 }
