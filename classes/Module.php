@@ -42,6 +42,13 @@ class Module
     static protected $require = [];
 
     /**
+     * Show 'all' checkbox at the top of the settings page.
+     *
+     * @var boolean
+     */
+    static protected $all_checkbox = false;
+
+    /**
      * @return void
      */
     static public function init()
