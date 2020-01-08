@@ -86,6 +86,12 @@ Support settings for the Beaver Builder plugin, theme and add-ons.
 - Deactivate all default builder templates.
 - Change the admin settings capability of the builder.
 
+### ManageWP Worker
+
+Support settings for the ManageWP Worker plugin. 
+
+- White label worker plugin.
+
 ## Update
 
 The plugin is updated using a [plugin update checker](https://github.com/YahnisElsts/plugin-update-checker). It is possible to register your plugin / theme to the internal updater using filters. The updater is checking a custom [update server](https://github.com/YahnisElsts/wp-update-server) for updates.

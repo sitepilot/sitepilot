@@ -2,8 +2,8 @@
 
     <form class="sp-settings-form-content" action="<?php Sitepilot\Settings::render_form_action($class::$module); ?>" method="post">
 
-        <h2 class="sp-settings-form-header"><?= sprintf(__('%s Settings', 'sitepilot'), $class::$name) ?></h2>
-        <p><?= $class::$description ?></p>
+        <h2 class="sp-settings-form-header"><?= sprintf(__('%s Settings', 'sitepilot'), apply_filters('sp_settings_module_title_' . $class::$module, $class::$name)) ?></h2>
+        <p><?= apply_filters('sp_settings_module_description_' . $class::$module, $class::$description) ?></p>
 
         <hr />
 
