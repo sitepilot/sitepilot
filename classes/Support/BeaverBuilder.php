@@ -127,7 +127,7 @@ final class BeaverBuilder extends Module
             ],
             'filter_plugin_branding' => [
                 'type' => 'checkbox',
-                'label' => sprintf(__('White label %s plugin.', 'sitepilot'), self::get_setting('plugin_name')),
+                'label' => __('White label builder plugin.', 'sitepilot'),
                 'active' => self::is_builder_active()
             ],
             'filter_builder_modules' => [
@@ -167,7 +167,7 @@ final class BeaverBuilder extends Module
             ],
             'filter_theme_branding' => [
                 'type' => 'checkbox',
-                'label' => sprintf(__('White label %s theme.', 'sitepilot'), self::get_setting('plugin_name')),
+                'label' => __('White label builder theme.', 'sitepilot'),
                 'active' => self::is_theme_active()
             ],
             'theme_name' => [

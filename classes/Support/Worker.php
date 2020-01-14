@@ -81,7 +81,7 @@ final class Worker extends Module
                 'type' => 'text',
                 'label' => __('White label plugin name', 'sitepilot'),
                 'active' => self::is_setting_enabled('filter_plugin_branding'),
-                'default' => sprintf(__('Autopilot', 'sitepilot'), Model::get_branding_name())
+                'default' => __('Autopilot', 'sitepilot'),
             ],
             'plugin_description' => [
                 'type' => 'text',
