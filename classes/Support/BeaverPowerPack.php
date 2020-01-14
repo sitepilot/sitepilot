@@ -45,12 +45,12 @@ final class BeaverPowerPack
         Model::disable_cache();
 
         if (method_exists('BB_PowerPack_Admin_Settings', 'update_option') && BeaverBuilder::is_setting_enabled('filter_power_pack_branding')) {
-            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_name', Model::get_branding_name() . ' Power Pack');
-            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_desc', 'A set of custom, creative, unique modules for '  . Model::get_branding_name() . ' Builder to speed up your web design and development process.');
+            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_name', BeaverBuilder::get_setting('power_pack_name'));
+            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_desc', BeaverBuilder::get_setting('power_pack_description'));
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_author', Model::get_branding_name());
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_uri', Model::get_branding_website());
-            BB_PowerPack_Admin_Settings::update_option('ppwl_admin_label', 'Power Pack');
-            BB_PowerPack_Admin_Settings::update_option('ppwl_builder_label', 'Power Pack');
+            BB_PowerPack_Admin_Settings::update_option('ppwl_admin_label', BeaverBuilder::get_setting('power_pack_name'));
+            BB_PowerPack_Admin_Settings::update_option('ppwl_builder_label', BeaverBuilder::get_setting('power_pack_name'));
         } else {
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_name', '');
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_desc', '');
