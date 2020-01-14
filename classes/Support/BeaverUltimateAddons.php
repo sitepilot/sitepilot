@@ -45,9 +45,9 @@ final class BeaverUltimateAddons
 
         $branding = [];
         if (BeaverBuilder::is_setting_enabled('filter_ultimate_addons_branding')) {
-            $branding['uabb-plugin-name'] = Model::get_branding_name() . ' Ultimate Addons';
-            $branding['uabb-plugin-short-name'] = "Ultimate Addons";
-            $branding['uabb-plugin-desc'] = 'A set of custom, creative, unique modules for ' . Model::get_branding_name() . ' Builder to speed up your web design and development process.';
+            $branding['uabb-plugin-name'] = BeaverBuilder::get_setting('ultimate_addons_name');
+            $branding['uabb-plugin-short-name'] = BeaverBuilder::get_setting('ultimate_addons_name');
+            $branding['uabb-plugin-desc'] = BeaverBuilder::get_setting('ultimate_addons_description');
             $branding['uabb-author-name'] = Model::get_branding_name();
             $branding['uabb-author-url'] = Model::get_branding_website();;
         }

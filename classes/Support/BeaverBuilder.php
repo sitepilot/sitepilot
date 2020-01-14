@@ -59,6 +59,8 @@ final class BeaverBuilder extends Module
             if (self::is_setting_enabled('filter_plugin_branding')) {
                 require_once(SITEPILOT_DIR . 'includes/builder/FLBuilderWhiteLabel.php');
                 add_filter('all_plugins', __CLASS__ . '::filter_plugins');
+                add_filter('sp_settings_module_title_' . self::$module, __CLASS__ . '::filter_module_title');
+                add_filter('sp_settings_module_description_' . self::$module, __CLASS__ . '::filter_module_description');
             }
             if (self::is_setting_enabled('filter_builder_modules')) {
                 add_filter('fl_builder_register_module', __CLASS__ . '::filter_builder_modules', 99, 2);
@@ -117,33 +119,16 @@ final class BeaverBuilder extends Module
     static public function fields()
     {
         return [
-            'category-1' => [
-                'label' => __('Branding', 'sitepilot'),
-                'type' => 'category'
-            ],
-            'filter_theme_branding' => [
-                'type' => 'checkbox',
-                'label' => __('White label Beaver Builder theme.', 'sitepilot'),
-                'active' => self::is_theme_active()
+            /* Plugin */
+            'category-plugin' => [
+                'label' => __('Builder Plugin', 'sitepilot'),
+                'type' => 'category',
+                'active' => self::is_builder_active()
             ],
             'filter_plugin_branding' => [
                 'type' => 'checkbox',
-                'label' => __('White label Beaver Builder plugin.', 'sitepilot'),
+                'label' => sprintf(__('White label %s plugin.', 'sitepilot'), self::get_setting('plugin_name')),
                 'active' => self::is_builder_active()
-            ],
-            'filter_power_pack_branding' => [
-                'type' => 'checkbox',
-                'label' => __('White label Power Pack plugin.', 'sitepilot'),
-                'active' => BeaverPowerPack::is_active()
-            ],
-            'filter_ultimate_addons_branding' => [
-                'type' => 'checkbox',
-                'label' => __('White label Ultimate Addons plugin.', 'sitepilot'),
-                'active' => BeaverUltimateAddons::is_active()
-            ],
-            'category-2' => [
-                'label' => __('Builder Settings', 'sitepilot'),
-                'type' => 'category'
             ],
             'filter_builder_modules' => [
                 'type' => 'checkbox',
@@ -160,7 +145,91 @@ final class BeaverBuilder extends Module
                 'label' => __('Use custom admin settings capability.', 'sitepilot'),
                 'help' => sprintf(__("Change the admin settings capability of the builder (and add-ons) to '%s' to prevent client access.", 'sitepilot'), self::$admin_settings_cap),
                 'active' => self::is_builder_active()
-            ]
+            ],
+            'plugin_name' => [
+                'type' => 'text',
+                'label' => __('White label plugin name', 'sitepilot'),
+                'active' => self::is_builder_active() && self::is_setting_enabled('filter_plugin_branding'),
+                'default' => sprintf(__('%s Builder', 'sitepilot'), Model::get_branding_name())
+            ],
+            'plugin_description' => [
+                'type' => 'text',
+                'label' => __('White label plugin description', 'sitepilot'),
+                'active' => self::is_builder_active() && self::is_setting_enabled('filter_plugin_branding'),
+                'default' => __('A drag and drop frontend page builder plugin that works with almost any theme.', 'sitepilot')
+            ],
+
+            /* Theme */
+            'category-theme' => [
+                'label' => __('Builder Theme', 'sitepilot'),
+                'type' => 'category',
+                'active' => self::is_theme_active()
+            ],
+            'filter_theme_branding' => [
+                'type' => 'checkbox',
+                'label' => sprintf(__('White label %s theme.', 'sitepilot'), self::get_setting('plugin_name')),
+                'active' => self::is_theme_active()
+            ],
+            'theme_name' => [
+                'type' => 'text',
+                'label' => __('White label theme name', 'sitepilot'),
+                'active' => self::is_setting_enabled('filter_theme_branding'),
+                'default' => sprintf(__('%s Theme', 'sitepilot'), Model::get_branding_name())
+            ],
+            'theme_description' => [
+                'type' => 'text',
+                'label' => __('White label theme description', 'sitepilot'),
+                'active' => self::is_setting_enabled('filter_theme_branding'),
+                'default' => __('Base theme used for website development.', 'sitepilot')
+            ],
+
+            /* Power Pack */
+            'category-power-pack' => [
+                'label' => __('Power Pack Plugin', 'sitepilot'),
+                'type' => 'category',
+                'active' => BeaverPowerPack::is_active()
+            ],
+            'filter_power_pack_branding' => [
+                'type' => 'checkbox',
+                'label' => __('White label Power Pack plugin.', 'sitepilot'),
+                'active' => BeaverPowerPack::is_active()
+            ],
+            'power_pack_name' => [
+                'type' => 'text',
+                'label' => __('White label Power Pack plugin name', 'sitepilot'),
+                'active' => BeaverPowerPack::is_active() && self::is_setting_enabled('filter_power_pack_branding'),
+                'default' => __('Power Pack', 'sitepilot')
+            ],
+            'power_pack_description' => [
+                'type' => 'text',
+                'label' => __('White label Power Pack plugin description', 'sitepilot'),
+                'active' => BeaverPowerPack::is_active() && self::is_setting_enabled('filter_power_pack_branding'),
+                'default' => __('A set of custom, creative, unique modules to speed up the web design and development process.', 'sitepilot')
+            ],
+
+            /* Ultimate Addons */
+            'category-ultimate-addons' => [
+                'label' => __('Ultimate Addons Plugin', 'sitepilot'),
+                'type' => 'category',
+                'active' => BeaverUltimateAddons::is_active()
+            ],
+            'filter_ultimate_addons_branding' => [
+                'type' => 'checkbox',
+                'label' => __('White label Ultimate Addons plugin.', 'sitepilot'),
+                'active' => BeaverUltimateAddons::is_active()
+            ],
+            'ultimate_addons_name' => [
+                'type' => 'text',
+                'label' => __('White label Ultimate Addons plugin name', 'sitepilot'),
+                'active' => BeaverUltimateAddons::is_active() && self::is_setting_enabled('filter_ultimate_addons_branding'),
+                'default' => __('Ultimate Addons', 'sitepilot')
+            ],
+            'ultimate_addons_description' => [
+                'type' => 'text',
+                'label' => __('White label Ultimate Addons plugin description', 'sitepilot'),
+                'active' => BeaverUltimateAddons::is_active() && self::is_setting_enabled('filter_ultimate_addons_branding'),
+                'default' => __('A set of custom, creative, unique modules to speed up the web design and development process.', 'sitepilot')
+            ],
         ];
     }
 
@@ -175,16 +244,38 @@ final class BeaverBuilder extends Module
         $namespace = 'bb-plugin/fl-builder.php';
 
         if (isset($plugins[$namespace])) {
-            $plugins[$namespace]['Name'] = Model::get_branding_name() . ' Builder';
-            $plugins[$namespace]['Description'] = 'A drag and drop frontend page builder plugin that works with almost any theme.';
+            $plugins[$namespace]['Name'] = self::get_setting('plugin_name');
+            $plugins[$namespace]['Description'] = self::get_setting('plugin_description');
             $plugins[$namespace]['PluginURI'] = Model::get_branding_website();
             $plugins[$namespace]['Author'] = Model::get_branding_name();
             $plugins[$namespace]['AuthorURI'] = Model::get_branding_website();
-            $plugins[$namespace]['Title'] = Model::get_branding_name() . ' Builder';
+            $plugins[$namespace]['Title'] = self::get_setting('plugin_name');
             $plugins[$namespace]['AuthorName'] = Model::get_branding_name();
         }
 
         return $plugins;
+    }
+
+    /**
+     * Filter the module title when white label is active.
+     * 
+     * @param string $title 
+     * @return string 
+     */
+    public static function filter_module_title($title)
+    {
+        return self::get_setting('plugin_name');
+    }
+
+    /**
+     * Filter the module description when white label is active.
+     *
+     * @param string $description
+     * @return string
+     */
+    public static function filter_module_description($description)
+    {
+        return self::get_setting('plugin_description');
     }
 
     /**
@@ -196,8 +287,8 @@ final class BeaverBuilder extends Module
     static public function filter_themes($themes)
     {
         if (isset($themes['bb-theme'])) {
-            $themes['bb-theme']['name'] =  Model::get_branding_name() . " Theme";
-            $themes['bb-theme']['description'] = "Base theme used for website development.";
+            $themes['bb-theme']['name'] =  self::get_setting('theme_name');
+            $themes['bb-theme']['description'] = self::get_setting('theme_description');
             $themes['bb-theme']['author'] = Model::get_branding_name();
             $themes['bb-theme']['authorAndUri'] = '<a href="' . Model::get_branding_website() . '">' . Model::get_branding_name() . '</a>';
             $themes['bb-theme']['screenshot'] = array(Model::get_branding_screenshot());

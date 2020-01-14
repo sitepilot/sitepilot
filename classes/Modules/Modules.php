@@ -93,7 +93,7 @@ final class Modules extends Module
             'category-2' => [
                 'label' => __('Plugin & Theme Support', 'sitepilot'),
                 'type' => 'category',
-                'active' => (Astra::is_active() || BeaverBuilder::is_active())
+                'active' => (Worker::is_active() || Astra::is_active() || BeaverBuilder::is_active())
             ],
             'support-astra' => [
                 'type' => 'checkbox',
@@ -103,9 +103,9 @@ final class Modules extends Module
             ],
             'support-beaver-builder' => [
                 'type' => 'checkbox',
-                'label' => __("Beaver Builder", 'sitepilot'),
+                'label' => apply_filters('sp_settings_module_title_support-beaver-builder', __("Beaver Builder", 'sitepilot')),
                 'active' => BeaverBuilder::is_active(),
-                'help' => __('Enable support for Beaver Builder plugin, themer, theme and add-ons.', 'sitepilot')
+                'help' => apply_filters('sp_settings_module_description_support-beaver-builder', __('Enable support for Beaver Builder plugin, themer, theme and add-ons.', 'sitepilot')),
             ],
             'support-worker' => [
                 'type' => 'checkbox',
