@@ -90,6 +90,10 @@ final class Modules extends Module
                 'type' => 'checkbox',
                 'label' => __("User Switching", 'sitepilot'),
             ],
+            'development' => [
+                'type' => 'checkbox',
+                'label' => __("Development", 'sitepilot'),
+            ],
             'category-2' => [
                 'label' => __('Plugin & Theme Support', 'sitepilot'),
                 'type' => 'category',
