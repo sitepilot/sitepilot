@@ -32,6 +32,12 @@ final class Sitepilot
             ($defaults_class)::init();
         }
 
+        // Initialize early hooks
+        foreach (Modules::get_enabled_settings() as $module) {
+            $class = self::get_module_class($module);
+            if (class_exists($class) && $class::is_active()) $class::early_init();
+        }
+
         Update::init();
         Settings::init();
         Shortcodes::init();

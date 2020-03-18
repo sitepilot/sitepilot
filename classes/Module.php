@@ -80,6 +80,16 @@ class Module
     }
 
     /**
+     * Runs when plugin is loaded.
+     * 
+     * @return void
+     */
+    static public function early_init()
+    {
+        //
+    }
+
+    /**
      * Enable required modules.
      *
      * @param array $modules
