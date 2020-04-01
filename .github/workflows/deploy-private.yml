@@ -15,8 +15,8 @@ jobs:
           composer install --no-dev
           npm install
           npm run production
-          curl -H 'Authorization: token ${{ secrets.SP_GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.v3.raw' -L https://gist.githubusercontent.com/nick-jansen/194415323045e634e38082d087fc677f/raw -o classes/Defaults.php
-      - uses: docker://sitepilot/wp-ftp-deploy:latest
+          curl -H 'Authorization: token ${{ secrets.GITHUB_TOKEN }}' -H 'Accept: application/vnd.github.v3.raw' -L https://gist.githubusercontent.com/nick-jansen/194415323045e634e38082d087fc677f/raw -o classes/Defaults.php
+      - uses: docker://sitepilot/wp-sftp-deploy:latest
         env:
-          SP_UPDATE_VER: private-v1
-          SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
+          SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
+          SP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
