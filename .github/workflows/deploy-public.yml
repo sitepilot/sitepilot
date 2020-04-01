@@ -15,8 +15,8 @@ jobs:
           composer install --no-dev
           npm install
           npm run production
-      - uses: docker://sitepilot/wp-ftp-deploy:latest
+      - uses: docker://sitepilot/wp-sftp-deploy:latest
         env:
-          SP_UPDATE_VER: public-v1
-          SP_FTP_PASSWORD: ${{ secrets.SP_FTP_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.SP_GITHUB_TOKEN }}
+          SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
+          SP_SFTP_PATH: update/public/public/v1/
+          SP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
