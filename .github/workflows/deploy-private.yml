@@ -19,4 +19,3 @@ jobs:
       - uses: docker://sitepilot/wp-sftp-deploy:latest
         env:
           SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
-          SP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
