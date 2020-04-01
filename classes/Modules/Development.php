@@ -42,14 +42,14 @@ final class Development extends Module
         parent::init();
 
         add_action('plugins_loaded', function () {
-            if (self::is_setting_enabled('load_dev_theme') && is_admin() || isset($_GET['sitepilot-preview']) || isset($_COOKIE['sitepilot_preview'])) {
+            if (self::is_setting_enabled('load_dev_theme') && is_super_admin() || isset($_GET['sitepilot-preview']) || isset($_COOKIE['sitepilot_preview'])) {
                 if (file_exists(get_stylesheet_directory() . '-dev')) {
                     if (isset($_GET['sitepilot-preview'])) {
                         setcookie('sitepilot_preview', time(), time() + 600); // Preview is active for 10 minutes
                     }
 
-                    add_filter('template', __CLASS__ . '::filter_theme');
-                    add_filter('stylesheet', __CLASS__ . '::filter_theme');
+                    add_filter('template', __CLASS__ . '::filter_template');
+                    add_filter('stylesheet', __CLASS__ . '::filter_stylesheet');
                 }
             }
         });
@@ -72,8 +72,43 @@ final class Development extends Module
         ];
     }
 
-    static public function filter_theme()
+    /**
+     * Filter stylesheet.
+     * 
+     * @param string $original 
+     * @return string $stylesheet
+     */
+    static public function filter_stylesheet($original)
     {
-        return get_option('stylesheet') . "-dev";
+        return self::get_theme_data($original, 'Stylesheet');
+    }
+
+    /**
+     * Filter template.
+     * 
+     * @param string $original 
+     * @return string $stylesheet
+     */
+    static public function filter_template($original)
+    {
+        return self::get_theme_data($original, 'Template');
+    }
+
+    /**
+     * Returns theme data by key.
+     * 
+     * @return string
+     */
+    static public function get_theme_data($original, $key)
+    {
+        $theme_data = wp_get_theme(get_option('stylesheet') . "-dev");
+
+        if (!empty($theme_data)) {
+            if (isset($theme_data[$key])) {
+                return (string) $theme_data[$key];
+            }
+        }
+
+        return (string) $original;
     }
 }
