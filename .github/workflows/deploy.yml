@@ -27,6 +27,8 @@ jobs:
           npm install
           npm run production
 
+          cd ../ && zip -r9 ${SP_REPOSITORY}.zip ${SP_REPOSITORY} -x *.git* */node_modules/\*
+
       - name: Upload zip to release.
         uses: actions/upload-release-asset@v1
         env:
