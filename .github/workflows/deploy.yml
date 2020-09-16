@@ -17,25 +17,15 @@ jobs:
 
       - name: Build plugin.
         run: |
-          SP_VERSION=`printf "%s\n" "${GITHUB_REF##*/}"`
           SP_REPOSITORY=`printf "%s\n" "${GITHUB_REPOSITORY##*/}"`
-          echo "::set-env name=SP_VERSION::${SP_VERSION}"
           echo "::set-env name=SP_REPOSITORY::${SP_REPOSITORY}"
 
-          sed -i s/0.0.0/${SP_VERSION}/g sitepilot.php
+          sed -i s/-{dev}//g sitepilot.php
 
           composer install --no-dev
 
           npm install
           npm run production
-
-      - name: Commit files to release.
-        run: |
-          git config --global user.name 'Sitepilot'
-          git config --global user.email 'sitepilot@users.noreply.github.com'
-          git commit -am "Bump version"
-          git push
-        if: github.event.release
 
       - name: Upload zip to release.
         uses: actions/upload-release-asset@v1
