@@ -1,3 +1,0 @@
-# Sitepilot
-
-Info coming soon.
