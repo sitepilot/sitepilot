@@ -2,69 +2,18 @@
 
 namespace Sitepilot\Modules;
 
-use Sitepilot\Model;
-use Sitepilot\Module;
-
-final class ClientRole extends Module
+final class ClientRole
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'client-role';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Client Role';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Setup a custom client role and select capabilities.';
-
-    /**
-     * Show 'all' checkbox at the top of the settings page.
-     *
-     * @var boolean
-     */
-    static protected $all_checkbox = true;
-
-    /**
+     * Initialize client role module.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
-
-        add_action('sp_module_' . self::$module . '_saved', __CLASS__ . '::update_role');
-    }
-
-    /**
-     * Returns module setting fields.
-     *
-     * @return void
-     */
-    static public function fields()
-    {
-        $settings = [];
-        $capabilities = get_role('administrator')->capabilities;
-
-        foreach ($capabilities as $key => $cap) {
-            if (strpos($key, 'level_') === false) {
-                $settings[$key] = [
-                    'type' => 'checkbox',
-                    'label' => $key,
-                ];
-            }
+        if (apply_filters('sp_client_role', false)) {
+            add_action('wp_login', __CLASS__ . '::update_role');
         }
-
-        return $settings;
     }
 
     /**
@@ -76,16 +25,42 @@ final class ClientRole extends Module
     {
         remove_role('sitepilot_user');
 
-        $capabilities = [];
+        $capabilities = get_role('administrator')->capabilities;
 
-        foreach (self::get_enabled_settings() as $cap) {
-            $capabilities[$cap] = true;
+        $role_capabilities = [];
+
+        $exclude = apply_filters('sp_client_role_exlude_capabilities', [
+            'switch_themes',
+            'edit_themes',
+            'activate_plugins',
+            'edit_plugins',
+            'edit_users',
+            'edit_files',
+            'delete_users',
+            'create_users',
+            'update_plugins',
+            'delete_plugins',
+            'install_plugins',
+            'update_themes',
+            'install_themes',
+            'update_core',
+            'remove_users',
+            'promote_users',
+            'edit_theme_options',
+            'delete_themes',
+            'sp_builder_admin_settings'
+        ]);
+
+        foreach ($capabilities as $key => $cap) {
+            if (!in_array($key, $exclude)) {
+                $role_capabilities[$key] = true;
+            }
         }
 
         add_role(
             'sitepilot_user',
-            Model::get_branding_name() . ' Client',
-            $capabilities
+            Branding::get_name() . ' Client',
+            $role_capabilities
         );
     }
 }

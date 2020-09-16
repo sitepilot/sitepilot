@@ -4,12 +4,7 @@
     "type": "project",
     "license": "GNU General Public License v2.0",
     "require": {
-        "yahnis-elsts/plugin-update-checker": "^4.8",
-        "maknz/slack": "^1.7",
-        "mailgun/mailgun-php": "^2.4",
-        "php-http/curl-client": "^1.7",
-        "guzzlehttp/psr7": "^1.4",
-        "html2text/html2text": "^4.2"
+        "yahnis-elsts/plugin-update-checker": "^4.10"
     },
     "autoload": {
         "psr-4": {

@@ -2,48 +2,28 @@
 
 namespace Sitepilot\Support;
 
-use Sitepilot\Model;
-use Sitepilot\Module;
+use Sitepilot\Modules\Branding;
 
-final class Astra extends Module
+final class Astra
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'support-astra';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Astra';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Support settings for the Astra theme.';
-
-    /**
-     * The module menu priority.
-     *
-     * @var string
-     */
-    static protected $priority = 90;
-
-    /**
+     * Initialize Astra support.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
+        if (!self::is_active()) {
+            return;
+        }
 
-        if (self::is_setting_enabled('filter_theme_branding')) {
-            add_filter('astra_addon_branding_options', __CLASS__ . '::filter_branding_options');
+        if (apply_filters('sp_astra_branding', false)) {
+            add_filter('astra_addon_get_white_labels', __CLASS__ . '::filter_branding_options', 99);
+            add_filter('sp_log_replace_names', function ($replace) {
+                return array_merge($replace, [
+                    'astra' => self::get_branding_name(),
+                ]);
+            });
         }
     }
 
@@ -58,38 +38,43 @@ final class Astra extends Module
     }
 
     /**
-     * Returns module setting fields.
-     *
-     * @return void
+     * Returns branding name.
+     * 
+     * @return string
      */
-    static public function fields()
+    public static function get_branding_name()
     {
-        return [
-            'filter_theme_branding' => [
-                'type' => 'checkbox',
-                'label' => __('White label theme.', 'sitepilot'),
-            ]
-        ];
+        return apply_filters('sp_astra_branding_name', Branding::get_name() . ' Theme');
+    }
+
+    /**
+     * Returns branding description.
+     * 
+     * @return string
+     */
+    public static function get_branding_description()
+    {
+        return apply_filters('sp_astra_branding_description', 'Base theme used for website development.');
     }
 
     /**
      * Filter branding options.
      *
      * @param array $branding
-     * @return void
+     * @return array $branding
      */
     public static function filter_branding_options($branding)
     {
         if (isset($branding['astra-agency'])) {
-            $branding['astra-agency']['author'] = Model::get_branding_name();
-            $branding['astra-agency']['author_url'] = Model::get_branding_website();
+            $branding['astra-agency']['author'] = Branding::get_name();
+            $branding['astra-agency']['author_url'] = Branding::get_website();
             $branding['astra-agency']['hide_branding'] = true;
         }
 
         if (isset($branding['astra'])) {
-            $branding['astra']['name'] = Model::get_branding_name() . " Theme";
-            $branding['astra']['description'] = "Base theme used for website development.";
-            $branding['astra']['screenshot'] = Model::get_branding_screenshot();
+            $branding['astra']['name'] = self::get_branding_name();
+            $branding['astra']['description'] = self::get_branding_description();
+            $branding['astra']['screenshot'] = Branding::get_screenshot();
         }
 
         return $branding;

@@ -42,3 +42,11 @@
     display: none !important;
   }
   
+  .sp_log_output {
+    background-color: #24282d;
+    color: white;
+    max-height: 300px;
+    overflow-y: scroll;
+    padding: 15px;
+    border-radius: 5px;
+  }

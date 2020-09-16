@@ -3,36 +3,18 @@
 namespace Sitepilot\Modules;
 
 use Sitepilot\Model;
-use Sitepilot\Module;
 
-final class Menu extends Module
+final class Menu
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'menu';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Menu';
-
-    /**
+     * Initialize menu module.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
-
         /* Actions */
         add_action('admin_menu', __CLASS__ . '::action_admin_menu');
-
-        /* Filters */
-        add_filter('admin_enqueue_scripts', __CLASS__ . '::filter_load_admin_scripts');
     }
 
     /**
@@ -63,21 +45,6 @@ final class Menu extends Module
     }
 
     /**
-     * Load menu stylesheets and scripts.
-     *
-     * @return void
-     */
-    public static function filter_load_admin_scripts()
-    {
-        wp_enqueue_style(
-            'sitepilot-admin',
-            SITEPILOT_URL . 'assets/dist/css/admin-menu.css',
-            array(),
-            SITEPILOT_VERSION
-        );
-    }
-
-    /**
      * Render info page.
      *
      * @return void
@@ -87,7 +54,7 @@ final class Menu extends Module
         global $wp_version;
 
         echo '<div class="wrap">';
-        echo '<h1>' . Branding::get_name() . ' ' . __('Information', 'sitepilot') . '</h1>';
+        echo '<h1>' . Branding::get_name() . '</h1>';
 
         echo '<p>';
         echo "WordPress: v$wp_version <br />";
@@ -109,9 +76,41 @@ final class Menu extends Module
         echo '</p>';
 
         echo '<h3 style="font-weight: 400;">' . __('Contact', 'sitepilot') . '</h3>';
-        echo 'Website: <a href="' . Model::get_branding_website() . '" target="_blank">' . Model::get_branding_website() . '</a><br />';
-        echo 'Help: <a href="' . Model::get_branding_support_url() . '" target="_blank">' . Model::get_branding_support_url() . '</a><br />';
+        echo 'Website: <a href="' . Branding::get_website() . '" target="_blank">' . Branding::get_website() . '</a><br />';
+        echo 'Help: <a href="' . Branding::get_support_url() . '" target="_blank">' . Branding::get_support_url() . '</a><br />';
+
+        echo '<h3 style="font-weight: 400;">' . __('Debug Log', 'sitepilot') . '</h3>';
+
+        echo "<div class='sp_log_output'>" . self::read_log(get_home_path() . '../logs/php-error.log') . "</div>";
 
         echo '</div>';
+    }
+
+    /**
+     * Read log file.
+     * 
+     * @param string $file 
+     * @return string $log 
+     */
+    public static function read_log($file)
+    {
+        if (file_exists($file)) {
+            $log = '';
+            $file = @file($file);
+
+            if (is_array($file)) {
+                $readLines = max(0, count($file) - 25);
+
+                if ($readLines > 0) {
+                    for ($i = $readLines; $i < count($file); $i++) {
+                        $log .= $file[$i];
+                        $log .= nl2br("\n");
+                    }
+                    return $log;
+                }
+            }
+        }
+
+        return 'No debug log found.';
     }
 }

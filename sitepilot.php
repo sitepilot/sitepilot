@@ -2,12 +2,12 @@
 
 /**
  * Plugin Name: Sitepilot
- * Plugin URI: https://sitepilot.io/
+ * Plugin URI: https://sitepilot.io
  * Description: A plugin for managing and developing WordPress websites.
- * Version: {{SP_VERSION}}
+ * Version: 0.0.0
  * Author: Sitepilot
- * Author URI: https://sitepilot.io/
- * Copyright: (c) 2019 Sitepilot
+ * Author URI: https://sitepilot.io
+ * Copyright: (c) 2020 Sitepilot
  * License: GNU General Public License v2.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: sitepilot
@@ -19,10 +19,12 @@ if (defined('SITEPILOT_VERSION')) {
 }
 
 // Useful global constants
-define('SITEPILOT_VERSION', '{{SP_VERSION}}');
 define('SITEPILOT_FILE', trailingslashit(dirname(__FILE__)) . 'sitepilot.php');
 define('SITEPILOT_DIR', plugin_dir_path(SITEPILOT_FILE));
 define('SITEPILOT_URL', plugins_url('/', SITEPILOT_FILE));
+
+$plugin = get_plugin_data(SITEPILOT_FILE);
+define('SITEPILOT_VERSION', $plugin['Version']);
 
 // Require Composer autoloader if it exists
 if (file_exists(SITEPILOT_DIR . '/vendor/autoload.php')) {

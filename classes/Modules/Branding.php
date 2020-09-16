@@ -2,188 +2,108 @@
 
 namespace Sitepilot\Modules;
 
-use Sitepilot\Module;
-
-final class Branding extends Module
+final class Branding
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'branding';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Branding';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'White label WordPress and this plugin.';
-
-    /**
+     * Initialize branding module.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
-
-        if (self::is_setting_enabled('filter_admin_footer_text')) {
-            add_filter('admin_footer_text', __CLASS__ . '::filter_admin_footer_text');
-            add_filter('update_footer', __CLASS__ . '::filter_admin_footer_version', 11);
-        }
-
-        if (self::is_setting_enabled('filter_login_logo')) {
+        if (apply_filters('sp_branding_login', false)) {
             add_filter('login_headerurl', __CLASS__ . '::filter_login_url');
             add_action('login_enqueue_scripts', __CLASS__ . '::action_login_style');
         }
 
-        if (self::is_setting_enabled('action_powered_by_head')) {
+        if (apply_filters('sp_branding_head', false)) {
             add_action('wp_head', __CLASS__ . '::action_powered_by_head', 0);
+        }
+
+        if (apply_filters('sp_branding_footer', true)) {
+            add_filter('admin_footer_text', __CLASS__ . '::filter_admin_footer_text');
+            add_filter('update_footer', __CLASS__ . '::filter_admin_footer_version', 11);
         }
     }
 
     /**
-     * Returns module setting fields.
-     *
-     * @return void
-     */
-    static public function fields()
-    {
-        return [
-            'action_powered_by_head' => [
-                'type' => 'checkbox',
-                'label' => __("Show 'powered by' text in theme head.", 'sitepilot'),
-            ],
-            'filter_admin_footer_text' => [
-                'type' => 'checkbox',
-                'label' => __("Show 'powered by' text in admin footer.", 'sitepilot'),
-            ],
-            'filter_login_logo' => [
-                'type' => 'checkbox',
-                'label' => __("Replace the default WordPress login logo.", 'sitepilot'),
-            ],
-            'category-1' => [
-                'label' => __('Settings', 'sitepilot'),
-                'type' => 'category'
-            ],
-            'name' => [
-                'type' => 'text',
-                'label' => __('Name', 'sitepilot'),
-                'default' => 'Sitepilot'
-            ],
-            'website' => [
-                'type' => 'text',
-                'label' => __('Website', 'sitepilot'),
-                'default' => 'https://sitepilot.io'
-            ],
-            'support_url' => [
-                'type' => 'text',
-                'label' => __('Support URL', 'sitepilot'),
-                'default' => 'https://help.sitepilot.io'
-            ],
-            'support_email' => [
-                'type' => 'text',
-                'label' => __('Support Email', 'sitepilot'),
-                'default' => 'support@sitepilot.io'
-            ],
-            'powered_by_text' => [
-                'type' => 'text',
-                'label' => __('Powered By Text', 'sitepilot'),
-                'default' => '❤ Proudly developed and managed by Sitepilot.'
-            ],
-            'icon' => [
-                'type' => 'text',
-                'label' => __('Icon URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png'
-            ],
-            'logo' => [
-                'type' => 'text',
-                'label' => __('Logo URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-logo.png'
-            ],
-            'screenshot' => [
-                'type' => 'text',
-                'label' => __('Sreenshot URL', 'sitepilot'),
-                'default' => SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg'
-            ],
-        ];
-    }
-
-    /**
-     * Returns the custom name.
+     * Returns the branding name.
      *
      * @return string
      */
     static public function get_name()
     {
-        return self::get_setting('name', __('Sitepilot', 'sitepilot'));
+        return apply_filters('sp_branding_name', 'Sitepilot');
     }
 
     /**
-     * Returns the custom icon url.
+     * Returns the branding logo.
+     *
+     * @return string
+     */
+    static public function get_logo()
+    {
+        return apply_filters('sp_branding_logo', SITEPILOT_URL . 'assets/dist/img/sitepilot-logo.png');
+    }
+
+    /**
+     * Returns the branding icon url.
      *
      * @return string
      */
     static public function get_icon()
     {
-        return self::get_setting('icon', SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png');
+        return apply_filters('sp_branding_icon', SITEPILOT_URL . 'assets/dist/img/sitepilot-icon.png');
     }
 
     /**
-     * Returns the custom icon url.
+     * Returns the branding screenshot.
      *
      * @return string
      */
     static public function get_screenshot()
     {
-        return self::get_setting('screenshot', SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg');
+        return apply_filters('sp_branding_screenshot', SITEPILOT_URL . 'assets/dist/img/sitepilot-screenshot.jpg');
     }
 
     /**
-     * Returns the custom website.
+     * Returns the branding website.
      *
      * @return string
      */
     static public function get_website()
     {
-        return self::get_setting('website', 'https://sitepilot.io');
+        return apply_filters('sp_branding_website', 'https://sitepilot.io');
     }
 
     /**
-     * Returns the custom support url.
+     * Returns the branding url.
      *
      * @return string
      */
     static public function get_support_url()
     {
-        return self::get_setting('support_url', 'https://help.sitepilot.io');
+        return apply_filters('sp_branding_support_url', 'https://help.sitepilot.io');
     }
 
     /**
-     * Returns the custom support email.
+     * Returns the branding email.
      *
      * @return string
      */
     static public function get_support_email()
     {
-        return self::get_setting('support_email', 'support@sitepilot.io');
+        return apply_filters('sp_branding_support_email', 'support@sitepilot.io');
     }
 
     /**
-     * Returns the custom powered by text.
+     * Returns the branding powered by text.
      *
      * @return string
      */
     static public function get_powered_by_text()
     {
-        return self::get_setting('powered_by_text', '❤ Proudly developed and managed by Sitepilot.');
+        return apply_filters('sp_branding_powered_by_text', '❤ Proudly hosted and managed by Sitepilot.');
     }
 
     /**
@@ -240,7 +160,7 @@ final class Branding extends Module
 ?>
         <style>
             .login h1 a {
-                background-image: url(<?= self::get_setting('logo') ?>) !important;
+                background-image: url(<?= self::get_logo() ?>) !important;
                 background-size: 100% !important;
                 background-position: center top !important;
                 background-repeat: no-repeat !important;

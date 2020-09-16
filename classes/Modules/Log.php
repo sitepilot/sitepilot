@@ -3,60 +3,21 @@
 namespace Sitepilot\Modules;
 
 use Sitepilot\Model;
-use Sitepilot\Module;
 
-final class Log extends Module
+final class Log
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'log';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Log';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Log site updates and changes.';
-
-    /**
-     * Require other modules.
-     *
-     * @var string
-     */
-    static protected $require = ['menu'];
-
-    /**
+     * Initialize log module.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
-
         /* Actions */
-        add_action('admin_menu', __CLASS__ . '::action_load_log_menu', 11);
         add_action('init', __CLASS__ . '::action_load_log_post_type');
+        add_action('admin_menu', __CLASS__ . '::action_load_log_menu', 11);
         add_action('admin_init', __CLASS__ . '::action_register_capability');
         add_action('upgrader_process_complete', __CLASS__ . '::action_upgrader_process_complete', 10, 2);
-    }
-
-    /**
-     * Returns module setting fields.
-     *
-     * @return void
-     */
-    static public function fields()
-    {
-        return [];
     }
 
     /**
@@ -67,8 +28,8 @@ final class Log extends Module
     static public function action_register_capability()
     {
         $role = get_role('administrator');
-        $role->add_cap('sp_log_viewer');
-        $role->add_cap('sp_log_admin');
+        $role->remove_cap('sp_log_viewer');
+        $role->remove_cap('sp_log_admin');
     }
 
     /** 
@@ -110,12 +71,12 @@ final class Log extends Module
             'supports'           => array('title', 'editor'),
             'capabilities'       => array(
                 'create_posts' => 'sp_log_admin',
-                'edit_post' => 'sp_log_viewer',
-                'read_post' => 'sp_log_viewer',
+                'edit_post' => 'sp_log_admin',
+                'read_post' => 'publish_posts',
                 'delete_post' => 'sp_log_admin',
                 'delete_posts' => 'sp_log_admin',
                 'delete_others_posts' => 'sp_log_admin',
-                'edit_posts' => 'sp_log_viewer',
+                'edit_posts' => 'publish_posts',
                 'edit_others_posts' => 'sp_log_admin',
                 'publish_posts' => 'sp_log_admin',
                 'read_private_posts' => 'sp_log_admin',
@@ -136,7 +97,7 @@ final class Log extends Module
             'sitepilot-menu',
             'Sitepilot Log',
             'Log',
-            'sp_log_viewer',
+            'publish_posts',
             'edit.php?post_type=sp-log'
         );
     }

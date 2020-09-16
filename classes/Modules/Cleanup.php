@@ -2,64 +2,22 @@
 
 namespace Sitepilot\Modules;
 
-use Sitepilot\Module;
-
-final class Cleanup extends Module
+final class Cleanup
 {
     /**
-     * The unique module id.
-     *
-     * @var string
-     */
-    static protected $module = 'cleanup';
-
-    /**
-     * The module name.
-     *
-     * @var string
-     */
-    static protected $name = 'Cleanup';
-
-    /**
-     * The module description.
-     *
-     * @var string
-     */
-    static protected $description = 'Cleanup the WordPress admin interface.';
-    
-    /**
+     * Initialize cleanup module.
+     * 
      * @return void
      */
     static public function init()
     {
-        parent::init();
-
-        if (self::is_setting_enabled('filter_admin_bar')) {
+        if (apply_filters('sp_cleanup_admin_bar', false)) {
             add_filter('wp_before_admin_bar_render', __CLASS__ . '::filter_admin_bar');
         }
-        
-        if (self::is_setting_enabled('filter_dashboard_widgets')) {
+
+        if (apply_filters('sp_cleanup_dashboard', false)) {
             add_filter('wp_dashboard_setup', __CLASS__ . '::filter_dashboard_widgets');
         }
-    }
-
-    /**
-     * Returns module setting fields.
-     *
-     * @return void
-     */
-    static public function fields()
-    {
-        return [
-            'filter_admin_bar' => [
-                'type' => 'checkbox',
-                'label' => __('Deactivate WordPress logo in the admin bar.', 'sitepilot'),
-            ],
-            'filter_dashboard_widgets' => [
-                'type' => 'checkbox',
-                'label' => __('Deactivate default WordPress dashboard widgets.', 'sitepilot'),
-            ]
-        ];
     }
 
     /**
