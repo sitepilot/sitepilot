@@ -25,7 +25,7 @@ jobs:
       - name: "Deploy plugin to SFTP and release."
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
         env:
-          SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
+          SP_SFTP_KEY: ${{ secrets.WP_UPDATE_SFTP_KEY }}
           SP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SP_VERSION_FILE: "sitepilot.php"
         if: github.event.release
