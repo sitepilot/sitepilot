@@ -19,12 +19,10 @@ if (defined('SITEPILOT_VERSION')) {
 }
 
 // Useful global constants
+define('SITEPILOT_VERSION', '2.0.0-{dev}');
 define('SITEPILOT_FILE', trailingslashit(dirname(__FILE__)) . 'sitepilot.php');
 define('SITEPILOT_DIR', plugin_dir_path(SITEPILOT_FILE));
 define('SITEPILOT_URL', plugins_url('/', SITEPILOT_FILE));
-
-$plugin = get_plugin_data(SITEPILOT_FILE);
-define('SITEPILOT_VERSION', $plugin['Version']);
 
 // Require Composer autoloader if it exists
 if (file_exists(SITEPILOT_DIR . '/vendor/autoload.php')) {
