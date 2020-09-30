@@ -3,6 +3,7 @@
 namespace Sitepilot\Modules;
 
 use Puc_v4_Factory;
+use Sitepilot\Model;
 
 final class Update
 {
@@ -74,10 +75,12 @@ final class Update
      */
     public static function filter_update_list(array $list)
     {
-        $plugin['file'] = SITEPILOT_FILE;
-        $plugin['slug'] = 'sitepilot';
+        if (!Model::is_dev()) {
+            $plugin['file'] = SITEPILOT_FILE;
+            $plugin['slug'] = 'sitepilot';
 
-        array_push($list, $plugin);
+            array_push($list, $plugin);
+        }
 
         return $list;
     }
@@ -91,19 +94,13 @@ final class Update
     {
         foreach (apply_filters('sp_update_list', []) as $item) {
             if (isset($item['file']) && isset($item['slug'])) {
-                if (!isset($item['repo'])) $item['repo'] = 'https://github.com/sitepilot/' . $item['slug'];
+                if (!isset($item['repo'])) $item['repo'] = 'https://update.sitepilot.io/v1/?action=get_metadata&slug=' . $item['slug'];
 
-                $update_checker = Puc_v4_Factory::buildUpdateChecker(
+                Puc_v4_Factory::buildUpdateChecker(
                     $item['repo'],
                     $item['file'],
                     $item['slug']
                 );
-
-                $update_checker->getVcsApi()->enableReleaseAssets();
-
-                if (isset($plugin['token'])) {
-                    $update_checker->setAuthentication($plugin['vcs_token']);
-                }
             }
         }
     }

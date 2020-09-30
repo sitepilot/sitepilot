@@ -103,4 +103,14 @@ final class Model
     {
         return is_multisite();
     }
+
+    /**
+     * Check if plugin is in development mode.
+     * 
+     * @return bool
+     */
+    static public function is_dev()
+    {
+        return strpos(SITEPILOT_VERSION, '-dev') !== false;
+    }
 }
