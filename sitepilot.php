@@ -4,7 +4,7 @@
  * Plugin Name: Sitepilot
  * Plugin URI: https://sitepilot.io
  * Description: A plugin for managing and developing WordPress websites.
- * Version: 2.0.0-{dev}
+ * Version: 2.0.0-dev
  * Author: Sitepilot
  * Author URI: https://sitepilot.io
  * Copyright: (c) 2020 Sitepilot
@@ -19,7 +19,7 @@ if (defined('SITEPILOT_VERSION')) {
 }
 
 // Useful global constants
-define('SITEPILOT_VERSION', '2.0.0-{dev}');
+define('SITEPILOT_VERSION', '2.0.0-dev');
 define('SITEPILOT_FILE', trailingslashit(dirname(__FILE__)) . 'sitepilot.php');
 define('SITEPILOT_DIR', plugin_dir_path(SITEPILOT_FILE));
 define('SITEPILOT_URL', plugins_url('/', SITEPILOT_FILE));
