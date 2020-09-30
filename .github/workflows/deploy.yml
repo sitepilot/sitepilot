@@ -33,6 +33,7 @@ jobs:
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
         env:
           SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
+          SP_REPOSITORY: ${{ env.SP_REPOSITORY }}
         if: github.event.release
 
       - name: Upload zip to release.
@@ -41,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ../${{ env.SP_REPOSITORY }}.zip
+          asset_path: ${{ env.SP_REPOSITORY }}.zip
           asset_name: ${{ env.SP_REPOSITORY }}.zip
           asset_content_type: application/zip
         if: github.event.release
