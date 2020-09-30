@@ -17,32 +17,15 @@ jobs:
 
       - name: Build plugin.
         run: |
-          SP_VERSION=`printf "%s\n" "${GITHUB_REF##*/v}"`
-          SP_REPOSITORY=`printf "%s\n" "${GITHUB_REPOSITORY##*/}"`
-
-          echo "::set-env name=SP_REPOSITORY::${SP_REPOSITORY}"
-
-          [ ! -z "$SP_VERSION" ] && sed -i "s/[0-9]*\.[0-9]*\.[0-9]*\-dev/${SP_VERSION}/g" sitepilot.php
-
           composer install --no-dev
 
           npm install
           npm run production
 
-      - name: Upload zip to update server.
+      - name: "Deploy plugin to SFTP & release."
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
         env:
           SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
-          SP_REPOSITORY: ${{ env.SP_REPOSITORY }}
-        if: github.event.release
-
-      - name: Upload zip to release.
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ env.SP_REPOSITORY }}.zip
-          asset_name: ${{ env.SP_REPOSITORY }}.zip
-          asset_content_type: application/zip
+          SP_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SP_VERSION_FILE: "sitepilot.php"
         if: github.event.release
