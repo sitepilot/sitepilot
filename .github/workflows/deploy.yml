@@ -29,7 +29,11 @@ jobs:
           npm install
           npm run production
 
-          cd ../ && zip -r9 ${SP_REPOSITORY}.zip ${SP_REPOSITORY} -x *.git* */node_modules/\*
+      - name: Upload zip to update server.
+        uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
+        env:
+          SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
+        if: github.event.release
 
       - name: Upload zip to release.
         uses: actions/upload-release-asset@v1
