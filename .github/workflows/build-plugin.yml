@@ -22,7 +22,7 @@ jobs:
           npm install
           npm run production
 
-      - name: "Deploy plugin to SFTP & release."
+      - name: "Deploy plugin to SFTP and release."
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
         env:
           SP_SFTP_KEY: ${{ secrets.SP_SFTP_KEY }}
