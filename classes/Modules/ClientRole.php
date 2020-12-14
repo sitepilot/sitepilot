@@ -46,7 +46,6 @@ final class ClientRole
             'update_core',
             'remove_users',
             'promote_users',
-            'edit_theme_options',
             'delete_themes',
             'sp_builder_admin_settings'
         ]);
