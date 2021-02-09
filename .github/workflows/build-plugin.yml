@@ -25,7 +25,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: sitepilot
-          path: ./
+          path: ${{ github.workspace }}
 
       - name: "Deploy plugin to SFTP and release."
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
