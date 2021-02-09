@@ -25,12 +25,12 @@ jobs:
           rm -rf .git
           rm -rf node_modules
 
-          zip -r ${{ github.workspace }}/../sitepilot.zip ./
+          zip -r ${{ github.workspace }}/sitepilot.zip ./
 
       - uses: actions/upload-artifact@v2
         with:
           name: sitepilot
-          path: ${{ github.workspace }}/../sitepilot.zip
+          path: ${{ github.workspace }}/sitepilot.zip
 
       - name: "Deploy plugin to SFTP and release."
         uses: docker://ghcr.io/sitepilot/wp-sftp-deploy:latest
