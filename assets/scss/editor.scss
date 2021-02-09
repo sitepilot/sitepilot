@@ -1,0 +1,104 @@
+ .block-editor {
+    /* Make ACF field labels bold */
+    .acf-fields>.acf-field>.acf-label label {
+        font-weight: bold !important;
+    }
+
+    .acf-fields>.acf-field>.acf-input select {
+        &:hover, &:focus, &:active {
+            color: #1062fe;
+        }
+    }
+
+    .acf-switch.-on {
+        background: #1062fe;
+    }
+
+    .acf-label.acf-accordion-title i,
+    .acf-label i {
+        font-style: normal;
+        min-width: 20px;
+    }
+
+    .acf-field-sp-responsive-select {
+        position: absolute;
+
+        .acf-input {
+            position: initial;
+        }
+
+        .acf-label {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .sp-responsive-select__variations {
+            position: absolute;
+            top: -2px;
+            right: 0;
+        }
+    }
+
+    .acf-block-body {
+        .acf-field-sp-responsive-select {
+            .sp-responsive-select__variations {
+                top: 20px !important;
+                right: 20px !important;
+            }
+        }
+    }
+
+    /* Make reusable blocks full width */
+    &-block-list__block.is-reusable {
+        max-width: 100%;
+    }
+
+    /* Hide reusable block footer */
+    &-block-list__block.is-reusable &-writing-flow__click-redirect {
+        display: none;
+    }
+}
+
+/** 
+.edit-post-visual-editor {
+    .block-editor-block-list__block:hover,
+    .block-editor-block-list__block:focus,
+    .block-editor-block-list__block:active {
+        outline: 2px solid #1062fe;
+        outline-offset: 2px;
+    }
+    
+    .wp-block-column:hover,
+    .wp-block-column:focus,
+    .wp-block-column:active,
+    .wp-block-columns:hover,
+    .wp-block-columns:focus,
+    .wp-block-columns:active {
+        outline : 0;
+    }
+} 
+**/ 
+
+.sp-template-full-width {
+    .block-editor-writing-flow {
+        max-width: 100% !important;
+    }
+
+    .block-editor-block-list__layout {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+.sitepilot-sidebar-content {
+    margin: 16px 16px 16px 16px;
+
+    .sitepilot-browser-title-field {
+        margin: 0px 0px 16px 0px;
+
+        label.components-base-control__label {
+            font-size: 14px;
+            color: #007cba;
+        }
+    }
+}

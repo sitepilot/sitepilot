@@ -4,9 +4,9 @@
     src: url('../fonts/icomoon.eot?#iefixiganyx') format('embedded-opentype'), url('../fonts/icomoon.woff?iganyx') format('woff'), url('../fonts/icomoon.ttf?iganyx') format('truetype'), url('../fonts/icomoon.svg?iganyx#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
-  }
+}
   
-  .toplevel_page_sitepilot-menu>.wp-menu-image:before {
+.toplevel_page_sitepilot-menu>.wp-menu-image:before {
     font-family: 'sitepilot-font-icon';
     speak: none;
     font-style: normal;
@@ -20,9 +20,9 @@
     content: "\e900";
     font-size: 17px;
     line-height: 20px;
-  }
+}
   
-  .sitepilot-icon:before {
+.sitepilot-icon:before {
     font-family: 'sitepilot-font-icon';
     speak: none;
     font-style: normal;
@@ -36,17 +36,4 @@
     content: "\e900";
     font-size: 17px;
     vertical-align: top;
-  }
-  
-  .mwp-notice {
-    display: none !important;
-  }
-  
-  .sp_log_output {
-    background-color: #24282d;
-    color: white;
-    max-height: 300px;
-    overflow-y: scroll;
-    padding: 15px;
-    border-radius: 5px;
-  }
+}

@@ -1,0 +1,139 @@
+/* Main
+/* ----------------------------------------------- */
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Blocks
+/* ----------------------------------------------- */
+@import "../../blocks/group/assets/block.scss";
+@import "../../blocks/section/assets/block.scss";
+@import "../../blocks/heading/assets/block.scss";
+@import "../../blocks/contact-form-7/assets/block.scss";
+
+/* WP Block CSS
+/* ----------------------------------------------- */
+:root {
+    .has-primary-color {
+        color: var(--sp-color-primary);
+    }
+    
+    .has-secondary-color {
+        color: var(--sp-color-secondary);
+    }
+
+    .has-primary-background-color {
+        background-color: var(--sp-color-primary);
+    }
+
+    .has-secondary-background-color {
+        background-color: var(--sp-color-secondary);
+    }
+}
+
+.sp-block {
+    *,
+    ::before,
+    ::after {
+        box-sizing: border-box;
+        border-width: 0;
+        border-style: solid; 
+        border-color: #e2e8f0; 
+    }
+    
+    .container {
+        max-width: var(--sp-container-width);
+    }
+
+    .color-inherit {
+        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+            color: inherit !important;
+        }
+    }
+
+    .font-size-inherit {
+        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+            font-size: inherit !important;
+            line-height: inherit !important;
+        }
+    }
+
+    .font-weight-inherit {
+        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+            font-weight: inherit !important;
+        }
+    }
+
+    .text-align-inherit {
+        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+            text-align: inherit !important;
+        }
+    }
+
+    .text-transform-inherit {
+        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+            text-transform: inherit !important;
+        }
+    }
+
+    .inner-blocks {
+        /* Remove top margin of first block */
+        &>*:first-child, .block-editor-block-list__layout>*:first-child {
+            margin-top: 0;
+        }
+    
+        /* Remove bottom margin of last block */
+        &>*:last-child, .block-editor-block-list__layout>*:last-child {
+            margin-bottom: 0;
+        }
+        
+        .wp-block-columns {
+            .wp-block-column {
+                /* Add bottom margin to column (except the last column and large screens) */
+                margin-bottom: 2rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                @screen md {
+                    margin-bottom: 0;
+                }
+
+                /* Remove margin of first and last block in a column */
+                &>*:first-child {
+                    margin-top: 0;
+                }
+
+                &>*:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }   
+    }
+}
+
+/* Templates
+/* ----------------------------------------------- */
+.sp-template-full-width {
+    &__content {
+        max-width: var(--sp-container-width);
+        margin-left: auto;
+        margin-right: auto;
+
+        .alignfull {
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
+            max-width: 100vw;
+            width: 100vw;
+        }
+
+        @screen md {
+            .alignwide {
+                margin-left: -100px;
+                margin-right: -100px;
+                max-width: unset;
+                width: unset;
+            }
+        }
+    }
+}

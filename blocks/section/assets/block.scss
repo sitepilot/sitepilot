@@ -1,0 +1,27 @@
+.sp-block.sp-section {    
+    .flex.items-start {
+        .wp-block-columns {
+            display: flex;
+            align-items: flex-start;
+        }
+    }
+
+    .flex.items-center {
+        .wp-block-columns {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    .flex.items-end {
+        .wp-block-columns {
+            display: flex;
+            align-items: flex-end;
+        }
+    }
+}
+
+.edit-post-visual-editor .sp-section {
+    border-radius: 4px;
+    outline: 2px solid #eee;
+}
