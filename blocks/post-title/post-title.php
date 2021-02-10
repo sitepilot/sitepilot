@@ -48,7 +48,7 @@ class PostTitle extends Block
                     'h6' => 'H6'
                 ])
                 ->default_value('h1'),
-                
+
             TypographyGroup::make('text_group')
                 ->fields([
                     Color::make('color'),
@@ -119,3 +119,5 @@ class PostTitle extends Block
         ];
     }
 }
+
+PostTitle::make();

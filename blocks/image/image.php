@@ -94,3 +94,5 @@ class Image extends Block
         ];
     }
 }
+
+Image::make();

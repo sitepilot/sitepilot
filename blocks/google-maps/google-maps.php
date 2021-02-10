@@ -81,3 +81,5 @@ class GoogleMaps extends Block
         ];
     }
 }
+
+GoogleMaps::make();

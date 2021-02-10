@@ -58,7 +58,7 @@ class Paragraph extends Block
 
                     BoxShadow::make('bg_shadow')
                 ]),
-                
+
             BorderGroup::make('border_group')
                 ->fields([
                     BorderColor::make('border_color'),
@@ -116,3 +116,5 @@ class Paragraph extends Block
         ];
     }
 }
+
+Paragraph::make();

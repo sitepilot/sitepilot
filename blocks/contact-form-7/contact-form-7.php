@@ -111,3 +111,5 @@ class ContactForm7 extends Block
         return defined('WPCF7_VERSION');
     }
 }
+
+ContactForm7::make();

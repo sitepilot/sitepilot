@@ -168,3 +168,5 @@ class Section extends Block
         ];
     }
 }
+
+Section::make();

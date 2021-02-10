@@ -114,3 +114,5 @@ class Heading extends Block
         ];
     }
 }
+
+Heading::make();

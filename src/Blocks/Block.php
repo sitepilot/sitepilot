@@ -94,11 +94,28 @@ abstract class Block
     private $view_data;
 
     /**
+     * Additional block classes.
+     *
+     * @var array
+     */
+    private $classes;
+
+    /**
      * The plugin instance.
      *
      * @var Plugin
      */
     protected $plugin;
+
+    /**
+     * Create a new block instance.
+     *
+     * @return static
+     */
+    public static function make(...$arguments)
+    {
+        return new static(...$arguments);
+    }
 
     /**
      * Cosntruct the block.
@@ -107,6 +124,10 @@ abstract class Block
      */
     public function __construct(array $params)
     {
+        if(!$this->enabled()) {
+            return;
+        }
+
         $reflectionClass = new ReflectionClass($this);
 
         $this->plugin = Plugin::make();
@@ -121,6 +142,8 @@ abstract class Block
         $this->supports_wide_width = $params['supports']['wide_width'] ?? false;
         $this->default_width = $params['default']['width'] ?? null;
         $this->post_types = $params['post_types'] ?? null;
+        $this->classes = $params['classes'] ?? [];
+        $this->plugin->blocks->add($this);
 
         add_shortcode($this->slug, [$this, 'render_shortcode']);
     }
@@ -182,7 +205,7 @@ abstract class Block
      */
     public function render_block($block, $content = '', $is_preview = false, $post_id = 0): void
     {
-        $classes = ['sp-block', $this->slug];
+        $classes = array_merge($this->classes, ['sp-block', $this->slug]);
 
         if (!empty($block['className'])) $classes[] = $block['className'];
         if (!empty($block['align'])) $classes[] = 'align' . $block['align'];

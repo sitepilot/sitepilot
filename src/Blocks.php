@@ -57,11 +57,22 @@ class Blocks extends Module
      */
     public function action_register_blocks(): void
     {
+        /* Theme Blocks */
+        $dir = get_stylesheet_directory() . '/blocks';
+        if (file_exists($dir)) {
+            $folders = scandir($dir);
+        }
+
+        foreach ($folders as $block) {
+            $this->load_block_file($dir, $block);
+        }
+
+        /* Plugin Blocks */
         $dir = SITEPILOT_DIR . '/blocks';
         $folders = scandir($dir);
 
         foreach ($folders as $block) {
-            $this->load_block($dir, $block);
+            $this->load_block_file($dir, $block);
         }
     }
 
@@ -72,28 +83,28 @@ class Blocks extends Module
      * @param string $block
      * @return void
      */
-    private function load_block($dir, $block): void
+    private function load_block_file($dir, $block): void
     {
-        $class = "\Sitepilot\Blocks\\";
         $file = "$dir/$block/$block.php";
-        $words = explode('-', $block);
-
-        foreach ($words as $word) {
-            $class .= ucfirst($word);
-        }
 
         if (file_exists($file)) {
             require_once $file;
-
-            if (class_exists($class)) {
-                $block = new $class;
-                if ($block instanceof Block) {
-                    if ($block->enabled()) {
-                        $this->blocks[] = $block;
-                    }
-                }
-            }
         }
+    }
+
+    /**
+     * Add block to blocks list.
+     *
+     * @param Block $block
+     * @return self
+     */
+    public function add(Block $block): self
+    {
+        if (!array_key_exists($block->slug, $this->blocks)) {
+            $this->blocks[$block->slug] = $block;
+        }
+
+        return $this;
     }
 
     /**
@@ -117,6 +128,10 @@ class Blocks extends Module
             array(
                 'slug' => 'sitepilot',
                 'title' => __('Sitepilot', 'sitepilot')
+            ),
+            array(
+                'slug' => 'sitepilot-theme',
+                'title' => __('Sitepilot Theme', 'sitepilot')
             ),
         ));
 

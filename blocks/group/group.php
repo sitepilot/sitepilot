@@ -153,3 +153,5 @@ class Group extends Block
         ];
     }
 }
+
+Group::make();

@@ -89,3 +89,5 @@ class Youtube extends Block
         ];
     }
 }
+
+Youtube::make();

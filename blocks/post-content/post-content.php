@@ -117,3 +117,5 @@ class PostContent extends Block
         ];
     }
 }
+
+PostContent::make();

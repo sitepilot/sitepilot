@@ -73,3 +73,5 @@ class Icon extends Block
         wp_enqueue_script('font-awesome-5');
     }
 }
+
+Icon::make();
