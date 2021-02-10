@@ -296,7 +296,7 @@ class App extends Component {
                                     disabled={this.state.isAPISaving}
                                     onChange={e => this.setState({ sitepilot_primary_color: e.target.value })}
                                     className="w-full my-2"
-                                    placeholder="#1062fe"
+                                    placeholder={sitepilot.primary_color}
                                 />
                             </div>
                         </BaseControl>
@@ -311,7 +311,7 @@ class App extends Component {
                                     disabled={this.state.isAPISaving}
                                     onChange={e => this.setState({ sitepilot_secondary_color: e.target.value })}
                                     className="w-full my-2"
-                                    placeholder="#0156f4"
+                                    placeholder={sitepilot.secondary_color}
                                 />
                             </div>
                         </BaseControl>
@@ -326,7 +326,7 @@ class App extends Component {
                                     disabled={this.state.isAPISaving}
                                     onChange={e => this.setState({ sitepilot_container_width: e.target.value })}
                                     className="w-full my-2"
-                                    placeholder="1200px"
+                                    placeholder={sitepilot.container_width}
                                 />
                             </div>
                         </BaseControl>
