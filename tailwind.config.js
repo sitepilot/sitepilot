@@ -7,7 +7,8 @@ module.exports = {
   purge: {
     content: [
       '**/*.php',
-      '**/*.blade.php'
+      '**/*.blade.php',
+      './assets/js/*.js',
     ],
     options: {
       safelist: ['sp-block']
