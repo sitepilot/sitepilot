@@ -19,9 +19,10 @@ class Settings extends Module
     public function init(): void
     {
         /* Actions */
-        add_action('init', [$this, 'register_settings']);
         add_action('admin_menu', [$this, 'action_admin_menu'], 20);
         add_action('admin_init', [$this, 'action_register_capability']);
+
+        $this->register_settings();
     }
 
     /**
@@ -81,7 +82,10 @@ class Settings extends Module
                 'modules' => [
                     'blocks' => $this->plugin->ext_acf->is_active()
                 ],
-                'capabilities' => $this->plugin->client_role->get_all_capabilities()
+                'capabilities' => $this->plugin->client_role->get_all_capabilities(),
+                'primary_color' => $this->plugin->model->get_primary_color(),
+                'secondary_color' => $this->plugin->model->get_secondary_color(),
+                'container_width' => $this->plugin->model->get_container_width()
             )
         );
     }
@@ -247,7 +251,7 @@ class Settings extends Module
             'sitepilot_settings',
             'sitepilot_client_role_caps',
             array(
-                'type'         => 'object',
+                'type' => 'array',
                 'show_in_rest' => array(
                     'schema' => array(
                         'type'  => 'array',
@@ -256,6 +260,7 @@ class Settings extends Module
                         ),
                     ),
                 ),
+                'default' => []
             )
         );
     }
@@ -268,6 +273,6 @@ class Settings extends Module
      */
     public function enabled($module): bool
     {
-        return get_option('sitepilot_' . $module . '_enabled', false);
+        return get_option('sitepilot_' . $module . '_enabled');
     }
 }
