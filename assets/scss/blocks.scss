@@ -91,6 +91,10 @@
                 /* Add bottom margin to column (except the last column and large screens) */
                 margin-bottom: 2rem;
 
+                &:first-child {
+                    margin-top: 0;
+                }
+
                 &:last-child {
                     margin-bottom: 0;
                 }
