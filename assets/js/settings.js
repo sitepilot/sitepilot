@@ -43,7 +43,8 @@ class App extends Component {
             sitepilot_container_width: '',
             sitepilot_code_wp_head: '',
             sitepilot_code_wp_body_open: '',
-            sitepilot_code_wp_footer: ''
+            sitepilot_code_wp_footer: '',
+            sitepilot_client_role_caps: {}
         };
     }
 
@@ -68,7 +69,8 @@ class App extends Component {
                         sitepilot_container_width: response.sitepilot_container_width,
                         sitepilot_code_wp_head: response.sitepilot_code_wp_head,
                         sitepilot_code_wp_body_open: response.sitepilot_code_wp_body_open,
-                        sitepilot_code_wp_footer: response.sitepilot_code_wp_footer
+                        sitepilot_code_wp_footer: response.sitepilot_code_wp_footer,
+                        sitepilot_client_role_caps: response.sitepilot_client_role_caps
                     });
                 });
             }
@@ -78,8 +80,9 @@ class App extends Component {
     changeOptions(option, value) {
         this.setState({ isAPISaving: true });
 
+        let old_state = this.state;
+
         const model = new wp.api.models.Settings({
-            // eslint-disable-next-line camelcase
             [option]: value
         });
 
@@ -103,6 +106,74 @@ class App extends Component {
         this.changeOptions('sitepilot_code_wp_footer', this.state.sitepilot_code_wp_footer);
     }
 
+    saveClientRoleCaps() {
+        this.changeOptions('sitepilot_client_role_caps', this.state.sitepilot_client_role_caps);
+    }
+
+    checkClientRoleCap(e) {
+        let caps = this.state.sitepilot_client_role_caps;
+
+        if (e.target.checked) {
+            if (caps.indexOf(e.target.value) === -1) {
+                caps.push(e.target.value);
+            }
+        } else {
+            caps.splice(caps.indexOf(e.target.value), 1);
+        }
+
+        this.setState({ sitepilot_client_role_caps: caps });
+    }
+
+    checkAllClientRoleCaps() {
+        let caps = [];
+
+        Object.keys(sitepilot.capabilities).map((key) => {
+            caps.push(key);
+        });
+
+        this.setState({ sitepilot_client_role_caps: caps });
+    }
+
+    unCheckAllClientRoleCaps() {
+        this.setState({ sitepilot_client_role_caps: [] });
+    }
+
+    checkDefaultClientRoleCaps() {
+        let caps = [];
+
+        let exclude = [
+            'switch_themes',
+            'edit_themes',
+            'activate_plugins',
+            'edit_plugins',
+            'edit_users',
+            'edit_files',
+            'delete_users',
+            'create_users',
+            'update_plugins',
+            'delete_plugins',
+            'install_plugins',
+            'update_themes',
+            'install_themes',
+            'update_core',
+            'remove_users',
+            'promote_users',
+            'delete_themes',
+            'sp_log_admin',
+            'sp_template_admin',
+            'sp_settings_admin',
+            'sp_builder_admin_settings'
+        ];
+
+        Object.keys(sitepilot.capabilities).map((key) => {
+            if (exclude.indexOf(key) === -1) {
+                caps.push(key);
+            }
+        });
+
+        this.setState({ sitepilot_client_role_caps: caps });
+    }
+
     render() {
         if (!this.state.isAPILoaded) {
             return (
@@ -111,12 +182,6 @@ class App extends Component {
                 </Placeholder>
             );
         }
-
-        const colors = [
-            { name: 'red', color: '#f00' },
-            { name: 'white', color: '#fff' },
-            { name: 'blue', color: '#00f' },
-        ];
 
         return (
             <Fragment>
@@ -147,15 +212,6 @@ class App extends Component {
                         />
                     </PanelRow>
 
-                    <PanelRow>
-                        <ToggleControl
-                            label={__('Branding')}
-                            help={'This module adds Sitepilot branding to the dashboard and login page.'}
-                            checked={this.state.sitepilot_branding_enabled}
-                            onChange={() => this.changeOptions('sitepilot_branding_enabled', !this.state.sitepilot_branding_enabled)}
-                        />
-                    </PanelRow>
-
                     <PanelRow className={!sitepilot.modules.blocks ? 'hidden' : ''}>
                         <ToggleControl
                             label={__('Blocks')}
@@ -176,15 +232,6 @@ class App extends Component {
 
                     <PanelRow>
                         <ToggleControl
-                            label={__('Support')}
-                            help={'This module adds a Sitepilot support widget to the dashboard to get quick WordPress support.'}
-                            checked={this.state.sitepilot_support_enabled}
-                            onChange={() => this.changeOptions('sitepilot_support_enabled', !this.state.sitepilot_support_enabled)}
-                        />
-                    </PanelRow>
-
-                    <PanelRow>
-                        <ToggleControl
                             label={__('Client Role')}
                             help={'This module adds a client role with limited capabilities to WordPress.'}
                             checked={this.state.sitepilot_client_role_enabled}
@@ -200,11 +247,30 @@ class App extends Component {
                             onChange={() => this.changeOptions('sitepilot_cleanup_dashboard_enabled', !this.state.sitepilot_cleanup_dashboard_enabled)}
                         />
                     </PanelRow>
+
+                    <PanelRow>
+                        <ToggleControl
+                            label={__('Branding')}
+                            help={'This module adds Sitepilot branding to the dashboard and login page.'}
+                            checked={this.state.sitepilot_branding_enabled}
+                            onChange={() => this.changeOptions('sitepilot_branding_enabled', !this.state.sitepilot_branding_enabled)}
+                        />
+                    </PanelRow>
+
+                    <PanelRow>
+                        <ToggleControl
+                            label={__('Support')}
+                            help={'This module adds a Sitepilot support widget to the dashboard for quick WordPress support.'}
+                            checked={this.state.sitepilot_support_enabled}
+                            onChange={() => this.changeOptions('sitepilot_support_enabled', !this.state.sitepilot_support_enabled)}
+                        />
+                    </PanelRow>
                 </PanelBody>
 
                 <PanelBody
                     title={__('Tools & Tweaks')}
-                    className={'max-w-4xl mx-auto bg-white borderborder-gray-200 mb-8'}
+                    className={'max-w-4xl mx-auto bg-white border border-gray-200 mb-8'}
+                    initialOpen={false}
                 >
                     <PanelRow>
                         <ToggleControl
@@ -218,7 +284,8 @@ class App extends Component {
 
                 <PanelBody
                     title={__('Style')}
-                    className={!this.state.sitepilot_blocks_enabled || !sitepilot.modules.blocks ? 'hidden' : 'max-w-4xl mx-auto bg-white borderborder-gray-200 mb-8'}
+                    className={!this.state.sitepilot_blocks_enabled || !sitepilot.modules.blocks ? 'hidden' : 'max-w-4xl mx-auto bg-white border border-gray-200 mb-8'}
+                    initialOpen={false}
                 >
                     <PanelRow>
                         <BaseControl label={__('Primary Color')} className="w-full max-w-md">
@@ -278,8 +345,75 @@ class App extends Component {
                 </PanelBody>
 
                 <PanelBody
+                    title={__('Client Role Capabilities')}
+                    className={!this.state.sitepilot_client_role_enabled ? 'hidden' : 'max-w-4xl mx-auto bg-white border border-gray-200 mb-8'}
+                    initialOpen={false}
+                >
+                    <div class="mb-4">
+                        <span class="mr-2">Select:</span>
+                        <Button
+                            isSmall
+                            isSecondary
+                            isLarge
+                            disabled={this.state.isAPISaving}
+                            onClick={() => this.checkDefaultClientRoleCaps()}
+                            className="mr-2"
+                        >
+                            {__('Default')}
+                        </Button>
+                        <Button
+                            isSmall
+                            isSecondary
+                            isLarge
+                            disabled={this.state.isAPISaving}
+                            onClick={() => this.checkAllClientRoleCaps()}
+                            className="mr-2"
+                        >
+                            {__('All')}
+                        </Button>
+                        <Button
+                            isSmall
+                            isSecondary
+                            isLarge
+                            disabled={this.state.isAPISaving}
+                            onClick={() => this.unCheckAllClientRoleCaps()}
+                            className="mr-2"
+                        >
+                            {__('None')}
+                        </Button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {Object.keys(sitepilot.capabilities).map((key, i) => {
+                            return (
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        disabled={this.state.isAPISaving}
+                                        value={key}
+                                        checked={this.state.sitepilot_client_role_caps.indexOf(key) !== -1}
+                                        onClick={(e) => this.checkClientRoleCap(e)}
+                                    />
+                                    <label>{sitepilot.capabilities[key]}</label>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div class="mt-4">
+                        <Button
+                            isPrimary
+                            isLarge
+                            disabled={this.state.isAPISaving}
+                            onClick={() => this.saveClientRoleCaps()}
+                        >
+                            {__('Save')}
+                        </Button>
+                    </div>
+                </PanelBody>
+
+                <PanelBody
                     title={__('Custom Code')}
                     className="max-w-4xl mx-auto bg-white border border-gray-200 mb-8"
+                    initialOpen={false}
                 >
                     <PanelRow>
                         <BaseControl label={__('Head <head>')} className="w-full">
@@ -327,7 +461,6 @@ class App extends Component {
                     </PanelRow>
 
                     <PanelRow>
-
                         <Button
                             isPrimary
                             isLarge

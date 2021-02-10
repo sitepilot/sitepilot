@@ -5,6 +5,13 @@ namespace Sitepilot;
 class Settings extends Module
 {
     /**
+     * The settings admin capability.
+     *
+     * @var string
+     */
+    public $settings_admin_cap = 'sp_settings_admin';
+
+    /**
      * Construct the settings module.
      * 
      * @return void
@@ -13,7 +20,20 @@ class Settings extends Module
     {
         /* Actions */
         add_action('init', [$this, 'register_settings']);
-        add_action('admin_menu', [$this, 'action_admin_menu']);
+        add_action('admin_menu', [$this, 'action_admin_menu'], 20);
+        add_action('admin_init', [$this, 'action_register_capability']);
+    }
+
+    /**
+     * Register log viewer and admin capabilities.
+     *
+     * @return void
+     */
+    public function action_register_capability(): void
+    {
+        $role = get_role('administrator');
+
+        $role->add_cap($this->settings_admin_cap);
     }
 
     /** 
@@ -23,22 +43,12 @@ class Settings extends Module
      */
     public function action_admin_menu(): void
     {
-        $page_hook_suffix = add_menu_page(
-            $this->plugin->branding->get_name(),
-            $this->plugin->branding->get_name(),
-            'publish_posts',
-            'sitepilot-menu',
-            '',
-            false,
-            2
-        );
-
-        add_submenu_page(
+        $page_hook_suffix = add_submenu_page(
             'sitepilot-menu',
             $this->plugin->branding->get_name() . ' Info',
             __('Settings', 'sitepilot'),
-            'manage_options',
-            'sitepilot-menu',
+            $this->settings_admin_cap,
+            'sitepilot-settings',
             [$this, 'render_settings_page']
         );
 
@@ -56,7 +66,7 @@ class Settings extends Module
         wp_enqueue_style('sp-blocks');
         wp_enqueue_style('sp-settings');
 
-        /* Settings */
+        /* Scripts */
         wp_enqueue_script('sp-settings');
 
         /* Data */
@@ -70,7 +80,8 @@ class Settings extends Module
                 'support_email' => $this->plugin->branding->get_support_email(),
                 'modules' => [
                     'blocks' => $this->plugin->ext_acf->is_active()
-                ]
+                ],
+                'capabilities' => $this->plugin->client_role->get_all_capabilities()
             )
         );
     }
@@ -229,6 +240,22 @@ class Settings extends Module
                 'type'         => 'string',
                 'show_in_rest' => true,
                 'default'      => ''
+            )
+        );
+
+        register_setting(
+            'sitepilot_settings',
+            'sitepilot_client_role_caps',
+            array(
+                'type'         => 'object',
+                'show_in_rest' => array(
+                    'schema' => array(
+                        'type'  => 'array',
+                        'items' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
             )
         );
     }

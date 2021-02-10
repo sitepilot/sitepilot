@@ -11,14 +11,17 @@ class ClientRole extends Module
      */
     public function init(): void
     {
-        /* Actions */
-        add_action('wp_login', function () {
-            remove_role('sitepilot_user');
+        /* Check if module is enabled */
+        if (!$this->plugin->settings->enabled('client_role')) {
+            add_action('admin_init', function () {
+                remove_role('sitepilot_user');
+            });
 
-            if ($this->plugin->settings->enabled('client_role')) {
-                $this->action_update_role();
-            }
-        });
+            return;
+        }
+
+        /* Actions */
+        add_action('update_option_sitepilot_client_role_caps', [$this, 'action_update_role']);
     }
 
     /**
@@ -28,43 +31,40 @@ class ClientRole extends Module
      */
     public function action_update_role(): void
     {
-        $capabilities = get_role('administrator')->capabilities;
+        remove_role('sitepilot_user');
 
-        $role_capabilities = [];
+        $capabilities = get_option('sitepilot_client_role_caps', []);
+        $client_capabilities = array();
 
-        $exclude = apply_filters('sp_client_role_exlude_capabilities', [
-            'switch_themes',
-            'edit_themes',
-            'activate_plugins',
-            'edit_plugins',
-            'edit_users',
-            'edit_files',
-            'delete_users',
-            'create_users',
-            'update_plugins',
-            'delete_plugins',
-            'install_plugins',
-            'update_themes',
-            'install_themes',
-            'update_core',
-            'remove_users',
-            'promote_users',
-            'delete_themes',
-            $this->plugin->log->log_admin_cap,
-            $this->plugin->template->template_admin_cap,
-            $this->plugin->ext_beaver_builder->admin_settings_cap
-        ]);
-
-        foreach ($capabilities as $key => $cap) {
-            if (!in_array($key, $exclude)) {
-                $role_capabilities[$key] = true;
-            }
+        foreach($capabilities as $cap) {
+            $client_capabilities[$cap] = true;
         }
 
         add_role(
             'sitepilot_user',
             $this->plugin->branding->get_name() . ' Client',
-            $role_capabilities
+            $client_capabilities
         );
+    }
+
+    /**
+     * Returns all available capabilities.
+     *
+     * @return void
+     */
+    public function get_all_capabilities()
+    {
+        $caps = array();
+        $capabilities = get_role('administrator')->capabilities;
+
+        foreach ($capabilities as $key => $enabled) {
+            if (strpos($key, 'level_') === false) {
+                $caps[$key] = ucwords(implode(" ", explode('_', str_replace('sp_', 'sitepilot_', $key))));
+            }
+        }
+
+        asort($caps);
+
+        return $caps;
     }
 }
