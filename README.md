@@ -13,8 +13,8 @@ Brings the powers of Sitepilot directly to your WordPress website. It will revol
 * Templates: override build-in pages like an archive or 404 page.
 * Client Role: add a client role with limited capabilities to your site.
 * Cleanup Dashboard: remove unnecessary scripts and widgets from the dashhoard.
-* Support: add a Sitepilot support widget to the dashboard to get quick WordPress support.
 * Branding: add Sitepilot branding to the dashboard and login page.
+* Support: add a Sitepilot support widget to the dashboard for quick WordPress support.
 
 ## Tools
 
