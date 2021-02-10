@@ -128,6 +128,16 @@ class Model extends Module
     }
 
     /**
+     * Returns the last update date timestamp.
+     * 
+     * @return int
+     */
+    public function get_last_update_date(): ?int
+    {
+        return get_option('_sp_last_update_date');
+    }
+
+    /**
      * Returns custom head code.
      *
      * @return string|null

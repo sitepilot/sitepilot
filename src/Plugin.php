@@ -57,6 +57,11 @@ final class Plugin
     public Branding $branding;
 
     /**
+     * The dashboard instance.
+     */
+    public Dashboard $dashboard;
+
+    /**
      * The client role instance.
      */
     public ClientRole $client_role;
@@ -126,6 +131,7 @@ final class Plugin
         $this->settings = new Settings($this);
         $this->template = new Template($this);
         $this->branding = new Branding($this);
+        $this->dashboard = new Dashboard($this);
         $this->client_role = new ClientRole($this);
         $this->custom_code = new CustomCode($this);
         $this->cleanup_dash = new CleanupDash($this);
@@ -178,6 +184,7 @@ final class Plugin
         wp_register_style('sp-blocks-editor', SITEPILOT_URL . '/assets/dist/css/editor.css', [], $version);
         wp_register_style('sp-admin', SITEPILOT_URL . '/assets/dist/css/admin.css', [], $version);
         wp_register_style('sp-settings', SITEPILOT_URL . '/assets/dist/css/settings.css', array('wp-components'), $version);
+        wp_register_style('sp-dashboard', SITEPILOT_URL . '/assets/dist/css/dashboard.css', array('wp-components'), $version);
         wp_register_style('owl-carousel', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.carousel.min.css', ['owl-carousel-theme'], '2.3.4');
         wp_register_style('owl-carousel-theme', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.theme.default.min.css', [], '2.3.4');
 
@@ -190,6 +197,7 @@ final class Plugin
         wp_register_script('sp-blocks', SITEPILOT_URL . '/assets/dist/js/blocks.js', array(), $version, true);
         wp_register_script('sp-blocks-editor', SITEPILOT_URL . '/assets/dist/js/editor.js', array(), $version, true);
         wp_register_script('sp-settings', SITEPILOT_URL . '/assets/dist/js/settings.js', array('wp-api', 'wp-i18n', 'wp-components', 'wp-element'), $version, true);
+        wp_register_script('sp-dashboard', SITEPILOT_URL . '/assets/dist/js/dashboard.js', array('wp-api', 'wp-i18n', 'wp-components', 'wp-element'), $version, true);
         wp_register_script('owl-carousel', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.carousel.min.js', array(), '2.3.4', true);
     }
 
