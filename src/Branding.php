@@ -103,7 +103,7 @@ class Branding extends Module
      */
     public function get_powered_by_text(): string
     {
-        return apply_filters('sp_branding_powered_by_text', '❤ Proudly hosted and managed by Sitepilot.');
+        return apply_filters('sp_branding_powered_by_text', sprintf(__('❤ Proudly managed and hosted by %s.', 'sitepilot'), '<a href="' . $this->plugin->branding->get_website() . '" target="_blank">Sitepilot</a>'));
     }
 
     /**
