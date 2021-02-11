@@ -21,7 +21,9 @@ module.exports = {
     extend: {
       colors: {
         primary: 'var(--sp-color-primary)',
-        secondary: 'var(--sp-color-secondary)'
+        secondary: 'var(--sp-color-secondary)',
+        third: 'var(--sp-color-third)',
+        fourth: 'var(--sp-color-fourth)',
       },
       spacing: {
         '3/4': '75%',

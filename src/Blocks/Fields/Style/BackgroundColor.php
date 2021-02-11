@@ -14,13 +14,7 @@ class BackgroundColor extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $choices = [
-            'default' => '',
-            'primary' => __('Primary', 'sitepilot'),
-            'secondary' => __('Secondary', 'sitepilot'),
-            'black' => __('Black', 'sitepilot'),
-            'white' => __('White', 'sitepilot')
-        ];
+        $choices = array_merge(['default' => ''], sitepilot()->model->get_colour_options());
 
         $this->fields([
             'color' => [
@@ -39,6 +33,8 @@ class BackgroundColor extends ResponsiveSelect
         $color = [
             'mobile-primary' => 'bg-primary',
             'mobile-secondary' => 'bg-secondary',
+            'mobile-third' => 'bg-third',
+            'mobile-fourth' => 'bg-fourth',
             'mobile-black' => 'bg-black',
             'mobile-white' => 'bg-white',
         ];
@@ -46,6 +42,8 @@ class BackgroundColor extends ResponsiveSelect
         $color_hover = [
             'mobile-primary' => 'hover:bg-primary group-hover:bg-primary',
             'mobile-secondary' => 'hover:bg-secondary group-hover:bg-secondary',
+            'mobile-third' => 'hover:bg-third group-hover:bg-third',
+            'mobile-fourth' => 'hover:bg-fourth group-hover:bg-fourth',
             'mobile-black' => 'hover:bg-black group-hover:bg-black',
             'mobile-white' => 'hover:bg-white group-hover:bg-white',
         ];

@@ -17,13 +17,7 @@ class BorderColor extends ResponsiveSelect
         $this->fields([
             'color' => [
                 'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'primary' => __('Primary', 'sitepilot'),
-                    'secondary' => __('Secondary', 'sitepilot'),
-                    'black' => __('Black', 'sitepilot'),
-                    'white' => __('White', 'sitepilot')
-                ]
+                'choices' => array_merge(['default' => ''], sitepilot()->model->get_colour_options())
             ]
         ]);
     }
@@ -33,16 +27,22 @@ class BorderColor extends ResponsiveSelect
         $color = [
             'mobile-primary' => 'border-primary',
             'mobile-secondary' => 'border-secondary',
+            'mobile-third' => 'border-third',
+            'mobile-fourth' => 'border-fourth',
             'mobile-black' => 'border-black',
             'mobile-white' => 'border-white',
 
             'tablet-primary' => 'md:border-primary',
             'tablet-secondary' => 'md:border-secondary',
+            'tablet-third' => 'md:border-third',
+            'tablet-fourth' => 'md:border-fourth',
             'tablet-black' => 'md:border-black',
             'tablet-white' => 'md:border-white',
 
             'desktop-primary' => 'lg:border-primary',
             'desktop-secondary' => 'lg:border-secondary',
+            'desktop-third' => 'lg:border-third',
+            'desktop-fourth' => 'lg:border-fourth',
             'desktop-black' => 'lg:border-black',
             'desktop-white' => 'lg:border-white'
         ];

@@ -28,6 +28,7 @@ class Blocks extends Module
         /* Actions */
         add_action('plugins_loaded', [$this, 'action_register_blocks']);
         add_action('enqueue_block_editor_assets', [$this, 'action_enqueue_editor_scripts']);
+        add_action('after_setup_theme', [$this, 'action_register_colors']);
 
         /* Filters */
         add_filter('block_categories', [$this, 'filter_block_categories']);
@@ -136,5 +137,60 @@ class Blocks extends Module
         ));
 
         return $categories;
+    }
+
+    /**
+     * Register editor colors.
+     *
+     * @return void
+     */
+    public function action_register_colors()
+    {
+        $colors = array();
+        if ($color = $this->plugin->model->get_primary_color()) {
+            $colors[] = [
+                'name' => $this->plugin->model->get_primary_color_name(),
+                'slug' => 'primary',
+                'color' => $color
+            ];
+        }
+
+        if ($color = $this->plugin->model->get_secondary_color()) {
+            $colors[] = [
+                'name' => $this->plugin->model->get_secondary_color_name(),
+                'slug' => 'secondary',
+                'color' => $color
+            ];
+        }
+
+        if ($color = $this->plugin->model->get_third_color()) {
+            $colors[] = [
+                'name' => $this->plugin->model->get_third_color_name(),
+                'slug' => 'third',
+                'color' => $color
+            ];
+        }
+
+        if ($color = $this->plugin->model->get_fourth_color()) {
+            $colors[] = [
+                'name' => $this->plugin->model->get_fourth_color_name(),
+                'slug' => 'third',
+                'color' => $color
+            ];
+        }
+
+        $colors[] = [
+            'white' => __('White', 'sitepilot'),
+            'slug' => 'white',
+            'color' => '#ffffff'
+        ];
+
+        $colors[] = [
+            'white' => __('Black', 'sitepilot'),
+            'slug' => 'black',
+            'color' => '#000000'
+        ];
+
+        add_theme_support('editor-color-palette', $colors);
     }
 }

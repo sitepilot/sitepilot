@@ -73,21 +73,169 @@ class Model extends Module
      */
     public function get_primary_color(): ?string
     {
-        $primary_color = get_option('sitepilot_primary_color');
+        $color = get_option('sitepilot_primary_color', null);
 
-        return apply_filters('sp_primary_color', $primary_color ? $primary_color : '#1062fe');
+        if ($filter_color = apply_filters('sp_primary_color', null)) {
+            if (isset($filter_color['color'])) {
+                $color = $filter_color['color'];
+            }
+        }
+
+        return $color ? $color : '#1062fe';
     }
 
-    /** 
+    /**
+     * Returns the primary color name.
+     *
+     * @return string
+     */
+    public function get_primary_color_name(): ?string
+    {
+        $name = __('Primary', 'sitepilot');
+
+        if ($filter_color = apply_filters('sp_primary_color', null)) {
+            if (isset($filter_color['name'])) {
+                $name = $filter_color['name'];
+            }
+        }
+
+        return $name;
+    }
+
+    /**
      * Returns the secondary color.
-     * 
+     *
      * @return string
      */
     public function get_secondary_color(): ?string
     {
-        $secondary_color = get_option('sitepilot_secondary_color');
+        $color = get_option('sitepilot_secondary_color', null);
 
-        return apply_filters('sp_secondary_color', $secondary_color ? $secondary_color : '#0156f4');
+        if ($filter_color = apply_filters('sp_secondary_color', null)) {
+            if (isset($filter_color['color'])) {
+                $color = $filter_color['color'];
+            }
+        }
+
+        return $color ? $color : '#0156f4';
+    }
+
+    /**
+     * Returns the secondary color name.
+     *
+     * @return string
+     */
+    public function get_secondary_color_name(): ?string
+    {
+        $name = __('Secondary', 'sitepilot');
+
+        if ($filter_color = apply_filters('sp_secondary_color', null)) {
+            if (isset($filter_color['name'])) {
+                $name = $filter_color['name'];
+            }
+        }
+
+        return $name;
+    }
+
+    /** 
+     * Returns the third color.
+     * 
+     * @return string
+     */
+    public function get_third_color(): ?string
+    {
+        $color = get_option('sitepilot_third_color', null);
+
+        if ($filter_color = apply_filters('sp_third_color', null)) {
+            if (isset($filter_color['color'])) {
+                $color = $filter_color['color'];
+            }
+        }
+
+        return $color;
+    }
+
+    /**
+     * Returns the third color name.
+     *
+     * @return string
+     */
+    public function get_third_color_name(): ?string
+    {
+        $name = __('Third', 'sitepilot');
+
+        if ($filter_color = apply_filters('sp_third_color', null)) {
+            if (isset($filter_color['name'])) {
+                $name = $filter_color['name'];
+            }
+        }
+
+        return $name;
+    }
+
+    /** 
+     * Returns the fourth color.
+     * 
+     * @return string
+     */
+    public function get_fourth_color(): ?string
+    {
+        $color = get_option('sitepilot_fourth_color', null);
+
+        if ($filter_color = apply_filters('sp_fourth_color', null)) {
+            if (isset($filter_color['color'])) {
+                $color = $filter_color['color'];
+            }
+        }
+
+        return $color;
+    }
+
+    /**
+     * Returns the fourth color name.
+     *
+     * @return string
+     */
+    public function get_fourth_color_name(): ?string
+    {
+        $name = __('Fourth', 'sitepilot');
+
+        if ($filter_color = apply_filters('sp_fourth_color', null)) {
+            if (isset($filter_color['name'])) {
+                $name = $filter_color['name'];
+            }
+        }
+
+        return $name;
+    }
+
+    /**
+     * Returns a list of registered colours.
+     *
+     * @return void
+     */
+    public function get_colour_options()
+    {
+        $colours = [
+            'primary' => $this->get_primary_color_name(),
+            'secondary' => $this->get_secondary_color_name()
+        ];
+
+        if ($this->get_third_color()) {
+            $colours['third'] = $this->get_third_color_name();
+        }
+
+        if ($this->get_fourth_color()) {
+            $colours['fourth'] = $this->get_fourth_color_name();
+        }
+
+        $colours = array_merge($colours, [
+            'black' => __('Black', 'sitepilot'),
+            'white' => __('White', 'sitepilot')
+        ]);
+
+        return $colours;
     }
 
     /**

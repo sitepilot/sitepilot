@@ -1,4 +1,8 @@
  .block-editor {
+    .sp-brand-fill {
+        fill: #1062fe !important;
+    }
+
     /* Make ACF field labels bold */
     .acf-fields>.acf-field>.acf-label label {
         font-weight: bold !important;

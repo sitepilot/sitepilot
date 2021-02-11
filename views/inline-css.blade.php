@@ -5,6 +5,12 @@
 @if($plugin->model->get_secondary_color())
 --sp-color-secondary: {!! $plugin->model->get_secondary_color() !!};
 @endif
+@if($plugin->model->get_third_color())
+--sp-color-third: {!! $plugin->model->get_third_color() !!};
+@endif
+@if($plugin->model->get_fourth_color())
+--sp-color-fourth: {!! $plugin->model->get_fourth_color() !!};
+@endif
 @if($plugin->model->get_container_width())
 --sp-container-width: {!! $plugin->model->get_container_width() !!};
 @endif

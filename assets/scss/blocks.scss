@@ -21,12 +21,28 @@
         color: var(--sp-color-secondary);
     }
 
+    .has-third-color {
+        color: var(--sp-color-third);
+    }
+    
+    .has-fourth-color {
+        color: var(--sp-color-fourth);
+    }
+
     .has-primary-background-color {
         background-color: var(--sp-color-primary);
     }
 
     .has-secondary-background-color {
         background-color: var(--sp-color-secondary);
+    }
+
+    .has-third-background-color {
+        background-color: var(--sp-color-third);
+    }
+
+    .has-fourth-background-color {
+        background-color: var(--sp-color-fourth);
     }
 }
 
@@ -45,32 +61,32 @@
     }
 
     .color-inherit {
-        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+        p, span, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
             color: inherit !important;
         }
     }
 
     .font-size-inherit {
-        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+        p, span, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
             font-size: inherit !important;
             line-height: inherit !important;
         }
     }
 
     .font-weight-inherit {
-        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+        p, span, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
             font-weight: inherit !important;
         }
     }
 
     .text-align-inherit {
-        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+        p, span, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
             text-align: inherit !important;
         }
     }
 
     .text-transform-inherit {
-        p, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
+        p, span, a, h1, h2, h3, h4, h5, h6, li, .block-editor-block-list__block, .block-editor-block-list__layout {
             text-transform: inherit !important;
         }
     }
@@ -99,8 +115,17 @@
                     margin-bottom: 0;
                 }
 
+                /* Hide empty columns on mobile */
+                &:empty {
+                    display: none;
+                }
+
                 @screen md {
                     margin-bottom: 0;
+
+                    &:empty {
+                        display: block;
+                    }
                 }
 
                 /* Remove margin of first and last block in a column */
