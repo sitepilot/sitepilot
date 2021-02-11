@@ -4,7 +4,6 @@ namespace Sitepilot\Blocks;
 
 use Exception;
 use ReflectionClass;
-use Sitepilot\Plugin;
 use Sitepilot\Blocks\Fields\Field;
 
 abstract class Block
@@ -91,7 +90,7 @@ abstract class Block
      *
      * @var array
      */
-    private $view_data;
+    private $view_data_cache;
 
     /**
      * Additional block classes.
@@ -99,13 +98,6 @@ abstract class Block
      * @var array
      */
     private $classes;
-
-    /**
-     * The plugin instance.
-     *
-     * @var Plugin
-     */
-    protected $plugin;
 
     /**
      * Create a new block instance.
@@ -124,13 +116,12 @@ abstract class Block
      */
     public function __construct(array $params)
     {
-        if(!$this->enabled()) {
+        if (!$this->enabled()) {
             return;
         }
 
         $reflectionClass = new ReflectionClass($this);
 
-        $this->plugin = Plugin::make();
         $this->slug = $params['slug'];
         $this->icon = $params['icon'] ?? '';
         $this->name = $params['name'] ?? $params['slug'];
@@ -143,7 +134,7 @@ abstract class Block
         $this->default_width = $params['default']['width'] ?? null;
         $this->post_types = $params['post_types'] ?? null;
         $this->classes = $params['classes'] ?? [];
-        $this->plugin->blocks->add($this);
+        sitepilot()->blocks->add($this);
 
         add_shortcode($this->slug, [$this, 'render_shortcode']);
     }
@@ -213,7 +204,7 @@ abstract class Block
 
         $class = 'class="' . implode(" ", $classes) . '"';
 
-        $GLOBALS['post'] = $this->plugin->model->get_post($post_id);
+        $GLOBALS['post'] = sitepilot()->model->get_post($post_id);
 
         setup_postdata($GLOBALS['post']);
 
@@ -221,7 +212,7 @@ abstract class Block
             'block' => (array) $this,
             'block_start' => "<div {$class} id='sp-block-" . uniqid() . "'>",
             'block_end' => "</div>",
-            'post_id' => $this->plugin->model->get_post_id($post_id)
+            'post_id' => sitepilot()->model->get_post_id($post_id)
         ], $this->get_field_data('acf', [])));
 
         wp_reset_postdata();
@@ -238,7 +229,7 @@ abstract class Block
     {
         $class = 'class="' . implode(" ", ['sp-block', 'sp-shortcode', $this->slug]) . '"';
 
-        $GLOBALS['post'] = $this->plugin->model->get_post();
+        $GLOBALS['post'] = sitepilot()->model->get_post();
 
         setup_postdata($GLOBALS['post']);
 
@@ -246,7 +237,7 @@ abstract class Block
             'block' => (array) $this,
             'block_start' => "<div {$class}>",
             'block_end' => "</div>",
-            'post_id' => $this->plugin->model->get_post_id()
+            'post_id' => sitepilot()->model->get_post_id()
         ], $this->get_field_data('shortcode', $args), ['slot' => !empty($slot) ? $slot : $field_data['slot'] ?? '']));
 
         wp_reset_postdata();
@@ -273,7 +264,7 @@ abstract class Block
      */
     private function get_view_data(array $data): array
     {
-        $this->view_data = $data;
+        $this->view_data_cache = $data;
 
         return array_merge($data, $this->view_data($data));
     }
@@ -286,7 +277,7 @@ abstract class Block
      */
     private function render_view(array $data): string
     {
-        $blade = $this->plugin->blade([$this->dir . '/views']);
+        $blade = sitepilot()->blade([$this->dir . '/views']);
 
         try {
             $view = $blade->make($data['layout'] ?? 'frontend', $data)->render();
@@ -318,8 +309,8 @@ abstract class Block
             if (substr($class, 0, 6) == 'field:') {
                 $field = str_replace('field:', '', $class);
 
-                if (isset($this->view_data[$field])) {
-                    $return[] = $this->view_data[$field];
+                if (isset($this->view_data_cache[$field])) {
+                    $return[] = $this->view_data_cache[$field];
                 }
             } else {
                 $return[] = $class;
@@ -351,5 +342,29 @@ abstract class Block
     public function enabled(): bool
     {
         return true;
+    }
+
+    /**
+     * Wether the block has a query field.
+     * 
+     * @return bool
+     */
+    public function has_query(): bool
+    {
+        $key = 'query_source';
+
+        foreach ($this->fields() as $field) {
+            if ($field->attribute == $key) {
+                return true;
+            }
+
+            foreach ($field->subfields() as $subfield) {
+                if ($subfield->attribute == $key) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
