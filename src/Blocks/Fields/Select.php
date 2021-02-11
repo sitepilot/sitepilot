@@ -22,7 +22,7 @@ class Select extends Field
             'type' => 'select',
             'ui' => 0,
             'choices' => $this->options,
-            'default_value' => null
+            'default_value' => $this->default
         ];
     }
 
