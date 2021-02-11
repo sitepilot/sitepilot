@@ -5,6 +5,13 @@ namespace Sitepilot;
 class Settings extends Module
 {
     /**
+     * The module init priority.
+     *
+     * @var int
+     */
+    protected $priority = 5;
+
+    /**
      * The settings admin capability.
      *
      * @var string
@@ -46,7 +53,7 @@ class Settings extends Module
     {
         $page_hook_suffix = add_submenu_page(
             'sitepilot-menu',
-            $this->plugin->branding->get_name() . ' Info',
+            sitepilot()->branding->get_name() . ' Info',
             __('Settings', 'sitepilot'),
             $this->settings_admin_cap,
             'sitepilot-settings',
@@ -75,17 +82,17 @@ class Settings extends Module
             'sp-settings',
             'sitepilot',
             array(
-                'version' => $this->plugin->model->get_version(),
+                'version' => sitepilot()->model->get_version(),
                 'plugin_url' => SITEPILOT_URL,
-                'branding_name' => $this->plugin->branding->get_name(),
-                'support_email' => $this->plugin->branding->get_support_email(),
+                'branding_name' => sitepilot()->branding->get_name(),
+                'support_email' => sitepilot()->branding->get_support_email(),
                 'modules' => [
-                    'blocks' => $this->plugin->ext_acf->is_active()
+                    'blocks' => sitepilot()->ext_acf->is_active()
                 ],
-                'capabilities' => $this->plugin->client_role->get_all_capabilities(),
-                'primary_color' => $this->plugin->model->get_primary_color(),
-                'secondary_color' => $this->plugin->model->get_secondary_color(),
-                'container_width' => $this->plugin->model->get_container_width()
+                'capabilities' => sitepilot()->client_role->get_all_capabilities(),
+                'primary_color' => sitepilot()->model->get_primary_color(),
+                'secondary_color' => sitepilot()->model->get_secondary_color(),
+                'container_width' => sitepilot()->model->get_container_width()
             )
         );
     }

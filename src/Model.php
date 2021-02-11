@@ -7,6 +7,13 @@ use WP_Post;
 class Model extends Module
 {
     /**
+     * The module init priority.
+     *
+     * @var int
+     */
+    protected $priority = 6;
+
+    /**
      * The current post object.
      *
      * @var WP_Post

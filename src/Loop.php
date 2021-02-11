@@ -628,7 +628,7 @@ class Loop extends Module
             }
 
             // Check if any of the blocks uses a custom query
-            $blocks = $this->plugin->blocks->get();
+            $blocks = sitepilot()->blocks->get();
             foreach ($blocks as $block) {
                 if ((has_block('acf/' . $block->slug) || has_block('sitepilot/' . $block->slug)) && $block->has_query()) {
                     return false;

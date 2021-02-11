@@ -43,7 +43,7 @@ class Template extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('templates')) {
+        if (!sitepilot()->settings->enabled('templates')) {
             return;
         }
 
@@ -272,7 +272,7 @@ class Template extends Module
         if ($template_id = $this->get_template_id()) {
             if (is_singular()) {
                 // Set the original post
-                $this->plugin->model->set_post($post);
+                sitepilot()->model->set_post($post);
             }
 
             $post = get_post($template_id);
@@ -330,7 +330,7 @@ class Template extends Module
         $data['value'] = is_array($data['value']) ? $data['value'] : [];
         $data['template_locations_key'] = $this->template_locations_key;
 
-        $blade = $this->plugin->blade();
+        $blade = sitepilot()->blade();
 
         echo $blade->make('editor/template-locations-meta', $data)->render();
     }

@@ -5,20 +5,20 @@ namespace Sitepilot;
 abstract class Module
 {
     /**
-     * The plugin instance.
+     * The module init priority.
+     *
+     * @var int
      */
-    protected Plugin $plugin;
+    protected $priority = 10;
 
     /**
      * Construct the module.
      * 
      * @return void
      */
-    public function __construct(Plugin $plugin)
+    public function __construct()
     {
-        $this->plugin = $plugin;
-
-        add_action('sitepilot_init', [$this, 'init']);
+        add_action('sitepilot_init', [$this, 'init'], $this->priority);
     }
 
     abstract public function init(): void;

@@ -12,7 +12,7 @@ class ClientRole extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('client_role')) {
+        if (!sitepilot()->settings->enabled('client_role')) {
             add_action('admin_init', function () {
                 remove_role('sitepilot_user');
             });
@@ -42,7 +42,7 @@ class ClientRole extends Module
 
         add_role(
             'sitepilot_user',
-            $this->plugin->branding->get_name() . ' Client',
+            sitepilot()->branding->get_name() . ' Client',
             $client_capabilities
         );
     }

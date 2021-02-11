@@ -12,7 +12,7 @@ class Branding extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('branding')) {
+        if (!sitepilot()->settings->enabled('branding')) {
             return;
         }
 
@@ -103,7 +103,7 @@ class Branding extends Module
      */
     public function get_powered_by_text(): string
     {
-        return apply_filters('sp_branding_powered_by_text', sprintf(__('❤ Proudly managed and hosted by %s.', 'sitepilot'), '<a href="' . $this->plugin->branding->get_website() . '" target="_blank">Sitepilot</a>'));
+        return apply_filters('sp_branding_powered_by_text', sprintf(__('❤ Proudly managed and hosted by %s.', 'sitepilot'), '<a href="' . sitepilot()->branding->get_website() . '" target="_blank">Sitepilot</a>'));
     }
 
     /**
@@ -124,7 +124,7 @@ class Branding extends Module
     public function filter_admin_footer_version(): string
     {
         global $wp_version;
-        $html = '<div style="text-align: right;">WordPress v' . $wp_version . ' &sdot; ' . $this->get_name() . ' v' . $this->plugin->model->get_version() . '</div>';
+        $html = '<div style="text-align: right;">WordPress v' . $wp_version . ' &sdot; ' . $this->get_name() . ' v' . sitepilot()->model->get_version() . '</div>';
         return $html;
     }
 

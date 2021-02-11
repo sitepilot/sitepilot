@@ -79,8 +79,8 @@ class BeaverUltimateAddons extends Module
             $branding['uabb-plugin-name'] = $this->get_branding_name();
             $branding['uabb-plugin-short-name'] = $this->get_branding_name();
             $branding['uabb-plugin-desc'] = $this->get_branding_description();
-            $branding['uabb-author-name'] = $this->plugin->branding->get_name();
-            $branding['uabb-author-url'] = $this->plugin->branding->get_website();
+            $branding['uabb-author-name'] = sitepilot()->branding->get_name();
+            $branding['uabb-author-url'] = sitepilot()->branding->get_website();
         }
 
         update_option('_fl_builder_uabb_branding', $branding);
@@ -93,7 +93,7 @@ class BeaverUltimateAddons extends Module
      */
     public function action_admin_menu(): void
     {
-        if (!current_user_can($this->plugin->ext_beaver_builder->admin_settings_cap)) {
+        if (!current_user_can(sitepilot()->ext_beaver_builder->admin_settings_cap)) {
             remove_submenu_page('options-general.php', 'uabb-builder-settings');
         }
     }

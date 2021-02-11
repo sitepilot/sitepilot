@@ -28,7 +28,7 @@ class Log extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('log')) {
+        if (!sitepilot()->settings->enabled('log')) {
             return;
         }
 
@@ -173,7 +173,7 @@ class Log extends Module
                     break;
             endswitch;
 
-            $this->plugin->model->set_last_update_date();
+            sitepilot()->model->set_last_update_date();
         }
     }
 

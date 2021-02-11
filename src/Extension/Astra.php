@@ -46,7 +46,7 @@ class Astra extends Module
      */
     public function get_branding_name(): string
     {
-        return apply_filters('sp_astra_branding_name', sprintf(__('%s Theme', 'sitepilot'), $this->plugin->branding->get_name()));
+        return apply_filters('sp_astra_branding_name', sprintf(__('%s Theme', 'sitepilot'), sitepilot()->branding->get_name()));
     }
 
     /**
@@ -68,15 +68,15 @@ class Astra extends Module
     public function filter_branding_options(array $branding): array
     {
         if (isset($branding['astra-agency'])) {
-            $branding['astra-agency']['author'] = $this->plugin->branding->get_name();
-            $branding['astra-agency']['author_url'] = $this->plugin->branding->get_website();
+            $branding['astra-agency']['author'] = sitepilot()->branding->get_name();
+            $branding['astra-agency']['author_url'] = sitepilot()->branding->get_website();
             $branding['astra-agency']['hide_branding'] = true;
         }
 
         if (isset($branding['astra'])) {
             $branding['astra']['name'] = $this->get_branding_name();
             $branding['astra']['description'] = $this->get_branding_description();
-            $branding['astra']['screenshot'] = $this->plugin->branding->get_screenshot();
+            $branding['astra']['screenshot'] = sitepilot()->branding->get_screenshot();
         }
 
         return $branding;

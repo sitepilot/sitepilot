@@ -71,7 +71,7 @@ class BeaverBuilder extends Module
      */
     public function get_branding_name(): string
     {
-        return apply_filters('sp_beaver_builder_branding_name', sprintf(__('%s Builder', 'sitepilot'), $this->plugin->branding->get_name()));
+        return apply_filters('sp_beaver_builder_branding_name', sprintf(__('%s Builder', 'sitepilot'), sitepilot()->branding->get_name()));
     }
 
     /**
@@ -97,11 +97,11 @@ class BeaverBuilder extends Module
         if (isset($plugins[$namespace])) {
             $plugins[$namespace]['Name'] = $this->get_branding_name();
             $plugins[$namespace]['Description'] = $this->get_branding_description();
-            $plugins[$namespace]['PluginURI'] = $this->plugin->branding->get_website();
-            $plugins[$namespace]['Author'] = $this->plugin->branding->get_name();
-            $plugins[$namespace]['AuthorURI'] = $this->plugin->branding->get_website();
+            $plugins[$namespace]['PluginURI'] = sitepilot()->branding->get_website();
+            $plugins[$namespace]['Author'] = sitepilot()->branding->get_name();
+            $plugins[$namespace]['AuthorURI'] = sitepilot()->branding->get_website();
             $plugins[$namespace]['Title'] = $this->get_branding_name();
-            $plugins[$namespace]['AuthorName'] = $this->plugin->branding->get_name();
+            $plugins[$namespace]['AuthorName'] = sitepilot()->branding->get_name();
         }
 
         return $plugins;

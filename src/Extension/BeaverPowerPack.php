@@ -78,8 +78,8 @@ class BeaverPowerPack extends Module
         if (apply_filters('sp_beaver_power_pack_branding', false) && method_exists('BB_PowerPack_Admin_Settings', 'update_option')) {
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_name', $this->get_branding_name());
             BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_desc', $this->get_branding_description());
-            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_author', $this->plugin->branding->get_name());
-            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_uri', $this->plugin->branding->get_website());
+            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_author', sitepilot()->branding->get_name());
+            BB_PowerPack_Admin_Settings::update_option('ppwl_plugin_uri', sitepilot()->branding->get_website());
             BB_PowerPack_Admin_Settings::update_option('ppwl_admin_label', $this->get_branding_name());
             BB_PowerPack_Admin_Settings::update_option('ppwl_builder_label', $this->get_branding_name());
         }
@@ -92,7 +92,7 @@ class BeaverPowerPack extends Module
      */
     public function action_admin_menu(): void
     {
-        if (!current_user_can($this->plugin->ext_beaver_builder->admin_settings_cap)) {
+        if (!current_user_can(sitepilot()->ext_beaver_builder->admin_settings_cap)) {
             remove_submenu_page('options-general.php', 'ppbb-settings');
         }
     }

@@ -21,7 +21,7 @@ class Blocks extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('blocks')) {
+        if (!sitepilot()->settings->enabled('blocks')) {
             return;
         }
 
@@ -147,33 +147,33 @@ class Blocks extends Module
     public function action_register_colors()
     {
         $colors = array();
-        if ($color = $this->plugin->model->get_primary_color()) {
+        if ($color = sitepilot()->model->get_primary_color()) {
             $colors[] = [
-                'name' => $this->plugin->model->get_primary_color_name(),
+                'name' => sitepilot()->model->get_primary_color_name(),
                 'slug' => 'primary',
                 'color' => $color
             ];
         }
 
-        if ($color = $this->plugin->model->get_secondary_color()) {
+        if ($color = sitepilot()->model->get_secondary_color()) {
             $colors[] = [
-                'name' => $this->plugin->model->get_secondary_color_name(),
+                'name' => sitepilot()->model->get_secondary_color_name(),
                 'slug' => 'secondary',
                 'color' => $color
             ];
         }
 
-        if ($color = $this->plugin->model->get_third_color()) {
+        if ($color = sitepilot()->model->get_third_color()) {
             $colors[] = [
-                'name' => $this->plugin->model->get_third_color_name(),
+                'name' => sitepilot()->model->get_third_color_name(),
                 'slug' => 'third',
                 'color' => $color
             ];
         }
 
-        if ($color = $this->plugin->model->get_fourth_color()) {
+        if ($color = sitepilot()->model->get_fourth_color()) {
             $colors[] = [
-                'name' => $this->plugin->model->get_fourth_color_name(),
+                'name' => sitepilot()->model->get_fourth_color_name(),
                 'slug' => 'third',
                 'color' => $color
             ];

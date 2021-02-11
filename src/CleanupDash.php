@@ -12,7 +12,7 @@ class CleanupDash extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('cleanup_dashboard')) {
+        if (!sitepilot()->settings->enabled('cleanup_dashboard')) {
             return;
         }
 

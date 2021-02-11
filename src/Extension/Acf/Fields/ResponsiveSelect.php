@@ -35,7 +35,7 @@ class ResponsiveSelect extends \acf_field
             'variations' => []
         ], $field);
 
-        $blade = Plugin::make()->blade();
+        $blade = sitepilot()->blade();
 
         echo $blade->make('acf/responsive-select', $field)->render();
     }

@@ -42,7 +42,7 @@ class Acf extends Module
      */
     public function action_register_blocks(): void
     {
-        foreach ($this->plugin->blocks->get() as $block) {
+        foreach (sitepilot()->blocks->get() as $block) {
             $fields = array();
             if ($block instanceof Block) {
                 foreach ($block->fields() as $field) {

@@ -130,26 +130,27 @@ final class Plugin
     public function __construct()
     {
         /* Modules */
-        $this->settings = new Settings($this);
-        $this->log = new Log($this);
-        $this->loop = new Loop($this);
-        $this->model = new Model($this);
-        $this->blocks = new Blocks($this);
-        $this->update = new Update($this);
-        $this->support = new Support($this);
-        $this->template = new Template($this);
-        $this->branding = new Branding($this);
-        $this->dashboard = new Dashboard($this);
-        $this->client_role = new ClientRole($this);
-        $this->custom_code = new CustomCode($this);
-        $this->cleanup_dash = new CleanupDash($this);
+        $this->log = new Log;
+        $this->loop = new Loop;
+        $this->model = new Model;
+        $this->blocks = new Blocks;
+        $this->update = new Update;
+        $this->support = new Support;
+        $this->settings = new Settings;
+        $this->template = new Template;
+        $this->branding = new Branding;
+        $this->dashboard = new Dashboard;
+        $this->client_role = new ClientRole;
+        $this->custom_code = new CustomCode;
+        $this->cleanup_dash = new CleanupDash;
+        
 
         /* Extensions */
-        $this->ext_acf = new Acf($this);
-        $this->ext_astra = new Astra($this);
-        $this->ext_beaver_builder = new BeaverBuilder($this);
-        $this->ext_beaver_power_pack = new BeaverPowerPack($this);
-        $this->ext_beaver_ultimate_addons = new BeaverUltimateAddons($this);
+        $this->ext_acf = new Acf;
+        $this->ext_astra = new Astra;
+        $this->ext_beaver_builder = new BeaverBuilder;
+        $this->ext_beaver_power_pack = new BeaverPowerPack;
+        $this->ext_beaver_ultimate_addons = new BeaverUltimateAddons;
     }
 
     /**

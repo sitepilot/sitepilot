@@ -12,7 +12,7 @@ class Support extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!$this->plugin->settings->enabled('support')) {
+        if (!sitepilot()->settings->enabled('support')) {
             return;
         }
 

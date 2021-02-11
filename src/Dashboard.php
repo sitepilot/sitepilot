@@ -23,8 +23,8 @@ class Dashboard extends Module
     public function action_admin_menu(): void
     {
         add_menu_page(
-            $this->plugin->branding->get_name(),
-            $this->plugin->branding->get_name(),
+            sitepilot()->branding->get_name(),
+            sitepilot()->branding->get_name(),
             'publish_posts',
             'sitepilot-menu',
             '',
@@ -34,7 +34,7 @@ class Dashboard extends Module
 
         $page_hook_suffix = add_submenu_page(
             'sitepilot-menu',
-            $this->plugin->branding->get_name(),
+            sitepilot()->branding->get_name(),
             __('Dashboard', 'sitepilot'),
             'publish_posts',
             'sitepilot-menu',
@@ -61,16 +61,16 @@ class Dashboard extends Module
         /* Data */
         global $wp_version;
 
-        $last_update = $this->plugin->model->get_last_update_date();
+        $last_update = sitepilot()->model->get_last_update_date();
 
         wp_localize_script(
             'sp-dashboard',
             'sitepilot',
             array(
-                'version' => $this->plugin->model->get_version(),
+                'version' => sitepilot()->model->get_version(),
                 'plugin_url' => SITEPILOT_URL,
-                'branding_name' => $this->plugin->branding->get_name(),
-                'support_email' => $this->plugin->branding->get_support_email(),
+                'branding_name' => sitepilot()->branding->get_name(),
+                'support_email' => sitepilot()->branding->get_support_email(),
                 'server_name' => gethostname(),
                 'php_version' => phpversion(),
                 'wp_version' => $wp_version,
