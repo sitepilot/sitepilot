@@ -9,6 +9,7 @@ use Sitepilot\Blocks\Fields\Style\Margin;
 use Sitepilot\Blocks\Fields\Style\Opacity;
 use Sitepilot\Blocks\Fields\Style\Padding;
 use Sitepilot\Blocks\Fields\Style\BoxShadow;
+use Sitepilot\Blocks\Fields\Style\TextAlign;
 use Sitepilot\Blocks\Fields\Preset\ImageSize;
 use Sitepilot\Blocks\Fields\Style\Transition;
 use Sitepilot\Blocks\Fields\Style\BorderColor;
@@ -20,6 +21,7 @@ use Sitepilot\Blocks\Fields\Preset\SpacingGroup;
 use Sitepilot\Blocks\Fields\Style\BackgroundColor;
 use Sitepilot\Blocks\Fields\Preset\BackgroundGroup;
 use Sitepilot\Blocks\Fields\Preset\TransitionGroup;
+use Sitepilot\Blocks\Fields\Preset\TypographyGroup;
 use Sitepilot\Blocks\Fields\Style\TransitionDuration;
 use Sitepilot\Blocks\Fields\Style\BackgroundImageScale;
 use Sitepilot\Blocks\Fields\Preset\BackgroundImageGroup;
@@ -37,7 +39,7 @@ class Group extends Block
             'supports' => [
                 'inner_blocks' => true,
             ],
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-back" viewBox="0 0 16 16" style="fill: #1062fe">
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="sp-brand-fill" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2H2a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H2z"/>
             </svg>'
         ]);
@@ -46,6 +48,11 @@ class Group extends Block
     public function fields(): array
     {
         return [
+            TypographyGroup::make('text_group')
+                ->fields([
+                    TextAlign::make('text_align')
+                ]),
+
             BackgroundGroup::make('bg_group')
                 ->fields([
                     BackgroundColor::make('bg_color'),
@@ -134,12 +141,14 @@ class Group extends Block
                 'field:scale',
                 !empty($data['scale']) ? 'transform' : '',
                 'field:padding',
-                'field:margin'
+                'field:margin',
+                'field:text_align'
             ]),
             'content_classes' => $this->get_classes([
                 'relative',
                 'flex-grow',
-                'inner-blocks'
+                'inner-blocks',
+                !empty($data['text_align']) ? 'text-align-inherit' : '',
             ]),
             'bg_image_classes' => $this->get_classes([
                 'inset-0',

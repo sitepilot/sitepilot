@@ -1,6 +1,6 @@
-
 require('./blocks/heading.js');
 require('./blocks/paragraph.js');
+require('./blocks/plain-text.js');
 
 window.spBlocksEditor = {
     pageTemplate: null,
@@ -20,9 +20,7 @@ window.spBlocksEditor = {
         window.spBlocksEditor.activeDevice = 'mobile';
 
         field.$el.find('.sp-responsive-select__variation').each(function () {
-            console.log('test');
             jQuery(this).click(window.spBlocksEditor.toggleResponsiveSelect);
-
             window.spBlocksEditor.updateResponsiveSelect();
         });
     },
