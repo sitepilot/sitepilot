@@ -317,7 +317,7 @@ class Loop extends Module
      *
      * @return void
      */
-    public function init_rewrite_rules()
+    public function init_rewrite_rules(): void
     {
         $fronts      = $this->get_rewrite_fronts();
         $paged_regex = $this->paged_regex_base;
@@ -454,7 +454,7 @@ class Loop extends Module
      * @param string $base  The base URL to parse
      * @return string
      */
-    public function build_base_url($permalink_structure, $base)
+    public function build_base_url($permalink_structure, $base): string
     {
         // Check to see if we are using pretty permalinks
         if (!empty($permalink_structure)) {
@@ -492,7 +492,7 @@ class Loop extends Module
      * @param string $base
      * @return string
      */
-    public function paged_format($permalink_structure, $base)
+    public function paged_format($permalink_structure, $base): string
     {
         if ($this->loop_counter > 1) {
             $page_prefix = 'paged-' . $this->loop_counter;
@@ -521,7 +521,7 @@ class Loop extends Module
      * @param object $args
      * @return void
      */
-    public function post_type_rewrite_rules($post_type, $args)
+    public function post_type_rewrite_rules($post_type, $args): void
     {
         global $wp_rewrite;
 
@@ -586,7 +586,7 @@ class Loop extends Module
      *
      * @return void
      */
-    public function flush_rewrite_rules()
+    public function flush_rewrite_rules(): void
     {
         global $wp_rewrite;
 
