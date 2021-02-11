@@ -22,6 +22,11 @@ final class Plugin
     public Log $log;
 
     /**
+     * The loop instance.
+     */
+    public Loop $loop;
+
+    /**
      * The model instance.
      */
     public Model $model;
@@ -110,6 +115,8 @@ final class Plugin
     {
         if (!isset(self::$instance)) {
             self::$instance = new static(...$arguments);
+
+            self::$instance->init();
         }
 
         return self::$instance;
@@ -125,6 +132,7 @@ final class Plugin
         /* Modules */
         $this->settings = new Settings($this);
         $this->log = new Log($this);
+        $this->loop = new Loop($this);
         $this->model = new Model($this);
         $this->blocks = new Blocks($this);
         $this->update = new Update($this);
@@ -142,7 +150,15 @@ final class Plugin
         $this->ext_beaver_builder = new BeaverBuilder($this);
         $this->ext_beaver_power_pack = new BeaverPowerPack($this);
         $this->ext_beaver_ultimate_addons = new BeaverUltimateAddons($this);
+    }
 
+    /**
+     * Initialize plugin hooks.
+     *
+     * @return void
+     */
+    public function init(): void
+    {
         /* Actions */
         add_action('wp_enqueue_scripts', [$this, 'action_register_assets']);
         add_action('enqueue_block_editor_assets', [$this, 'action_register_assets']);
