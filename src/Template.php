@@ -2,25 +2,8 @@
 
 namespace Sitepilot;
 
-use WP_Post;
-use WP_Query;
-
 class Template extends Module
 {
-    /**
-     * The array of templates that this plugin tracks.
-     * 
-     * @var array
-     */
-    protected $templates;
-
-    /**
-     * The template locations meta key.
-     *
-     * @var string
-     */
-    protected $template_locations_key = 'sp-template-locations';
-
     /**
      * The template admin capability.
      *
@@ -50,71 +33,10 @@ class Template extends Module
         /* Actions */
         add_action('init', [$this, 'action_register_template_post_type']);
         add_action('admin_menu', [$this, 'action_load_template_menu'], 12);
-        add_action('add_meta_boxes', [$this, 'action_add_meta_box']);
-        add_action('save_post', [$this, 'action_save_meta']);
         add_action('admin_init', [$this, 'action_register_capabilities']);
 
         /* Filters */
-        add_filter('body_class', [$this, 'filter_body_class']);
-        add_filter('admin_body_class', [$this, 'filter_body_class']);
-        add_filter('template_include', [$this, 'filter_template_include']);
-
-        add_filter('theme_page_templates', [$this, 'filter_templates']);
-        add_filter('theme_post_templates', [$this, 'filter_templates']);
-        add_filter('theme_sp-template_templates', [$this, 'filter_templates']);
-
-        /* Variables */
-        $this->templates = [
-            'sp-template-full-width' => sprintf(__('%s: Full Width', 'sitepilot'), 'Sitepilot')
-        ];
-    }
-
-    /**
-     * Filter the template list.
-     *
-     * @param array $templates
-     * @return array
-     */
-    public function filter_templates(array $templates): array
-    {
-        $templates = array_merge($templates, $this->templates);
-
-        return $templates;
-    }
-
-    /**
-     * Returns wether the post template is full width.
-     *
-     * @return bool
-     */
-    public function is_full_width(): bool
-    {
-        global $post;
-
-        if (!$post) {
-            return false;
-        }
-
-        return 'sp-template-full-width' == get_post_meta($post->ID, '_wp_page_template', true);
-    }
-
-    /**
-     * Add classes to backend and frontend.
-     *
-     * @param string|array $classes
-     * @return void
-     */
-    public function filter_body_class($classes)
-    {
-        if ($this->is_full_width()) {
-            if (is_string($classes)) {
-                $classes .= ' sp-template-full-width';
-            } elseif (is_array($classes)) {
-                $classes[] = 'sp-template-full-width';
-            }
-        }
-
-        return $classes;
+        add_filter('template_include', [$this, 'filter_template_include'], 999);
     }
 
     /**
@@ -137,39 +59,40 @@ class Template extends Module
      */
     public function action_register_template_post_type(): void
     {
-        $labels = array(
-            'name' => __('Templates', 'sitepilot'),
-            'singular_name' => __('Template', 'sitepilot'),
-            'add_new' => __('New Template', 'sitepilot'),
-            'add_new_item' => __('New Template', 'sitepilot'),
-            'edit_item' => __('Edit Template', 'sitepilot'),
-            'new_item' => __('New Template', 'sitepilot'),
-            'view_item' => __('View Template', 'sitepilot'),
-            'search_items' => __('Search Templates', 'sitepilot'),
-            'not_found' =>  __('No Templates Found', 'sitepilot'),
-            'not_found_in_trash' => __('No templates in trash.', 'sitepilot'),
-        );
-
         $args = array(
-            'labels' => $labels,
-            'has_archive' => false,
-            'public' => true,
-            'hierarchical' => false,
+            'labels' => [
+                'name' => __('Templates', 'sitepilot'),
+                'singular_name' => __('Template', 'sitepilot'),
+                'add_new' => __('New Template', 'sitepilot'),
+                'add_new_item' => __('New Template', 'sitepilot'),
+                'edit_item' => __('Edit Template', 'sitepilot'),
+                'new_item' => __('New Template', 'sitepilot'),
+                'view_item' => __('View Template', 'sitepilot'),
+                'search_items' => __('Search Templates', 'sitepilot'),
+                'not_found' =>  __('No Templates Found', 'sitepilot'),
+                'not_found_in_trash' => __('No templates in trash.', 'sitepilot'),
+            ],
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => false,
+            'rewrite' => false,
+            'show_in_rest' => true,
+            'capability_type' => 'block',
+            'capabilities' => array(
+                'read' => $this->template_viewer_cap,
+                'create_posts' => $this->template_admin_cap,
+                'edit_posts' => $this->template_viewer_cap,
+                'edit_published_posts' => $this->template_viewer_cap,
+                'delete_published_posts' => $this->template_admin_cap,
+                'edit_others_posts' => $this->template_viewer_cap,
+                'delete_others_posts' => $this->template_admin_cap,
+            ),
+            'map_meta_cap' => true,
             'supports' => array(
                 'title',
-                'editor'
-            ),
-            'taxonomies' => [],
-            'rewrite' => array('slug' => 'sp-template'),
-            'show_in_rest' => true,
-            'menu_icon' => 'dashicons-welcome-widgets-menus',
-            'show_in_menu' => false,
-            'capabilities' => array(
-                'edit_post' => $this->template_viewer_cap,
-                'read_post' => $this->template_viewer_cap,
-                'delete_post' => $this->template_admin_cap,
-                'create_posts' => $this->template_admin_cap
-            ),
+                'editor',
+                'slug'
+            )
         );
 
         register_post_type('sp-template', $args);
@@ -192,170 +115,88 @@ class Template extends Module
     }
 
     /**
-     * Returns the template ID for the current page.
+     * Render a template.
      *
-     * @return int|null
+     * @param string $slug
+     * @param array $data
+     * @return string
      */
-    public function get_template_id(): ?int
+    public function render(string $slug, array $data = []): string
     {
-        $templates = new \WP_Query([
-            'post_type' => 'sp-template',
-            'post_status' => 'publish'
-        ]);
+        $data = array_merge([
+            'content' => ''
+        ], $data);
 
-        $post_types = get_post_types();
-        foreach ($templates->posts as $template) {
-            $locations = get_post_meta($template->ID, $this->template_locations_key, true);
-            $locations = is_array($locations) ? $locations : [];
+        $args = array(
+            'name' => $slug,
+            'post_type'   => 'sp-template',
+            'post_status' => 'publish',
+            'numberposts' => 1
+        );
 
-            foreach ($post_types as $post_type) {
-                if (in_array("{$post_type}-single", $locations) && is_singular($post_type)) {
-                    $template_id = $template->ID;
-                }
+        $templates = get_posts($args);
 
-                if (in_array("{$post_type}-archive", $locations) && is_post_type_archive($post_type)) {
-                    $template_id = $template->ID;
-                }
-            }
+        if ($templates) {
+            $template = $templates[0];
 
-            if (in_array('search', $locations) && is_search()) {
-                $template_id = $template->ID;
-            }
+            $data['content'] = apply_filters('the_content', $template->post_content);
 
-            if (in_array('post-archive', $locations) && is_home()) {
-                $template_id = $template->ID;
-            }
-
-            if (in_array('not-found', $locations) && is_404()) {
-                $template_id = $template->ID;
-            }
+            return sitepilot()->blade()->render('template', $data);
+        } else {
+            return sprintf(__('Could not find template: %s.', 'sitepilot'), $slug);
         }
-
-        return $template_id ?? null;
     }
 
     /**
-     * Returns available template locations.
-     *
-     * @return array
-     */
-    public function get_template_locations(): array
-    {
-        $locations = [];
-        foreach (get_post_types() as $post_type) {
-            if ((substr($post_type, 0, 3) == 'sp-' || in_array($post_type, ['post', 'page'])) && !in_array($post_type, ['sp-log', 'sp-template'])) {
-                $object = get_post_type_object($post_type);
-                $locations[$post_type . '-archive'] = $object->labels->singular_name . ' ' . __('Archive', 'sitepilot');
-                $locations[$post_type . '-single'] = $object->labels->singular_name . ' ' . __('Single', 'sitepilot');
-            }
-        }
-
-        $locations = array_merge($locations, [
-            'search' => __('Search Results', 'sitepilot'),
-            'not-found' => __('Page Not Found', 'sitepilot')
-        ]);
-
-        return $locations;
-    }
-
-    /**
-     * Filter template include.
+     * Filter template include based on template slugs.
      *
      * @param string $template
      * @return string
      */
-    public function filter_template_include(string $template): string
+    public function filter_template_include($template): string
     {
-        global $post;
-        global $blocks_template_query;
+        global $template_name;
 
-        if ($template_id = $this->get_template_id()) {
-            if (is_singular()) {
-                // Set the original post
-                sitepilot()->model->set_post($post);
+        if (is_home()) {
+            // Blog
+            $template_name = 'home';
+        } elseif (is_404()) {
+            // Page not found
+            $template_name = '404';
+        } elseif (is_search()) {
+            // Search template
+            $template_name = 'search';
+        } elseif (function_exists('is_product') && is_product()) {
+            // Product
+            $template_name = get_post_type();
+        } elseif (is_singular()) {
+            if (is_page_template()) {
+                // Custom post template
+                $template_name = basename($template, '.php');
+            } else {
+                // Single post template
+                $template_name = get_post_type();
             }
-
-            $post = get_post($template_id);
-
-            $blocks_template_query = new WP_Query([
-                'p' => $template_id,
-                'post_type' => 'sp-template'
-            ]);
-
-            if (!is_singular()) {
-                $template = get_page_template();
-            }
-        } elseif (!$post || is_search()) {
-            return $template;
+        } elseif (is_archive()) {
+            // Archive
+            $template_name = 'archive-' . get_post_type();
         }
 
-        if (isset($this->templates[get_post_meta($post->ID, '_wp_page_template', true)])) {
-            $file =  SITEPILOT_DIR . '/templates/' . str_replace('sp-', '', get_post_meta($post->ID, '_wp_page_template', true)) . '.php';
+        if ($template_name) {
+            $args = array(
+                'name' => $template_name,
+                'post_type'   => 'sp-template',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            );
 
-            if (file_exists($file)) {
-                return $file;
+            $templates = get_posts($args);
+
+            if ($templates) {
+                return SITEPILOT_DIR . '/includes/template.php';
             }
         }
 
         return $template;
-    }
-
-    /**
-     * Register template meta box.
-     *
-     * @return void
-     */
-    public function action_add_meta_box(): void
-    {
-        add_meta_box(
-            'sitepilot_template_meta',
-            __('Template', 'sitepilot'),
-            [$this, 'render_meta_box'],
-            'sp-template',
-            'side',
-            'default'
-        );
-    }
-
-    /**
-     * Render template meta box.
-     *
-     * @param WP_Post $post
-     * @return void
-     */
-    public function render_meta_box(WP_Post $post): void
-    {
-        $data['locations'] = $this->get_template_locations();
-        $data['value'] = get_post_meta($post->ID, $this->template_locations_key, true);
-        $data['value'] = is_array($data['value']) ? $data['value'] : [];
-        $data['template_locations_key'] = $this->template_locations_key;
-
-        $blade = sitepilot()->blade();
-
-        echo $blade->make('editor/template-locations-meta', $data)->render();
-    }
-
-    /** 
-     * Save template meta.
-     * 
-     * @param int $post_id
-     * @return void
-     */
-    public function action_save_meta(int $post_id): void
-    {
-        if (array_key_exists($this->template_locations_key, $_POST) && is_array($_POST[$this->template_locations_key])) {
-            $save = array();
-            foreach ($_POST[$this->template_locations_key] as $location => $value) {
-                if ($value == 'enabled') {
-                    $save[] = $location;
-                }
-            }
-
-            update_post_meta(
-                $post_id,
-                $this->template_locations_key,
-                $save
-            );
-        }
     }
 }

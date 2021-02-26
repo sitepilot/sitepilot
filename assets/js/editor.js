@@ -1,7 +1,3 @@
-require('./blocks/heading.js');
-require('./blocks/paragraph.js');
-require('./blocks/plain-text.js');
-
 window.spBlocksEditor = {
     pageTemplate: null,
     activeDevice: 'mobile',
@@ -59,9 +55,13 @@ window.spBlocksEditor = {
     /* ----------------------------------------------- */
     pageTemplateSwitcher: function () {
         wp.data.subscribe(() => {
-            const template = wp.data.select('core/editor').getEditedPostAttribute('template');
+            let template = wp.data.select('core/editor').getEditedPostAttribute('template');
 
-            if (template !== undefined && this.pageTemplate === null) {
+            if (template !== undefined && template) {
+                template = "sp-template-" + template.replace(".php", "");
+            }
+
+            if (this.pageTemplate === null) {
                 this.pageTemplate = template;
             }
 

@@ -1,3 +1,5 @@
+/* Block Editor
+/* ----------------------------------------------- */
  .block-editor {
     .sp-brand-fill {
         fill: #1062fe !important;
@@ -63,46 +65,17 @@
     }
 }
 
-/** 
-.edit-post-visual-editor {
-    .block-editor-block-list__block:hover,
-    .block-editor-block-list__block:focus,
-    .block-editor-block-list__block:active {
-        outline: 2px solid #1062fe;
-        outline-offset: 2px;
-    }
-    
-    .wp-block-column:hover,
-    .wp-block-column:focus,
-    .wp-block-column:active,
-    .wp-block-columns:hover,
-    .wp-block-columns:focus,
-    .wp-block-columns:active {
-        outline : 0;
-    }
-} 
-**/ 
-
-.sp-template-full-width {
-    .block-editor-writing-flow {
+/* Full Width Templates
+/* ----------------------------------------------- */
+.post-type-sp-template, 
+.sp-template-page-full-width, 
+.sp-template-post-full-width {
+    .block-editor-writing-flow, .block-editor-block-list__block {
         max-width: 100% !important;
     }
 
-    .block-editor-block-list__layout {
+    .block-editor-block-list__layout.is-root-container {
         padding-left: 0 !important;
         padding-right: 0 !important;
-    }
-}
-
-.sitepilot-sidebar-content {
-    margin: 16px 16px 16px 16px;
-
-    .sitepilot-browser-title-field {
-        margin: 0px 0px 16px 0px;
-
-        label.components-base-control__label {
-            font-size: 14px;
-            color: #007cba;
-        }
     }
 }

@@ -5,7 +5,6 @@
 
 /* Blocks
 /* ----------------------------------------------- */
-@import "../../blocks/group/assets/block.scss";
 @import "../../blocks/section/assets/block.scss";
 @import "../../blocks/heading/assets/block.scss";
 @import "../../blocks/contact-form-7/assets/block.scss";
@@ -46,16 +45,7 @@
     }
 }
 
-.sp-block {
-    *,
-    ::before,
-    ::after {
-        box-sizing: border-box;
-        border-width: 0;
-        border-style: solid; 
-        border-color: #e2e8f0; 
-    }
-    
+.sp-block {    
     .container {
         max-width: var(--sp-container-width);
     }
@@ -143,8 +133,7 @@
 
 /* Templates
 /* ----------------------------------------------- */
-.sp-template-full-width {
-    &__content {
+.sp-template {
         max-width: var(--sp-container-width);
         margin-left: auto;
         margin-right: auto;
@@ -164,5 +153,11 @@
                 width: unset;
             }
         }
+}
+
+.sp-template-full-width {
+    &__content {
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
     }
 }
