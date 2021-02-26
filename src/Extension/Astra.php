@@ -27,6 +27,8 @@ class Astra extends Module
                 });
             }
         });
+
+        add_filter('astra_color_palettes', [$this, 'filter_color_palettes']);
     }
 
     /**
@@ -80,5 +82,19 @@ class Astra extends Module
         }
 
         return $branding;
+    }
+
+    /**
+     * Filter color palettes.
+     *
+     * @return void
+     */
+    public function filter_color_palettes(array $colors)
+    {
+        if (apply_filters('sp_client_website', false)) {
+            return sitepilot()->model->get_colors();
+        }
+
+        return array_merge(sitepilot()->model->get_colors(), $colors);
     }
 }
