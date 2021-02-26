@@ -2,8 +2,6 @@
 
 namespace Sitepilot\Extension\Acf\Fields;
 
-use Sitepilot\Plugin;
-
 class ResponsiveSelect extends \acf_field
 {
     /**
@@ -19,6 +17,10 @@ class ResponsiveSelect extends \acf_field
         $this->category = 'basic';
         $this->settings = $settings;
 
+        $this->defaults = array(
+			'default_values' => []
+		);
+     
         parent::__construct();
     }
 

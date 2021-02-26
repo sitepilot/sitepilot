@@ -14,12 +14,12 @@
             @if(count($fields) > 1)<label style="display: block; margin-bottom: 2px;">{{ $subfield['label'] }}</label>@endif
             <select name="{{ $name }}[{{ $subkey }}][{{ $variation_key }}]" style="max-width: 100%;">
                 @foreach($subfield['choices'] as $choice_value => $choice_name)
-                @if(is_string($choice_value) && $choice_value == 'default' && isset($defaults[$subkey][$variation_key]) && isset($subfield['choices'][$defaults[$subkey][$variation_key]]))
+                @if(is_string($choice_value) && $choice_value == 'default' && isset($default_values[$subkey][$variation_key]) && isset($subfield['choices'][$default_values[$subkey][$variation_key]]))
                 <optgroup label="Default">
-                    @php($choice_name = $subfield['choices'][$defaults[$subkey][$variation_key]])
+                    @php($choice_name = $subfield['choices'][$default_values[$subkey][$variation_key]])
                     <option value="{{ $choice_value }}" @if(isset($value[$subkey][$variation_key]) && (string) $value[$subkey][$variation_key]==(string) $choice_value) selected @endif>{{ $choice_name }}</option>
                 </optgroup>
-                <optgroup label="{{ $subfield['label'] }}">
+                <optgroup label="{{ __('Options', 'sitepilot') }}">
                     @else
                     <option value="{{ $choice_value }}" @if(isset($value[$subkey][$variation_key]) && (string) $value[$subkey][$variation_key]==(string) $choice_value) selected @endif>{{ $choice_name }}</option>
                     @endif
