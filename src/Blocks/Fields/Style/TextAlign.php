@@ -14,16 +14,13 @@ class TextAlign extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'align' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'left' => __('Left', 'sitepilot'),
-                    'center' => __('Center', 'sitepilot'),
-                    'right' => __('Right', 'sitepilot'),
-                    'justify' => __('Justify', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'left' => __('Left', 'sitepilot'),
+                'center' => __('Center', 'sitepilot'),
+                'right' => __('Right', 'sitepilot'),
+                'justify' => __('Justify', 'sitepilot')
             ]
         ]);
     }
@@ -48,9 +45,9 @@ class TextAlign extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('align', 'mobile', $align, $value),
-            $this->get_class('align', 'tablet', $align, $value),
-            $this->get_class('align', 'desktop', $align, $value)
+            $this->get_class('mobile', $align, $value),
+            $this->get_class('tablet', $align, $value),
+            $this->get_class('desktop', $align, $value)
         ];
 
         return implode(" ", array_filter($classes));

@@ -4,47 +4,36 @@ namespace Sitepilot\Blocks\Fields;
 
 class ResponsiveSelect extends Field
 {
-    private array $fields = [];
-
-    private string $type = 'responsive';
+    private array $select_fields = [];
 
     /**
      * Returns the ACF field configuration.
      *
      * @return array
      */
-    protected function acf_config(): array
+    protected function get_acf_config(string $namespace): array
     {
-        if ($this->type == 'responsive') {
-            $variations = [
-                'mobile' => [
-                    'name' => 'Default (Mobile)',
-                    'icon' => 'dashicons-smartphone'
-                ],
-                'tablet' => [
-                    'name' => 'Tablet',
-                    'icon' => 'dashicons-tablet'
-                ],
-                'desktop' => [
-                    'name' => 'Desktop',
-                    'icon' => 'dashicons-laptop'
-                ]
-            ];
-        } elseif ($this->type == 'single') {
-            $variations = [
-                'mobile' => [
-                    'name' => 'Default (Mobile)',
-                    'icon' => ''
-                ],
-            ];
-        }
+        $variations = [
+            'mobile' => [
+                'name' => 'Default (Mobile)',
+                'icon' => 'dashicons-smartphone'
+            ],
+            'tablet' => [
+                'name' => 'Tablet',
+                'icon' => 'dashicons-tablet'
+            ],
+            'desktop' => [
+                'name' => 'Desktop',
+                'icon' => 'dashicons-laptop'
+            ]
+        ];
 
         return [
             'type' => 'sp_responsive_select',
             'variations' => $variations,
-            'fields' => $this->fields,
+            'fields' => $this->select_fields,
             'default_value' => null,
-            'defaults' => $this->default
+            'default_values' => $this->default
         ];
     }
 
@@ -54,9 +43,30 @@ class ResponsiveSelect extends Field
      * @param array $fields
      * @return self
      */
-    public function fields(array $fields): self
+    public function select_fields(array $select_fields): self
     {
-        $this->fields = $fields;
+        if (!empty($select_fields['choices'])) {
+            $this->select_fields = [$select_fields];
+        } else {
+            $this->select_fields = $select_fields;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the field's default value.
+     *
+     * @param mixed $value
+     * @return self
+     */
+    public function default_value($value): self
+    {
+        if (!empty($value['mobile'])) {
+            $this->default = array($value);
+        } else {
+            $this->default = $value;
+        }
 
         return $this;
     }
@@ -70,7 +80,7 @@ class ResponsiveSelect extends Field
      * @param array $value
      * @return string|null
      */
-    protected function get_class($field, $breakpoint, $classes, $value): ?string
+    protected function get_class($breakpoint, $classes, $value, $field = 0): ?string
     {
         $prefix = $breakpoint . '-';
 

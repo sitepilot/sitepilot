@@ -14,16 +14,13 @@ class TextTransform extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'transform' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'uppercase' => __('Uppercase', 'sitepilot'),
-                    'lowercase' => __('Lowercase', 'sitepilot'),
-                    'capitalize' => __('Capitalize', 'sitepilot'),
-                    'normal-case' => __('Normal', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'uppercase' => __('Uppercase', 'sitepilot'),
+                'lowercase' => __('Lowercase', 'sitepilot'),
+                'capitalize' => __('Capitalize', 'sitepilot'),
+                'normal-case' => __('Normal', 'sitepilot')
             ]
         ]);
     }
@@ -48,9 +45,9 @@ class TextTransform extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('transform', 'mobile', $size, $value),
-            $this->get_class('transform', 'tablet', $size, $value),
-            $this->get_class('transform', 'desktop', $size, $value)
+            $this->get_class('mobile', $size, $value),
+            $this->get_class('tablet', $size, $value),
+            $this->get_class('desktop', $size, $value)
         ];
 
         return implode(" ", array_filter($classes));

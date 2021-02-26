@@ -1,10 +1,11 @@
 {
-    "/js/dashboard.js": "/js/dashboard.js",
-    "/js/editor.js": "/js/editor.js",
+    "/js/blocks.js": "/js/blocks.js",
     "/css/blocks.css": "/css/blocks.css",
     "/css/editor.css": "/css/editor.css",
     "/css/settings.css": "/css/settings.css",
     "/css/dashboard.css": "/css/dashboard.css",
     "/css/admin.css": "/css/admin.css",
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/js/editor.js": "/js/editor.js",
     "/js/settings.js": "/js/settings.js"
 }

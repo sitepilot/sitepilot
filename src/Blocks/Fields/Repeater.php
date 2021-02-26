@@ -5,39 +5,31 @@ namespace Sitepilot\Blocks\Fields;
 class Repeater extends Field
 {
     /**
+     * Wether the field is a repeater field.
+     *
+     * @var boolean
+     */
+    public $repeater = true;
+
+    /**
      * Returns the ACF field configuration.
      *
      * @return array
      */
-    protected function acf_config(): array
+    protected function get_acf_config(string $namespace): array
     {
-        $subfields = [];
-        foreach ($this->get_subfields() as $subfield) {
-            if ($subfield instanceof Field) {
-                $subfields[] = $subfield->get_config('acf', $this->get_attribute());
+        $subfields = array();
+        foreach ($this->fields as $field) {
+            if ($field instanceof Field) {
+                $subfields[$field->get_attribute()] = $field->get_config('acf');
             }
         }
-
-        $this->register_subfields = false;
 
         return [
             'type' => 'repeater',
             'layout' => 'block',
-            'button_label' => __('New item', 'sitepilot-block'),
+            'button_label' => __('New item', 'sitepilot'),
             'sub_fields' => $subfields
         ];
-    }
-
-    /**
-     * Set the repeater fields.
-     *
-     * @param array $fields
-     * @return self
-     */
-    public function fields(array $fields): self
-    {
-        $this->subfields = $fields;
-
-        return $this;
     }
 }

@@ -14,16 +14,13 @@ class VerticalAlign extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'align' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'start' => __('Top', 'sitepilot'),
-                    'center' => __('Center', 'sitepilot'),
-                    'end' => __('Bottom', 'sitepilot')
-                ]
-            ],
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'start' => __('Top', 'sitepilot'),
+                'center' => __('Center', 'sitepilot'),
+                'end' => __('Bottom', 'sitepilot')
+            ]
         ]);
     }
 
@@ -42,9 +39,9 @@ class VerticalAlign extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('align', 'mobile', $align_items, $value),
-            $this->get_class('align', 'tablet', $align_items, $value),
-            $this->get_class('align', 'desktop', $align_items, $value)
+            $this->get_class('mobile', $align_items, $value),
+            $this->get_class('tablet', $align_items, $value),
+            $this->get_class('desktop', $align_items, $value)
         ];
 
         return implode(" ", array_filter($classes));

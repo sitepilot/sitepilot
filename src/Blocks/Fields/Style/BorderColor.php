@@ -14,11 +14,8 @@ class BorderColor extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'color' => [
-                'label' => $this->name,
-                'choices' => array_merge(['default' => ''], sitepilot()->model->get_colour_options())
-            ]
+        $this->select_fields([
+            'choices' => array_merge(['default' => ''], sitepilot()->model->get_color_options())
         ]);
     }
 
@@ -48,9 +45,9 @@ class BorderColor extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('color', 'mobile', $color, $value),
-            $this->get_class('color', 'tablet', $color, $value),
-            $this->get_class('color', 'desktop', $color, $value)
+            $this->get_class('mobile', $color, $value),
+            $this->get_class('tablet', $color, $value),
+            $this->get_class('desktop', $color, $value)
         ];
 
         return implode(" ", array_filter($classes));

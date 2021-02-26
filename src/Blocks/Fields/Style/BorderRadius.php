@@ -24,7 +24,7 @@ class BorderRadius extends ResponsiveSelect
             'xl' => __('Extra Large', 'sitepilot')
         ];
 
-        $this->fields([
+        $this->select_fields([
             'top_left' => [
                 'label' => __('Top Left', 'sitepilot'),
                 'choices' => $choices,
@@ -135,21 +135,21 @@ class BorderRadius extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('top_left', 'mobile', $top_left, $value),
-            $this->get_class('top_left', 'tablet', $top_left, $value),
-            $this->get_class('top_left', 'desktop', $top_left, $value),
+            $this->get_class('mobile', $top_left, $value, 'top_left'),
+            $this->get_class('tablet', $top_left, $value, 'top_left'),
+            $this->get_class('desktop', $top_left, $value, 'top_left'),
 
-            $this->get_class('top_right', 'mobile', $top_right, $value),
-            $this->get_class('top_right', 'tablet', $top_right, $value),
-            $this->get_class('top_right', 'desktop', $top_right, $value),
+            $this->get_class('mobile', $top_right, $value, 'top_right'),
+            $this->get_class('tablet', $top_right, $value, 'top_right'),
+            $this->get_class('desktop', $top_right, $value, 'top_right'),
 
-            $this->get_class('bottom_left', 'mobile', $bottom_left, $value),
-            $this->get_class('bottom_left', 'tablet', $bottom_left, $value),
-            $this->get_class('bottom_left', 'desktop', $bottom_left, $value),
+            $this->get_class('mobile', $bottom_left, $value, 'bottom_left'),
+            $this->get_class('tablet', $bottom_left, $value, 'bottom_left'),
+            $this->get_class('desktop', $bottom_left, $value, 'bottom_left'),
 
-            $this->get_class('bottom_right', 'mobile', $bottom_right, $value),
-            $this->get_class('bottom_right', 'tablet', $bottom_right, $value),
-            $this->get_class('bottom_right', 'desktop', $bottom_right, $value)
+            $this->get_class('mobile', $bottom_right, $value, 'bottom_right'),
+            $this->get_class('tablet', $bottom_right, $value, 'bottom_right'),
+            $this->get_class('desktop', $bottom_right, $value, 'bottom_right')
         ];
 
         return implode(" ", array_filter($classes));

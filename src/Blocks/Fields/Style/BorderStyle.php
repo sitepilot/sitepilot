@@ -14,16 +14,13 @@ class BorderStyle extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'style' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'solid' => __('Solid', 'sitepilot'),
-                    'dashed' => __('Dashed', 'sitepilot'),
-                    'dotted' => __('Dotted', 'sitepilot'),
-                    'double' => __('Double', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'solid' => __('Solid', 'sitepilot'),
+                'dashed' => __('Dashed', 'sitepilot'),
+                'dotted' => __('Dotted', 'sitepilot'),
+                'double' => __('Double', 'sitepilot')
             ]
         ]);
     }
@@ -48,9 +45,9 @@ class BorderStyle extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('style', 'mobile', $style, $value),
-            $this->get_class('style', 'tablet', $style, $value),
-            $this->get_class('style', 'desktop', $style, $value)
+            $this->get_class('mobile', $style, $value),
+            $this->get_class('tablet', $style, $value),
+            $this->get_class('desktop', $style, $value)
         ];
 
         return implode(" ", array_filter($classes));

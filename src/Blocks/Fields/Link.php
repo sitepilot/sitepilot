@@ -5,11 +5,11 @@ namespace Sitepilot\Blocks\Fields;
 class Link extends Field
 {
     /**
-     * Returns the ACF field configuration.
+     * Returns the field's ACF config.
      *
      * @return array
      */
-    protected function acf_config(): array
+    protected function get_acf_config(string $namespace): array
     {
         return [
             'type' => 'url'

@@ -5,29 +5,27 @@ namespace Sitepilot\Blocks\Fields;
 class Select extends Field
 {
     /**
-     * The field's options.
+     * Holds the field's options.
      *
      * @var array
      */
-    private $options;
+    public array $options = [];
 
     /**
-     * Returns the ACF field configuration.
+     * Returns the field's ACF config.
      *
      * @return array
      */
-    protected function acf_config(): array
+    protected function get_acf_config(string $namespace): array
     {
         return [
             'type' => 'select',
-            'ui' => 0,
-            'choices' => $this->options,
-            'default_value' => $this->default
+            'choices' => $this->options
         ];
     }
 
     /**
-     * Set the selectable options.
+     * Set the field's options.
      *
      * @param array $options
      * @return self

@@ -26,6 +26,7 @@ module.exports = {
         fourth: 'var(--sp-color-fourth)',
       },
       spacing: {
+        '1/1': '100%',
         '3/4': '75%',
         '9/16': '56.25%',
         '9/21': '42.8571%'

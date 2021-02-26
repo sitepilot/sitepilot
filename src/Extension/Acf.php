@@ -42,73 +42,69 @@ class Acf extends Module
      */
     public function action_register_blocks(): void
     {
-        foreach (sitepilot()->blocks->get() as $block) {
-            $fields = array();
-            if ($block instanceof Block) {
-                foreach ($block->fields() as $field) {
-                    if ($field instanceof Field) {
-                        $fields[$field->get_attribute()] = $field->get_config('acf', $block->slug);
+        if (function_exists('acf_register_block_type')) {
+            foreach (sitepilot()->blocks->get() as $block) {
+                if ($block instanceof Block) {
+                    // Register block type
+                    $align = array();
+                    if ($block->supports_full_width) $align[] = 'full';
+                    if ($block->supports_wide_width) $align[] = 'wide';
 
-                        if ($field->register_subfields) {
-                            foreach ($field->get_subfields() as $subfield) {
-                                if ($subfield instanceof Field) {
-                                    $fields[$subfield->get_attribute()] = $subfield->get_config('acf', $block->slug);
-                                }
+                    if ($block->icon) {
+                        $icon = $block->icon;
+                    } else {
+                        $icon = [
+                            'src' => $block->icon ? $block->icon : 'insert',
+                            'foreground' => '#1062fe',
+                            'background' => '#fff'
+                        ];
+                    }
+
+                    acf_register_block_type([
+                        'name' => $block->slug,
+                        'title' => $block->name,
+                        'description' => $block->description,
+                        'category' => $block->category,
+                        'icon' => $block->icon,
+                        'post_types' => $block->post_types,
+                        'align' => $block->default_width,
+                        'render_callback' => [$block, 'render_acf'],
+                        'enqueue_assets' => [$block, 'enqueue_assets'],
+                        'supports' => [
+                            'jsx' => $block->supports_inner_blocks,
+                            'align' => count($align) ? $align : false
+                        ],
+                        'icon' => $icon
+                    ]);
+
+                    // Register block fields
+                    $fields = array();
+                    foreach ($block->fields() as $field) {
+                        if ($field instanceof Field) {
+                            $config = $field->get_config('acf', $block->slug);
+                            $fields[$field->get_attribute()] = $config;
+
+                            if (isset($config['append_fields'])) {
+                                $fields = $fields + $config['append_fields'];
                             }
                         }
                     }
-                }
 
-                $align = array();
-                if ($block->supports_full_width) $align[] = 'full';
-                if ($block->supports_wide_width) $align[] = 'wide';
-
-                if ($block->icon) {
-                    $icon = $block->icon;
-                } else {
-                    $icon = [
-                        'src' => $block->icon ? $block->icon : 'insert',
-                        'foreground' => '#1062fe',
-                        'background' => '#fff'
-                    ];
-                }
-
-                acf_register_block_type([
-                    'name' => $block->slug,
-                    'title' => $block->name,
-                    'render_callback' => array($block, 'render_block'),
-                    'category' => $block->category,
-                    'align' => $block->default_width,
-                    'supports' => [
-                        'jsx' => $block->supports_inner_blocks,
-                        'align' => count($align) ? $align : false
-                    ],
-                    'icon' => $icon,
-                    'enqueue_assets' => array($block, 'enqueue_assets'),
-                    'post_types' => $block->post_types
-                ]);
-
-                acf_add_local_field_group([
-                    'key' => 'group_' . $block->slug,
-                    'title' => $block->name,
-                    'fields' => $fields,
-                    'location' => array(
-                        array(
+                    acf_add_local_field_group([
+                        'key' => 'group_' . $block->slug,
+                        'title' => $block->name,
+                        'fields' => $fields,
+                        'location' => array(
                             array(
-                                'param' => 'block',
-                                'operator' => '==',
-                                'value' => 'acf/' . $block->slug,
+                                array(
+                                    'param' => 'block',
+                                    'operator' => '==',
+                                    'value' => 'acf/' . $block->slug,
+                                ),
                             ),
-                        ),
-                    )
-                ]);
-
-                add_filter('allowed_block_types', function ($blocks) use ($block) {
-                    if (is_array($blocks)) {
-                        $blocks[] = 'acf/' . $block->slug;
-                    }
-                    return $blocks;
-                }, 99, 1);
+                        )
+                    ]);
+                }
             }
         }
     }

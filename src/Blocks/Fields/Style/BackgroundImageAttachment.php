@@ -14,15 +14,11 @@ class BackgroundImageAttachment extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'attachment' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'fixed' => __('Fixed', 'sitepilot'),
-                    'scroll' => __('Scroll', 'sitepilot'),
-                ],
-                'width' => '50%'
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'fixed' => __('Fixed', 'sitepilot'),
+                'scroll' => __('Scroll', 'sitepilot'),
             ]
         ]);
     }
@@ -39,9 +35,9 @@ class BackgroundImageAttachment extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('attachment', 'mobile', $attachment, $value),
-            $this->get_class('attachment', 'tablet', $attachment, $value),
-            $this->get_class('attachment', 'desktop', $attachment, $value)
+            $this->get_class('mobile', $attachment, $value),
+            $this->get_class('tablet', $attachment, $value),
+            $this->get_class('desktop', $attachment, $value)
         ];
 
         return implode(" ", array_filter($classes));

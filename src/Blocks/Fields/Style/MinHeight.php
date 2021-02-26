@@ -14,14 +14,11 @@ class MinHeight extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'height' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'screen' => __('Full Screen', 'sitepilot')
-                ]
-            ],
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'screen' => __('Full Screen', 'sitepilot')
+            ]
         ]);
     }
 
@@ -34,9 +31,9 @@ class MinHeight extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('height', 'mobile', $height, $value),
-            $this->get_class('height', 'tablet', $height, $value),
-            $this->get_class('height', 'desktop', $height, $value)
+            $this->get_class('mobile', $height, $value),
+            $this->get_class('tablet', $height, $value),
+            $this->get_class('desktop', $height, $value)
         ];
 
         return implode(" ", array_filter($classes));

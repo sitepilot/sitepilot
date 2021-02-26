@@ -14,19 +14,16 @@ class TransitionDuration extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'duration' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    75 => '75ms',
-                    100 => '100ms',
-                    200 => '200ms',
-                    300 => '300ms',
-                    500 => '500ms',
-                    700 => '700ms',
-                    1000 => '1000ms'
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                75 => '75ms',
+                100 => '100ms',
+                200 => '200ms',
+                300 => '300ms',
+                500 => '500ms',
+                700 => '700ms',
+                1000 => '1000ms'
             ]
         ]);
     }
@@ -61,9 +58,9 @@ class TransitionDuration extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('duration', 'mobile', $duration, $value),
-            $this->get_class('duration', 'tablet', $duration, $value),
-            $this->get_class('duration', 'desktop', $duration, $value)
+            $this->get_class('mobile', $duration, $value),
+            $this->get_class('tablet', $duration, $value),
+            $this->get_class('desktop', $duration, $value)
         ];
 
         return implode(" ", array_filter($classes));

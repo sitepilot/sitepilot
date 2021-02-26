@@ -14,21 +14,18 @@ class FontWeight extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'weight' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'thin' => __('Thin', 'sitepilot'),
-                    'extralight' => __('Extra Light', 'sitepilot'),
-                    'light' => __('Light', 'sitepilot'),
-                    'normal' => __('Normal', 'sitepilot'),
-                    'medium' => __('Medium', 'sitepilot'),
-                    'semibold' => __('Semi Bold', 'sitepilot'),
-                    'bold' => __('Bold', 'sitepilot'),
-                    'extrabold' => __('Extra Bold', 'sitepilot'),
-                    'black' => __('Black', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'thin' => __('Thin', 'sitepilot'),
+                'extralight' => __('Extra Light', 'sitepilot'),
+                'light' => __('Light', 'sitepilot'),
+                'normal' => __('Normal', 'sitepilot'),
+                'medium' => __('Medium', 'sitepilot'),
+                'semibold' => __('Semi Bold', 'sitepilot'),
+                'bold' => __('Bold', 'sitepilot'),
+                'extrabold' => __('Extra Bold', 'sitepilot'),
+                'black' => __('Black', 'sitepilot')
             ]
         ]);
     }
@@ -63,9 +60,9 @@ class FontWeight extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('weight', 'mobile', $weight, $value),
-            $this->get_class('weight', 'tablet', $weight, $value),
-            $this->get_class('weight', 'desktop', $weight, $value)
+            $this->get_class('mobile', $weight, $value),
+            $this->get_class('tablet', $weight, $value),
+            $this->get_class('desktop', $weight, $value)
         ];
 
         return implode(" ", array_filter($classes));

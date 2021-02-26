@@ -23,7 +23,7 @@ class BorderWidth extends ResponsiveSelect
             '8' => '8'
         ];
 
-        $this->fields([
+        $this->select_fields([
             'top' => [
                 'label' => __('Top', 'sitepilot'),
                 'choices' => $choices
@@ -121,21 +121,21 @@ class BorderWidth extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('top', 'mobile', $top, $value),
-            $this->get_class('top', 'tablet', $top, $value),
-            $this->get_class('top', 'desktop', $top, $value),
+            $this->get_class('mobile', $top, $value, 'top'),
+            $this->get_class('tablet', $top, $value, 'top'),
+            $this->get_class('desktop', $top, $value, 'top'),
 
-            $this->get_class('bottom', 'mobile', $bottom, $value),
-            $this->get_class('bottom', 'tablet', $bottom, $value),
-            $this->get_class('bottom', 'desktop', $bottom, $value),
+            $this->get_class('mobile', $bottom, $value, 'bottom'),
+            $this->get_class('tablet', $bottom, $value, 'bottom'),
+            $this->get_class('desktop', $bottom, $value, 'bottom'),
 
-            $this->get_class('left', 'mobile', $left, $value),
-            $this->get_class('left', 'tablet', $left, $value),
-            $this->get_class('left', 'desktop', $left, $value),
+            $this->get_class('mobile', $left, $value, 'left'),
+            $this->get_class('tablet', $left, $value, 'left'),
+            $this->get_class('desktop', $left, $value, 'left'),
 
-            $this->get_class('right', 'mobile', $right, $value),
-            $this->get_class('right', 'tablet', $right, $value),
-            $this->get_class('right', 'desktop', $right, $value)
+            $this->get_class('mobile', $right, $value, 'right'),
+            $this->get_class('tablet', $right, $value, 'right'),
+            $this->get_class('desktop', $right, $value, 'right')
         ];
 
         return implode(" ", array_filter($classes));

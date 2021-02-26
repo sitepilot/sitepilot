@@ -14,18 +14,15 @@ class BoxShadow extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'shadow' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'xs' => __('Extra Small', 'sitepilot'),
-                    'sm' => __('Small', 'sitepilot'),
-                    'md' => __('Medium', 'sitepilot'),
-                    'lg' => __('Large', 'sitepilot'),
-                    'xl' => __('Extra Large', 'sitepilot')
-                ]
-            ],
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'xs' => __('Extra Small', 'sitepilot'),
+                'sm' => __('Small', 'sitepilot'),
+                'md' => __('Medium', 'sitepilot'),
+                'lg' => __('Large', 'sitepilot'),
+                'xl' => __('Extra Large', 'sitepilot')
+            ]
         ]);
     }
 
@@ -50,9 +47,9 @@ class BoxShadow extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('shadow', 'mobile', $shadow, $value),
-            $this->get_class('shadow', 'tablet', $shadow, $value),
-            $this->get_class('shadow', 'desktop', $shadow, $value)
+            $this->get_class('mobile', $shadow, $value),
+            $this->get_class('tablet', $shadow, $value),
+            $this->get_class('desktop', $shadow, $value)
         ];
 
         return implode(" ", array_filter($classes));

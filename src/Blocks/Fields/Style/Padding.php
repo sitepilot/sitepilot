@@ -45,7 +45,7 @@ class Padding extends ResponsiveSelect
             64 => 64
         ];
 
-        $this->fields([
+        $this->select_fields([
             'top' => [
                 'label' => __('Top', 'sitepilot'),
                 'choices' => $choices
@@ -404,21 +404,21 @@ class Padding extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('top', 'mobile', $pt, $value),
-            $this->get_class('top', 'tablet', $pt, $value),
-            $this->get_class('top', 'desktop', $pt, $value),
+            $this->get_class('mobile', $pt, $value, 'top'),
+            $this->get_class('tablet', $pt, $value, 'top'),
+            $this->get_class('desktop', $pt, $value, 'top'),
 
-            $this->get_class('bottom', 'mobile', $pb, $value),
-            $this->get_class('bottom', 'tablet', $pb, $value),
-            $this->get_class('bottom', 'desktop', $pb, $value),
+            $this->get_class('mobile', $pb, $value, 'bottom'),
+            $this->get_class('tablet', $pb, $value, 'bottom'),
+            $this->get_class('desktop', $pb, $value, 'bottom'),
 
-            $this->get_class('left', 'mobile', $pl, $value),
-            $this->get_class('left', 'tablet', $pl, $value),
-            $this->get_class('left', 'desktop', $pl, $value),
+            $this->get_class('mobile', $pl, $value, 'left'),
+            $this->get_class('tablet', $pl, $value, 'left'),
+            $this->get_class('desktop', $pl, $value, 'left'),
 
-            $this->get_class('right', 'mobile', $pr, $value),
-            $this->get_class('right', 'tablet', $pr, $value),
-            $this->get_class('right', 'desktop', $pr, $value)
+            $this->get_class('mobile', $pr, $value, 'right'),
+            $this->get_class('tablet', $pr, $value, 'right'),
+            $this->get_class('desktop', $pr, $value, 'right')
         ];
 
         return implode(" ", array_filter($classes));

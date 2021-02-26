@@ -14,28 +14,25 @@ class Opacity extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'opacity' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    '0' => '0%',
-                    5 => '5%',
-                    10 => '10%',
-                    20 => '20%',
-                    25 => '25%',
-                    30 => '30%',
-                    40 => '40%',
-                    50 => '50%',
-                    60 => '60%',
-                    70 => '70%',
-                    75 => '75%',
-                    80 => '80%',
-                    90 => '90%',
-                    95 => '95%',
-                    100 => '100%'
-                ]
-            ],
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                '0' => '0%',
+                5 => '5%',
+                10 => '10%',
+                20 => '20%',
+                25 => '25%',
+                30 => '30%',
+                40 => '40%',
+                50 => '50%',
+                60 => '60%',
+                70 => '70%',
+                75 => '75%',
+                80 => '80%',
+                90 => '90%',
+                95 => '95%',
+                100 => '100%'
+            ]
         ]);
     }
 
@@ -86,9 +83,9 @@ class Opacity extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('opacity', 'mobile', $opacity, $value),
-            $this->get_class('opacity', 'tablet', $opacity, $value),
-            $this->get_class('opacity', 'desktop', $opacity, $value)
+            $this->get_class('mobile', $opacity, $value),
+            $this->get_class('tablet', $opacity, $value),
+            $this->get_class('desktop', $opacity, $value)
         ];
 
         return implode(" ", array_filter($classes));

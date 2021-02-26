@@ -18,6 +18,7 @@ mix.setPublicPath('assets/dist')
     .sass('assets/scss/admin.scss', './assets/dist/css').options({
         processCssUrls: false
     })
+    .js('assets/js/blocks.js', 'assets/dist/js')
     .react('assets/js/editor.js', 'assets/dist/js')
     .react('assets/js/settings.js', 'assets/dist/js')
     .react('assets/js/dashboard.js', 'assets/dist/js')

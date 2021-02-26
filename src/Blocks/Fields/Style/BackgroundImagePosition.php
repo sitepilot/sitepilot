@@ -14,21 +14,18 @@ class BackgroundImagePosition extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'position' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'bottom' => __('Bottom', 'sitepilot'),
-                    'center' => __('Center', 'sitepilot'),
-                    'left' => __('Left', 'sitepilot'),
-                    'left-bottom' => __('Left Bottom', 'sitepilot'),
-                    'left-top' => __('Left Top', 'sitepilot'),
-                    'right' => __('Right', 'sitepilot'),
-                    'right-bottom' => __('Right Bottom', 'sitepilot'),
-                    'right-top' => __('Right Top', 'sitepilot'),
-                    'top' => __('Top', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'bottom' => __('Bottom', 'sitepilot'),
+                'center' => __('Center', 'sitepilot'),
+                'left' => __('Left', 'sitepilot'),
+                'left-bottom' => __('Left Bottom', 'sitepilot'),
+                'left-top' => __('Left Top', 'sitepilot'),
+                'right' => __('Right', 'sitepilot'),
+                'right-bottom' => __('Right Bottom', 'sitepilot'),
+                'right-top' => __('Right Top', 'sitepilot'),
+                'top' => __('Top', 'sitepilot')
             ]
         ]);
     }
@@ -66,9 +63,9 @@ class BackgroundImagePosition extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('position', 'mobile', $position, $value),
-            $this->get_class('position', 'tablet', $position, $value),
-            $this->get_class('position', 'desktop', $position, $value)
+            $this->get_class('mobile', $position, $value),
+            $this->get_class('tablet', $position, $value),
+            $this->get_class('desktop', $position, $value)
         ];
 
         return implode(" ", array_filter($classes));

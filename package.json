@@ -17,6 +17,7 @@
         "webpack": "^4.44.2"
     },
     "dependencies": {
+        "@wordpress/hooks": "^2.11.1",
         "lodash": "^4.17.20",
         "lodash.assign": "^4.2.0",
         "tailwindcss": "^2.0.1",

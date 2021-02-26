@@ -14,24 +14,21 @@ class FontSize extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'size' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'xs' => __('Extra Small', 'sitepilot'),
-                    'sm' => __('Small', 'sitepilot'),
-                    'md' => __('Medium', 'sitepilot'),
-                    'xl' => __('Extra Large', 'sitepilot'),
-                    '2xl' => __('Extra Large X2', 'sitepilot'),
-                    '3xl' => __('Extra Large X3', 'sitepilot'),
-                    '4xl' => __('Extra Large X4', 'sitepilot'),
-                    '5xl' => __('Extra Large X5', 'sitepilot'),
-                    '6xl' => __('Extra Large X6', 'sitepilot'),
-                    '7xl' => __('Extra Large X7', 'sitepilot'),
-                    '8xl' => __('Extra Large X8', 'sitepilot'),
-                    '9xl' => __('Extra Large X9', 'sitepilot'),
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'xs' => __('Extra Small', 'sitepilot'),
+                'sm' => __('Small', 'sitepilot'),
+                'md' => __('Medium', 'sitepilot'),
+                'xl' => __('Extra Large', 'sitepilot'),
+                '2xl' => __('Extra Large X2', 'sitepilot'),
+                '3xl' => __('Extra Large X3', 'sitepilot'),
+                '4xl' => __('Extra Large X4', 'sitepilot'),
+                '5xl' => __('Extra Large X5', 'sitepilot'),
+                '6xl' => __('Extra Large X6', 'sitepilot'),
+                '7xl' => __('Extra Large X7', 'sitepilot'),
+                '8xl' => __('Extra Large X8', 'sitepilot'),
+                '9xl' => __('Extra Large X9', 'sitepilot'),
             ]
         ]);
     }
@@ -83,9 +80,9 @@ class FontSize extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('size', 'mobile', $size, $value),
-            $this->get_class('size', 'tablet', $size, $value),
-            $this->get_class('size', 'desktop', $size, $value)
+            $this->get_class('mobile', $size, $value),
+            $this->get_class('tablet', $size, $value),
+            $this->get_class('desktop', $size, $value)
         ];
 
         return implode(" ", array_filter($classes));

@@ -74,13 +74,11 @@ class Loop extends Module
     {
         $this->loop_counter++;
 
-        if (isset($data['order_by']) && 'rand' == $data['order_by']) {
-            if (isset($data['pagination']) && in_array($data['pagination'], array('scroll', 'load_more'))) {
-                if (!isset($_GET['sp_rand_seed'])) {
-                    $this->rand_seed = rand();
-                } else {
-                    $this->rand_seed = $_GET['sp_rand_seed'];
-                }
+        if (isset($data['query_order_by']) && 'rand' == $data['query_order_by']) {
+            if (!isset($_GET['sp_rand_seed'])) {
+                $this->rand_seed = rand();
+            } else {
+                $this->rand_seed = $_GET['sp_rand_seed'];
             }
         }
 
@@ -129,14 +127,14 @@ class Loop extends Module
     {
         global $post;
 
-        $order = empty($data['order']) ? 'DESC' : $data['order'];
-        $order_by = empty($data['order_by']) ? 'date' : $data['order_by'];
-        $post_type = empty($data['post_type']) ? 'post' : $data['post_type'];
-        $posts_per_page = empty($data['posts_per_page']) ? 10 : $data['posts_per_page'];
+        $order = empty($data['query_order']) ? 'DESC' : $data['query_order'];
+        $order_by = empty($data['query_order_by']) ? 'date' : $data['query_order_by'];
+        $post_type = empty($data['query_post_type']) ? 'post' : $data['query_post_type'];
+        $posts_per_page = empty($data['query_posts_per_page']) ? 10 : $data['query_posts_per_page'];
         $this->has_custom_query = true;
 
         // Get the offset
-        $offset = isset($data['offset']) ? intval($data['offset']) : 0;
+        $offset = isset($data['query_offset']) ? intval($data['query_offset']) : 0;
 
         // Get the paged offset
         $paged = $this->get_paged();
@@ -164,8 +162,13 @@ class Loop extends Module
         );
 
         // Set query keywords if specified in the settings
-        if (isset($data['keyword']) && !empty($data['keyword'])) {
-            $args['s'] = $data['keyword'];
+        if (isset($data['query_keyword']) && !empty($data['query_keyword'])) {
+            $args['s'] = $data['query_keyword'];
+        }
+
+        // Random order seed
+        if ('rand' == $order_by && $this->rand_seed > 0) {
+            $args['orderby'] = 'RAND(' . $this->rand_seed . ')';
         }
 
         // Order by author
@@ -177,7 +180,7 @@ class Loop extends Module
         }
 
         // Exclude self
-        if ($post && isset($data['exclude_self']) && 'yes' == $data['exclude_self']) {
+        if ($post && isset($data['query_exclude_self']) && 'yes' == $data['query_exclude_self']) {
             $args['post__not_in'][] = $post->ID;
         }
 
@@ -437,7 +440,7 @@ class Loop extends Module
                 'format'   => $format,
                 'current'  => $current_page,
                 'total'    => $total_pages,
-                'type'     => 'list',
+                'type'     => 'plain',
                 'add_args' => $add_args,
             ), $query);
 
@@ -590,7 +593,7 @@ class Loop extends Module
     {
         global $wp_rewrite;
 
-        if ($this->rewrote_post_type || $this->_rewrote_taxonomy) {
+        if ($this->rewrote_post_type) {
             // Need to flush (soft) so our custom rules will work.
             $wp_rewrite->flush_rules(false);
         }

@@ -14,16 +14,13 @@ class BackgroundImageRepeat extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'repeat' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'repeat' => __('Repeat', 'sitepilot'),
-                    'no-repeat' => __('No Repeat', 'sitepilot'),
-                    'repeat-x' => __('Repeat X', 'sitepilot'),
-                    'repeat-y' => __('Repeat Y', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'repeat' => __('Repeat', 'sitepilot'),
+                'no-repeat' => __('No Repeat', 'sitepilot'),
+                'repeat-x' => __('Repeat X', 'sitepilot'),
+                'repeat-y' => __('Repeat Y', 'sitepilot')
             ]
         ]);
     }
@@ -46,9 +43,9 @@ class BackgroundImageRepeat extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('repeat', 'mobile', $repeat, $value),
-            $this->get_class('repeat', 'tablet', $repeat, $value),
-            $this->get_class('repeat', 'desktop', $repeat, $value)
+            $this->get_class('mobile', $repeat, $value),
+            $this->get_class('tablet', $repeat, $value),
+            $this->get_class('desktop', $repeat, $value)
         ];
 
         return implode(" ", array_filter($classes));

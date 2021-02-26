@@ -16,7 +16,7 @@ class Post extends Field
      *
      * @return array
      */
-    protected function acf_config(): array
+    protected function get_acf_config(string $namespace): array
     {
         return [
             'type' => 'post_object',

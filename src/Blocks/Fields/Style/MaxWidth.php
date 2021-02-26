@@ -14,26 +14,23 @@ class MaxWidth extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'max_width' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'container' => __('Container', 'sitepilot'),
-                    'xs' => __('Extra Small', 'sitepilot'),
-                    'sm' => __('Small', 'sitepilot'),
-                    'md' => __('Medium', 'sitepilot'),
-                    'lg' => __('Large', 'sitepilot'),
-                    'xl' => __('Extra Large', 'sitepilot'),
-                    '2xl' => __('Extra Large x2', 'sitepilot'),
-                    '3xl' => __('Extra Large x3', 'sitepilot'),
-                    '4xl' => __('Extra Large x4', 'sitepilot'),
-                    '5xl' => __('Extra Large x5', 'sitepilot'),
-                    '6xl' => __('Extra Large x6', 'sitepilot'),
-                    '7xl' => __('Extra Large x7', 'sitepilot'),
-                    'full' => __('Full Width', 'sitepilot')
-                ]
-            ],
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'container' => __('Container', 'sitepilot'),
+                'xs' => __('Extra Small', 'sitepilot'),
+                'sm' => __('Small', 'sitepilot'),
+                'md' => __('Medium', 'sitepilot'),
+                'lg' => __('Large', 'sitepilot'),
+                'xl' => __('Extra Large', 'sitepilot'),
+                '2xl' => __('Extra Large x2', 'sitepilot'),
+                '3xl' => __('Extra Large x3', 'sitepilot'),
+                '4xl' => __('Extra Large x4', 'sitepilot'),
+                '5xl' => __('Extra Large x5', 'sitepilot'),
+                '6xl' => __('Extra Large x6', 'sitepilot'),
+                '7xl' => __('Extra Large x7', 'sitepilot'),
+                'full' => __('Full Width', 'sitepilot')
+            ]
         ]);
     }
 
@@ -56,7 +53,7 @@ class MaxWidth extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('max_width', 'mobile', $max_width, $value)
+            $this->get_class('mobile', $max_width, $value)
         ];
 
         return implode(" ", array_filter($classes));

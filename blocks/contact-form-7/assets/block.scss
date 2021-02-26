@@ -1,12 +1,4 @@
 .sp-block.sp-contact-form-7 {
-    input:not([type="submit"]), textarea {
-        width: 100%;
-    }
-
-    form>p{
-        margin-bottom: 0;
-    }
-
     .btn-center {
         input[type="submit"] {
             @apply mx-auto block;

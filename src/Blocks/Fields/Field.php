@@ -5,18 +5,18 @@ namespace Sitepilot\Blocks\Fields;
 abstract class Field
 {
     /**
-     * The field's name.
-     *
-     * @var string $name
-     */
-    public $name;
-
-    /**
      * The field's attribute.
      *
      * @var string $attribute
      */
     public $attribute;
+
+    /**
+     * The field's name.
+     *
+     * @var string $name
+     */
+    public $name;
 
     /**
      * The field's default value.
@@ -40,25 +40,25 @@ abstract class Field
     public $required;
 
     /**
-     * The field's subfields.
-     *
-     * @var array
-     */
-    public $subfields = [];
-
-    /**
-     * Wether to register subfields.
-     * 
-     * @var bool
-     */
-    public $register_subfields = true;
-
-    /**
      * The field's conditional rules.
      * 
      * @var array
      */
     public $conditional_rules = [];
+
+    /**
+     * The field's subfields.
+     * 
+     * @var array
+     */
+    public $fields;
+
+    /**
+     * Wether the field is a repeater field.
+     *
+     * @var boolean
+     */
+    public $repeater = false;
 
     /**
      * Create a new field instance.
@@ -84,46 +84,100 @@ abstract class Field
     }
 
     /**
-     * Returns the ACF field configuration.
+     * Set the field's default value.
      *
-     * @return array
+     * @param mixed $value
+     * @return self
      */
-    abstract protected function acf_config(): array;
+    public function default_value($value): self
+    {
+        $this->default = $value;
+
+        return $this;
+    }
 
     /**
-     * Get the field's configuration.
-     * 
-     * @param string $type
-     * @return array
+     * Set the field's description.
+     *
+     * @param string $value
+     * @return self
      */
-    public function get_config(string $type, string $namespace = ''): ?array
+    public function description($value): self
     {
-        if ($type == 'acf') {
-            if (count($this->conditional_rules)) {
-                $conditional_logic = array();
-                foreach ($this->conditional_rules as $rule) {
-                    $conditional_logic[0][] = [
-                        'field' => $namespace . '_' . $rule['field'],
-                        'operator' => $rule['operator'] . ($rule['value'] == 'empty' ? $rule['value'] : ''),
-                        'value' => $rule['value']
-                    ];
-                }
-            } else {
-                $conditional_logic = null;
-            }
+        $this->description = $value;
 
-            return array_merge([
-                'key' => $namespace . '_' . $this->get_attribute(),
-                'label' => $this->get_name(),
-                'name' => $this->get_attribute(),
-                'instructions' => $this->get_description(),
-                'default_value' => $this->get_default(),
-                'required' => $this->get_required(),
-                'conditional_logic' => $conditional_logic
-            ], $this->acf_config());
+        return $this;
+    }
+
+    /**
+     * Add conditional logic to field.
+     *
+     * @param string $field
+     * @param string $operator
+     * @param string $value
+     * @return self
+     */
+    public function conditional_rule($field, $operator, $value): self
+    {
+        $this->conditional_rules[] = [
+            'field' => $field,
+            'operator' => $operator,
+            'value' => $value
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Set the field's subfields.
+     *
+     * @param array $fields
+     * @return self
+     */
+    public function fields(array $fields): self
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
+     * Add a subfield.
+     *
+     * @param Field $field
+     * @return self
+     */
+    public function add_field(Field $field): self
+    {
+        $this->fields[] = $field;
+
+        return $this;
+    }
+
+    /**
+     * Add subfields.
+     *
+     * @param array $fields
+     * @return self
+     */
+    public function add_fields(array $fields): self
+    {
+        foreach ($fields as $field) {
+            $this->add_field($field);
         }
 
-        return null;
+        return $this;
+    }
+
+    /**
+     * Format the field's value.
+     *
+     * @param mixed $value
+     * @return mixed
+     */
+    protected function format_value($value)
+    {
+        return $value;
     }
 
     /**
@@ -177,99 +231,87 @@ abstract class Field
     }
 
     /**
-     * Set the field's default value.
-     *
-     * @param string $value
-     * @return self
+     * Returns the field's subfields.
+     * 
+     * @return array
      */
-    public function default_value($value): self
+    public function get_fields(): ?array
     {
-        $this->default = $value;
-
-        return $this;
+        return $this->fields;
     }
 
     /**
-     * Set the field's description.
+     * Returns if the field is a repeater field.
      *
-     * @param string $value
-     * @return self
+     * @return boolean
      */
-    public function description($value): self
+    public function is_repeater(): bool
     {
-        $this->description = $value;
-
-        return $this;
-    }
-
-    /**
-     * Add conditional logic to field.
-     *
-     * @param string $field
-     * @param string $operator
-     * @param string $value
-     * @return self
-     */
-    public function conditional_rule($field, $operator, $value): self
-    {
-        $this->conditional_rules[] = [
-            'field' => $field,
-            'operator' => $operator,
-            'value' => $value
-        ];
-
-        return $this;
+        return $this->repeater;
     }
 
     /**
      * Get the field's value.
      *
-     * @param string $type
      * @param array $data
      * @return mixed
      */
-    public function get_value(string $type, array $data = [])
+    public function get_value(array $data)
     {
-        switch ($type) {
-            case 'acf':
-                $value = get_field($this->get_attribute());
+        $value = $data[$this->get_attribute()] ?? null;
 
-                if (count($data) && isset($data[$this->get_attribute()])) {
-                    $value = $data[$this->get_attribute()];
-                }
-                break;
-            case 'shortcode':
-                $value = $data[$this->get_attribute()] ?? null;
-
-                if (!is_null(json_decode($value, true))) {
-                    $value = json_decode($value, true);
-                }
-                break;
+        if (is_string($value) && !is_null(json_decode($value, true))) {
+            $value = json_decode($value, true);
         }
 
         return $this->format_value(
-            is_null($value) || is_string($value) && (empty($value) || $value == 'default') ? $this->get_default() : $value
+            is_string($value) && $value == 'default' || is_null($value) ? $this->get_default() : $value
         );
     }
 
     /**
-     * Format the field's value.
-     *
-     * @param mixed $value
-     * @return mixed
+     * Returns the field's configuration.
+     * 
+     * @param string $type
+     * @return array
      */
-    protected function format_value($value)
+    public function get_config(string $type, string $namespace = ''): ?array
     {
-        return $value;
+        if ($type == 'acf') {
+            if (count($this->conditional_rules)) {
+                $conditional_logic = array();
+                foreach ($this->conditional_rules as $rule) {
+                    $conditional_logic[0][] = [
+                        'field' => $namespace . '_' . $rule['field'],
+                        'operator' => $rule['operator'] . ($rule['value'] == 'empty' ? $rule['value'] : ''),
+                        'value' => $rule['value']
+                    ];
+                }
+            } else {
+                $conditional_logic = null;
+            }
+
+            return array_merge([
+                'key' => $namespace . '_' . $this->get_attribute(),
+                'label' =>  $this->get_name(),
+                'name' => $this->get_attribute(),
+                'instructions' => $this->get_description(),
+                'default_value' => $this->get_default(),
+                'required' => $this->get_required(),
+                'conditional_logic' => $conditional_logic
+            ], $this->get_acf_config($namespace));
+        }
+
+        return null;
     }
 
     /**
-     * Returns the field's subfields.
+     * Returns the field's ACF config.
      *
      * @return array
      */
-    public function get_subfields(): array
+    protected function get_acf_config(string $namespace): array
     {
-        return $this->subfields;
+        return [];
     }
 }

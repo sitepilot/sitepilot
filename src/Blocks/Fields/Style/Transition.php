@@ -14,17 +14,14 @@ class Transition extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'transition' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'all' => __('All', 'sitepilot'),
-                    'colors' => __('Colors', 'sitepilot'),
-                    'opacity' => __('Opacity', 'sitepilot'),
-                    'shadow' => __('Shadow', 'sitepilot'),
-                    'transform' => __('Transform', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'all' => __('All', 'sitepilot'),
+                'colors' => __('Colors', 'sitepilot'),
+                'opacity' => __('Opacity', 'sitepilot'),
+                'shadow' => __('Shadow', 'sitepilot'),
+                'transform' => __('Transform', 'sitepilot')
             ]
         ]);
     }
@@ -52,9 +49,9 @@ class Transition extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('transition', 'mobile', $transition, $value),
-            $this->get_class('transition', 'tablet', $transition, $value),
-            $this->get_class('transition', 'desktop', $transition, $value)
+            $this->get_class('mobile', $transition, $value),
+            $this->get_class('tablet', $transition, $value),
+            $this->get_class('desktop', $transition, $value)
         ];
 
         return implode(" ", array_filter($classes));

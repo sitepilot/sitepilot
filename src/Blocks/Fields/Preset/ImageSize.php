@@ -6,16 +6,20 @@ use Sitepilot\Blocks\Fields\Select;
 
 class ImageSize extends Select
 {
+    /**
+     * Construct the field.
+     *
+     * @param array ...$arguments
+     */
     public function __construct(...$arguments)
     {
         if (count($arguments) == 1) {
             array_unshift($arguments, __('Image Size', 'sitepilot'));
         }
-
+        
         parent::__construct(...$arguments);
 
         $options = [
-            '' => '',
             'full' => 'Full'
         ];
 

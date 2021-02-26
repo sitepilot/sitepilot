@@ -1,27 +1,16 @@
 <?php
 
-namespace Sitepilot\Blocks;
+namespace Sitepilot\Theme\Blocks;
 
-use Sitepilot\Blocks\Fields\Style\Color;
-use Sitepilot\Blocks\Fields\Style\Margin;
-use Sitepilot\Blocks\Fields\Style\Padding;
-use Sitepilot\Blocks\Fields\Style\FontSize;
-use Sitepilot\Blocks\Fields\Style\BoxShadow;
-use Sitepilot\Blocks\Fields\Style\TextAlign;
-use Sitepilot\Blocks\Fields\Style\FontWeight;
-use Sitepilot\Blocks\Fields\Style\BorderColor;
-use Sitepilot\Blocks\Fields\Style\BorderStyle;
-use Sitepilot\Blocks\Fields\Style\BorderWidth;
-use Sitepilot\Blocks\Fields\Preset\BorderGroup;
-use Sitepilot\Blocks\Fields\Style\BorderRadius;
-use Sitepilot\Blocks\Fields\Preset\SpacingGroup;
-use Sitepilot\Blocks\Fields\Style\TextTransform;
-use Sitepilot\Blocks\Fields\Style\BackgroundColor;
-use Sitepilot\Blocks\Fields\Preset\BackgroundGroup;
-use Sitepilot\Blocks\Fields\Preset\TypographyGroup;
+use Sitepilot\Blocks\Block;
 
 class PostContent extends Block
 {
+    /**
+     * Construct the block.
+     * 
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct([
@@ -37,83 +26,26 @@ class PostContent extends Block
         ]);
     }
 
-    public function fields(): array
-    {
-        return [
-            TypographyGroup::make('text_group')
-                ->fields([
-                    Color::make('color'),
-
-                    FontSize::make('font_size'),
-
-                    FontWeight::make('font_weight'),
-
-                    TextAlign::make('text_align'),
-
-                    TextTransform::make('text_transform')
-                ]),
-
-            BackgroundGroup::make('bg_group')
-                ->fields([
-                    BackgroundColor::make('bg_color'),
-
-                    BoxShadow::make('bg_shadow')
-                ]),
-
-            BorderGroup::make('border_group')
-                ->fields([
-                    BorderColor::make('border_color'),
-
-                    BorderStyle::make('border_style'),
-
-                    BorderWidth::make('border_width'),
-
-                    BorderRadius::make(__('Border Radius', 'sitepilot'), 'border_radius')
-                ]),
-
-            SpacingGroup::make('spacing_group')
-                ->fields([
-                    Padding::make('padding'),
-
-                    Margin::make('margin')->default_value(
-                        sitepilot()->model->get_block_margin()
-                    )
-                ]),
-        ];
-    }
-
+    /**
+     * Returns the block's view data.
+     *
+     * @param arrray $data
+     * @return array
+     */
     protected function view_data(array $data): array
     {
-        if (is_admin()) {
+        if ('sp-template' != get_post_type() && !is_admin()) {
+            $post = sitepilot()->model->get_post();
+            $post_content = apply_filters('the_content', $post->post_content);
+        } elseif(is_admin()) {
+            $post_content = null;
+        } else {
             $post_content = '<p>This is a preview. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis et libero ut tincidunt. Aliquam sit amet lorem porta, molestie nisl nec, sagittis eros. Sed ultricies rhoncus placerat. Fusce dignissim lorem lectus, sit amet lacinia ligula pellentesque in. Curabitur quis massa eget nibh volutpat ultrices at feugiat ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi imperdiet velit eu risus congue fermentum. Donec et ultricies neque. Pellentesque placerat, ante a dapibus tincidunt, elit est pretium tortor, et pulvinar erat nisi et tortor. Donec eget odio mollis, interdum sapien in, efficitur purus. Suspendisse aliquam ante metus, ac gravida lectus commodo ac. Nam ex quam, condimentum scelerisque nisi et, lobortis dapibus ex. In posuere tristique neque nec convallis. Maecenas vel magna condimentum, bibendum dui non, feugiat magna. Quisque imperdiet dapibus libero, quis auctor velit maximus vitae.</p>';
             $post_content .= '<p>Aenean leo ante, commodo ac urna non, tincidunt vestibulum enim. Ut enim ligula, porttitor eu magna sed, consequat posuere est. Nunc porta tincidunt tristique. Mauris hendrerit nec sapien id hendrerit. Nullam eu odio sit amet neque porta sodales. Duis vitae tellus a ipsum finibus pulvinar nec vel eros. Sed interdum urna id molestie pellentesque. Sed a commodo enim. Mauris dolor justo, tristique in tincidunt quis, facilisis at neque. Duis non pretium ipsum, in consequat eros. Sed cursus volutpat enim ut cursus. Aenean a mollis arcu. Maecenas eget tortor mattis, fringilla nisl sed, porta quam. Pellentesque felis urna, molestie ut diam eu, eleifend ultrices massa. Pellentesque nec quam quis metus sagittis sagittis aliquam et velit. Donec venenatis accumsan gravida.</p>';
-        } else {
-            $post_content = get_the_content();
         }
 
         return [
-            'post_content' => $post_content,
-            'classes' => $this->get_classes([
-                'inner-blocks',
-                'field:color',
-                'field:font_size',
-                'field:font_weight',
-                'field:text_align',
-                'field:text_transform',
-                'field:bg_color',
-                'field:bg_shadow',
-                'field:border_color',
-                'field:border_style',
-                'field:border_width',
-                'field:border_radius',
-                'field:margin',
-                'field:padding',
-                !empty($data['color']) ? 'color-inherit' : '',
-                !empty($data['font_size']) ? 'font-size-inherit' : '',
-                !empty($data['font_weight']) ? 'font-weight-inherit' : '',
-                !empty($data['text_align']) ? 'text-align-inherit' : '',
-                !empty($data['text_transform']) ? 'text-transform-inherit' : ''
-            ])
+            'content' => $post_content
         ];
     }
 }

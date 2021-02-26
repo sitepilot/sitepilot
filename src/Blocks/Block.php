@@ -9,6 +9,13 @@ use Sitepilot\Blocks\Fields\Field;
 abstract class Block
 {
     /**
+     * The block's slug.
+     *
+     * @var string $slug
+     */
+    public $slug;
+
+    /**
      * The block display name.
      *
      * @var string $name
@@ -35,13 +42,6 @@ abstract class Block
      * @var string $category
      */
     public $category;
-
-    /**
-     * The block slug.
-     *
-     * @var string $slug
-     */
-    public $slug;
 
     /**
      * The block directory.
@@ -86,18 +86,25 @@ abstract class Block
     public $post_types;
 
     /**
-     * The data passed to the view.
+     * The block fields.
      *
      * @var array
      */
-    private $view_data_cache;
+    public $fields = [];
 
     /**
      * Additional block classes.
      *
      * @var array
      */
-    private $classes;
+    public $classes;
+
+    /**
+     * The data passed to the view.
+     *
+     * @var array
+     */
+    private $view_data_cache;
 
     /**
      * Create a new block instance.
@@ -132,11 +139,11 @@ abstract class Block
         $this->supports_full_width = $params['supports']['full_width'] ?? false;
         $this->supports_wide_width = $params['supports']['wide_width'] ?? false;
         $this->default_width = $params['default']['width'] ?? null;
-        $this->post_types = $params['post_types'] ?? null;
-        $this->classes = $params['classes'] ?? [];
-        sitepilot()->blocks->add($this);
+        $this->post_types = $params['post_types'] ?? [];
+        $this->classes = array_merge($params['classes'] ?? [], ['sp-block', $this->slug]);
+        $this->fields = $params['fields'] ?? [];
 
-        add_shortcode($this->slug, [$this, 'render_shortcode']);
+        sitepilot()->blocks->add($this);
     }
 
     /**
@@ -146,114 +153,78 @@ abstract class Block
      */
     public function fields(): array
     {
-        return [];
+        return $this->fields;
     }
 
     /**
-     * Get field data from array or object.
+     * Add field to the block.
+     *
+     * @param Field $field
+     * @return self
+     */
+    public function add_field(Field $field): self
+    {
+        if ($field instanceof Field) {
+            $this->fields[$field->get_attribute()] = $field;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple fields to the block.
+     *
+     * @param array $fields
+     * @return self
+     */
+    public function add_fields(array $fields): self
+    {
+        foreach ($fields as $field) {
+            $this->add_field($field);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get field data from array.
      *
      * @param array $data
      * @return array
      */
-    private function get_field_data($type, $data): array
+    private function get_field_data($data): array
     {
         $field_data = array();
         foreach ($this->fields() as $field) {
-            if ($field instanceof Field) {
-                $value = $field->get_value($type, $data);
+            $value = $field->get_value($data);
 
-                if (!count($field->get_subfields())) {
-                    $field_data[$field->get_attribute()] = $value;
-                } elseif (is_array($value)) {
-                    $index = 0;
-                    foreach ($value as $subvalue) {
-                        foreach ($field->get_subfields() as $subfield) {
-                            if ($subfield instanceof Field) {
-                                $value = $subfield->get_value($type, $subvalue);
-                                $field_data[$field->get_attribute()][$index][$subfield->get_attribute()] = $value;
-                            }
-                        }
-                        $index++;
-                    }
-                } else {
-                    foreach ($field->get_subfields() as $subfield) {
-                        if ($subfield instanceof Field) {
-                            $value = $subfield->get_value($type, $data);
-                            $field_data[$subfield->get_attribute()] = $value;
+            // Field is a repeater field
+            if ($field->is_repeater()) {
+                $field_data[$field->get_attribute()] = array();
+
+                if (is_array($value)) {
+                    for ($i = 0; $i < count($value); $i++) {
+                        foreach ($field->get_fields() as $subfield) {
+                            $field_data[$field->get_attribute()][$i][$subfield->get_attribute()] = $subfield->get_value($value[$i]);
                         }
                     }
                 }
             }
+
+            // Field has subfields
+            elseif ($field->get_fields()) {
+                foreach ($field->get_fields() as $subfield) {
+                    $field_data[$subfield->get_attribute()] = $subfield->get_value($data);
+                }
+            }
+
+            // Normal field
+            else {
+                $field_data[$field->get_attribute()] = $field->get_value($data);
+            }
         }
 
         return $field_data;
-    }
-
-    /**
-     * Render block view.
-     *
-     * @return void
-     */
-    public function render_block($block, $content = '', $is_preview = false, $post_id = 0): void
-    {
-        $classes = array_merge($this->classes, ['sp-block', $this->slug]);
-
-        if (!empty($block['className'])) $classes[] = $block['className'];
-        if (!empty($block['align'])) $classes[] = 'align' . $block['align'];
-        if (!empty($block['align_text'])) $classes[] = 'has-text-align-' . $block['align_text'];
-
-        $class = 'class="' . implode(" ", $classes) . '"';
-
-        $GLOBALS['post'] = sitepilot()->model->get_post($post_id);
-
-        setup_postdata($GLOBALS['post']);
-
-        $data = $this->get_view_data(array_merge([
-            'block' => (array) $this,
-            'block_start' => "<div {$class} id='sp-block-" . uniqid() . "'>",
-            'block_end' => "</div>",
-            'post_id' => sitepilot()->model->get_post_id($post_id)
-        ], $this->get_field_data('acf', [])));
-
-        wp_reset_postdata();
-
-        echo $this->render_view($data);
-    }
-
-    /**
-     * Render shortcode view.
-     *
-     * @return string
-     */
-    public function render_shortcode($args = [], $slot = ''): string
-    {
-        $class = 'class="' . implode(" ", ['sp-block', 'sp-shortcode', $this->slug]) . '"';
-
-        $GLOBALS['post'] = sitepilot()->model->get_post();
-
-        setup_postdata($GLOBALS['post']);
-
-        $data = $this->get_view_data(array_merge([
-            'block' => (array) $this,
-            'block_start' => "<div {$class}>",
-            'block_end' => "</div>",
-            'post_id' => sitepilot()->model->get_post_id()
-        ], $this->get_field_data('shortcode', $args), ['slot' => !empty($slot) ? $slot : $field_data['slot'] ?? '']));
-
-        wp_reset_postdata();
-
-        return $this->render_view($data);
-    }
-
-    /**
-     * Returns block view data.
-     *
-     * @param arrray $data
-     * @return array
-     */
-    protected function view_data(array $data): array
-    {
-        return $data;
     }
 
     /**
@@ -270,30 +241,14 @@ abstract class Block
     }
 
     /**
-     * Render blade view.
+     * Returns block view data.
      *
-     * @param array $data
-     * @return string
+     * @param arrray $data
+     * @return array
      */
-    private function render_view(array $data): string
+    protected function view_data(array $data): array
     {
-        $blade = sitepilot()->blade([$this->dir . '/views']);
-
-        try {
-            $view = $blade->make($data['layout'] ?? 'frontend', $data)->render();
-        } catch (Exception $e) {
-            $data['exception'] = $e->getMessage();
-        }
-
-        if (empty(trim($view)) && is_admin()) {
-            if (empty($data['exception'])) {
-                $data['exception'] = "";
-            }
-
-            $view = $blade->make('blocks/error', $data)->render();
-        }
-
-        return (isset($data['block_start']) ? $data['block_start'] : '') . $view . (isset($data['block_end']) ? $data['block_end'] : '');
+        return $data;
     }
 
     /**
@@ -354,17 +309,101 @@ abstract class Block
         $key = 'query_source';
 
         foreach ($this->fields() as $field) {
-            if ($field->attribute == $key) {
+            if ($field->get_attribute() == $key) {
                 return true;
-            }
-
-            foreach ($field->subfields() as $subfield) {
-                if ($subfield->attribute == $key) {
-                    return true;
-                }
             }
         }
 
         return false;
+    }
+
+    /**
+     * Render ACF block.
+     *
+     * @return void
+     */
+    public function render_acf($block)
+    {
+        $classes = array();
+        if (!empty($block['className'])) $classes[] = $block['className'];
+        if (!empty($block['align'])) $classes[] = 'align' . $block['align'];
+        if (!empty($block['align_text'])) $classes[] = 'has-text-align-' . $block['align_text'];
+
+        echo $this->render_view(get_fields(), $classes);
+    }
+
+    /**
+     * Render shortcode.
+     *
+     * @return void
+     */
+    public function render_shortcode($data, $content = null)
+    {
+        if (!is_array($data)) {
+            $data = array();
+        }
+
+        $data['slot'] = $content;
+
+        return $this->render_view($data);
+    }
+
+    /**
+     * Render blade view.
+     *
+     * @param array $data
+     * @return string
+     */
+    private function render_view($data, $classes = []): string
+    {
+        if (isset($data['layout'])) {
+            $classes[] = $this->slug . '__' . $data['layout'];
+        }
+
+        $classes = array_merge($this->classes, $classes);
+        $class_attr = 'class="' . implode(" ", $classes) . '"';
+        $data_attr = 'data-block="' . $this->slug . '" data-init="true"';
+
+        $GLOBALS['post'] = sitepilot()->model->get_post();
+
+        setup_postdata($GLOBALS['post']);
+
+        $data = $this->get_view_data(array_merge([
+            'block' => (array) $this,
+            'block_start' => "<div {$class_attr} {$data_attr}>",
+            'block_end' => "</div>",
+            'post_id' => sitepilot()->model->get_post_id()
+        ], $this->get_field_data(is_array($data) ? $data : [])));
+
+        wp_reset_postdata();
+
+        $blade = sitepilot()->blade([$this->dir . '/views']);
+
+        try {
+            $view = $blade->make($data['layout'] ?? 'frontend', $data)->render();
+        } catch (Exception $e) {
+            $data['exception'] = $e->getMessage();
+        }
+
+        if (!empty($data['exception']) || empty(trim($view)) && (is_admin() || 'sp-template' == get_post_type())) {
+            if (empty($data['exception'])) {
+                $data['exception'] = "";
+            }
+
+            $data['block_title'] = $this->name;
+            if (isset($data['layout'])) {
+                foreach ($this->fields() as $field) {
+                    if ($field->get_attribute() == 'layout') {
+                        $layout = $field->options[$data['layout']] ?? null;
+                    }
+                }
+
+                $data['block_title']  .= ' - ' . $layout;
+            }
+
+            $view = $blade->make('blocks/error', $data)->render();
+        }
+
+        return (isset($data['block_start']) ? $data['block_start'] : '') . $view . (isset($data['block_end']) ? $data['block_end'] : '');
     }
 }

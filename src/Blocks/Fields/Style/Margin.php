@@ -13,7 +13,7 @@ class Margin extends ResponsiveSelect
         }
 
         parent::__construct(...$arguments);
-
+        
         $choices = [
             'default' => '',
             0 => '0',
@@ -71,7 +71,7 @@ class Margin extends ResponsiveSelect
             -64 => -64,
         ];
 
-        $this->fields([
+        $this->select_fields([
             'top' => [
                 'label' => __('Top', 'sitepilot'),
                 'choices' => $choices
@@ -742,21 +742,21 @@ class Margin extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('top', 'mobile', $mt, $value),
-            $this->get_class('top', 'tablet', $mt, $value),
-            $this->get_class('top', 'desktop', $mt, $value),
+            $this->get_class('mobile', $mt, $value, 'top'),
+            $this->get_class('tablet', $mt, $value, 'top'),
+            $this->get_class('desktop', $mt, $value, 'top'),
 
-            $this->get_class('bottom', 'mobile', $mb, $value),
-            $this->get_class('bottom', 'tablet', $mb, $value),
-            $this->get_class('bottom', 'desktop', $mb, $value),
+            $this->get_class('mobile', $mb, $value, 'bottom'),
+            $this->get_class('tablet', $mb, $value, 'bottom'),
+            $this->get_class('desktop', $mb, $value, 'bottom'),
 
-            $this->get_class('left', 'mobile', $ml, $value),
-            $this->get_class('left', 'tablet', $ml, $value),
-            $this->get_class('left', 'desktop', $ml, $value),
+            $this->get_class('mobile', $ml, $value, 'left'),
+            $this->get_class('tablet', $ml, $value, 'left'),
+            $this->get_class('desktop', $ml, $value, 'left'),
 
-            $this->get_class('right', 'mobile', $mr, $value),
-            $this->get_class('right', 'tablet', $mr, $value),
-            $this->get_class('right', 'desktop', $mr, $value)
+            $this->get_class('mobile', $mr, $value, 'right'),
+            $this->get_class('tablet', $mr, $value, 'right'),
+            $this->get_class('desktop', $mr, $value, 'right')
         ];
 
         return implode(" ", array_filter($classes));

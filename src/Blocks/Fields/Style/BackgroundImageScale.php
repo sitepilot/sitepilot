@@ -14,14 +14,11 @@ class BackgroundImageScale extends ResponsiveSelect
 
         parent::__construct(...$arguments);
 
-        $this->fields([
-            'scale' => [
-                'label' => $this->name,
-                'choices' => [
-                    'default' => '',
-                    'cover' => __('Cover', 'sitepilot'),
-                    'contain' => __('Contain', 'sitepilot')
-                ]
+        $this->select_fields([
+            'choices' => [
+                'default' => '',
+                'cover' => __('Cover', 'sitepilot'),
+                'contain' => __('Contain', 'sitepilot')
             ]
         ]);
     }
@@ -38,9 +35,9 @@ class BackgroundImageScale extends ResponsiveSelect
         ];
 
         $classes = [
-            $this->get_class('scale', 'mobile', $scale, $value),
-            $this->get_class('scale', 'tablet', $scale, $value),
-            $this->get_class('scale', 'desktop', $scale, $value)
+            $this->get_class('mobile', $scale, $value),
+            $this->get_class('tablet', $scale, $value),
+            $this->get_class('desktop', $scale, $value)
         ];
 
         return implode(" ", array_filter($classes));
