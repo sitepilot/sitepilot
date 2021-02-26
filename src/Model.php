@@ -218,31 +218,58 @@ class Model extends Module
     }
 
     /**
-     * Returns a list of registered colours.
+     * Returns an array with registered colors.
      *
-     * @return void
+     * @return array
      */
-    public function get_colour_options()
+    public function get_colors(): array
     {
-        $colours = [
+        $colors = array();
+        if ($primary_color = $this->get_primary_color()) {
+            $colors[] = $primary_color;
+        }
+
+        if ($secondary_color = $this->get_secondary_color()) {
+            $colors[] = $secondary_color;
+        }
+
+        if ($third_color = $this->get_third_color()) {
+            $colors[] = $third_color;
+        }
+
+        if ($fourth_color = $this->get_fourth_color()) {
+            $colors[] = $fourth_color;
+        }
+
+        return $colors;
+    }
+
+    /**
+     * Returns a list of registered colors.
+     *
+     * @return array
+     */
+    public function get_color_options(): array
+    {
+        $colors = [
             'primary' => $this->get_primary_color_name(),
             'secondary' => $this->get_secondary_color_name()
         ];
 
         if ($this->get_third_color()) {
-            $colours['third'] = $this->get_third_color_name();
+            $colors['third'] = $this->get_third_color_name();
         }
 
         if ($this->get_fourth_color()) {
-            $colours['fourth'] = $this->get_fourth_color_name();
+            $colors['fourth'] = $this->get_fourth_color_name();
         }
 
-        $colours = array_merge($colours, [
+        $colors = array_merge($colors, [
             'black' => __('Black', 'sitepilot'),
             'white' => __('White', 'sitepilot')
         ]);
 
-        return $colours;
+        return $colors;
     }
 
     /**
@@ -389,5 +416,25 @@ class Model extends Module
         }
 
         return null;
+    }
+
+    /**
+     * Returns an array with available post types.
+     *
+     * @param boolean $filtered
+     * @return array
+     */
+    public function get_post_types($filtered = false): array
+    {
+        $post_types = array();
+
+        foreach (get_post_types() as $post_type) {
+            if (!$filtered || (substr($post_type, 0, 3) == 'sp-' || in_array($post_type, ['post', 'page'])) && !in_array($post_type, ['sp-log', 'sp-template'])) {
+                $object = get_post_type_object($post_type);
+                $post_types[$post_type] = $object->labels->singular_name;
+            }
+        }
+
+        return $post_types;
     }
 }
