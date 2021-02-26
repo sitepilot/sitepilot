@@ -44,6 +44,10 @@ class App extends Component {
             );
         }
 
+        function openChat() {
+            window.Trengo.Api.Widget.open('chat');
+        }
+
         return (
             <Fragment>
                 <div className="flex flex-wrap items-center justify-center w-full bg-white p-8 text-center mb-8">
@@ -109,7 +113,6 @@ class App extends Component {
                 </PanelBody>
 
                 <PanelBody className="max-w-4xl mx-auto bg-white border border-gray-200">
-
                     <h2 class="mt-0">{__('Got a question for us?')}</h2>
 
                     <p>{__('We would love to help you out if you need any help.')}</p>
@@ -117,8 +120,7 @@ class App extends Component {
                     <Button
                         isDefault
                         isLarge
-                        target="_blank"
-                        href={`mailto:${sitepilot.support_email}`}
+                        onClick={openChat}
                     >
                         {__('Ask a question')}
                     </Button>

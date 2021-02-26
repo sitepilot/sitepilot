@@ -175,6 +175,10 @@ class App extends Component {
     }
 
     render() {
+        function openChat() {
+            window.Trengo.Api.Widget.open('chat');
+        }
+
         if (!this.state.isAPILoaded) {
             return (
                 <Placeholder>
@@ -481,8 +485,7 @@ class App extends Component {
                     <Button
                         isDefault
                         isLarge
-                        target="_blank"
-                        href={`mailto:${sitepilot.support_email}`}
+                        onClick={openChat}
                     >
                         {__('Ask a question')}
                     </Button>
