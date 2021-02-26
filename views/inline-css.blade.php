@@ -1,5 +1,6 @@
 :root {
 @if($plugin->model->get_primary_color())
+--plyr-color-main: {!! $plugin->model->get_primary_color() !!};
 --sp-color-primary: {!! $plugin->model->get_primary_color() !!};
 @endif
 @if($plugin->model->get_secondary_color())
