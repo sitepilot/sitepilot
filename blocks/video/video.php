@@ -6,13 +6,8 @@ use Sitepilot\Blocks\Block;
 use Sitepilot\Blocks\Fields\Text;
 use Sitepilot\Blocks\Fields\Image;
 use Sitepilot\Blocks\Fields\Select;
-use Sitepilot\Blocks\Fields\Accordion;
 use Sitepilot\Blocks\Fields\TrueFalse;
-use Sitepilot\Blocks\Fields\Style\Margin;
 use Sitepilot\Blocks\Fields\Preset\ImageSize;
-use Sitepilot\Blocks\Fields\Style\BorderColor;
-use Sitepilot\Blocks\Fields\Style\BorderStyle;
-use Sitepilot\Blocks\Fields\Style\BorderWidth;
 
 class Video extends Block
 {
@@ -24,13 +19,15 @@ class Video extends Block
     public function __construct()
     {
         parent::__construct([
-            'slug' => 'sp-video',
+            'slug' => 'sp-block-video',
             'name' => __('Video', 'sitepilot'),
             'supports' => [
-                'full_width' => true,
-                'width_width' => true
+                'align' => [
+                    'full',
+                    'wide'
+                ]
             ],
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="sp-brand-fill" viewBox="0 0 16 16">
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                 <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
             </svg>',
@@ -58,20 +55,6 @@ class Video extends Block
 
                 ImageSize::make(__('Image Size', 'sitepilot'), 'image_size')
                     ->conditional_rule('image', '!=', 'empty'),
-
-                Accordion::make('<i class="fas fa-border-all"></i>  ' . __('Border', 'sitepilot'), 'border')
-                    ->fields([
-                        BorderColor::make('border_color'),
-
-                        BorderStyle::make('border_style'),
-
-                        BorderWidth::make('border_width')
-                    ]),
-
-                Accordion::make('<i class="fas fa-arrows-alt"></i> ' . __('Spacing', 'sitepilot'), 'spacing')
-                    ->fields([
-                        Margin::make('margin'),
-                    ])
             ]
         ]);
     }
@@ -86,15 +69,8 @@ class Video extends Block
     {
         return [
             'player_config' => wp_json_encode([
-                'autoplay' => $data['autoplay'],
-                'muted' => $data['muted']
-            ]),
-            'classes' => $this->get_classes([
-                'relative',
-                'field:border_width',
-                'field:border_color',
-                'field:border_style',
-                'field:margin'
+                'muted' => $data['muted'],
+                'autoplay' => $data['autoplay']
             ])
         ];
     }

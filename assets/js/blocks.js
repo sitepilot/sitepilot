@@ -44,5 +44,13 @@ window.spBlocks = {
  * Core blocks
  */
 let videoBlock = require("../../blocks/video/assets/block");
+let sectionBlock = require("../../blocks/section/assets/block");
+let accordionBlock = require("../../blocks/accordion/assets/block");
+let iconSliderBlock = require("../../blocks/icon-slider/assets/block");
+let imageCompareBlock = require("../../blocks/image-compare/assets/block");
 
 videoBlock.init();
+sectionBlock.init();
+accordionBlock.init();
+iconSliderBlock.init();
+imageCompareBlock.init();

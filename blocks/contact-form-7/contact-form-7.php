@@ -5,8 +5,6 @@ namespace Sitepilot\Theme\Blocks;
 use Sitepilot\Blocks\Block;
 use Sitepilot\Blocks\Fields\Post;
 use Sitepilot\Blocks\Fields\Select;
-use Sitepilot\Blocks\Fields\Accordion;
-use Sitepilot\Blocks\Fields\Style\Margin;
 
 class ContactForm7 extends Block
 {
@@ -18,11 +16,8 @@ class ContactForm7 extends Block
     public function __construct()
     {
         parent::__construct([
-            'slug' => 'sp-contact-form-7',
+            'slug' => 'sp-block-cf7',
             'name' => __('Contact Form 7', 'sitepilot'),
-            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="sp-brand-fill" viewBox="0 0 16 16">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
-            </svg>',
             'fields' => [
                 Post::make(__('Contact Form', 'sitepilot'), 'contact_form')
                     ->post_types([
@@ -37,12 +32,10 @@ class ContactForm7 extends Block
                         'btn-right' => __('Right', 'sitepilot'),
                         'btn-full-width' => __('Full Width', 'sitepilot')
                     ]),
-
-                Accordion::make('<i class="fas fa-arrows-alt"></i> ' . __('Spacing', 'sitepilot'), 'spacing')
-                    ->fields([
-                        Margin::make('margin')
-                    ])
-            ]
+            ],
+            'icon' => '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+            </svg>',
         ]);
     }
 
@@ -71,8 +64,8 @@ class ContactForm7 extends Block
         return [
             'form' => $form,
             'classes' => $this->get_classes([
-                'field:btn_align',
-                'field:margin'
+                'sp-block-cf7__wrap',
+                'field:btn_align'
             ])
         ];
     }
