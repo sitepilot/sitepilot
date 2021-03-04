@@ -1,10 +1,6 @@
 /* Block Editor
 /* ----------------------------------------------- */
  .block-editor {
-    .sp-brand-fill {
-        fill: #1062fe !important;
-    }
-
     /* Make ACF field labels bold */
     .acf-fields>.acf-field>.acf-label label {
         font-weight: bold !important;
@@ -24,25 +20,6 @@
     .acf-label i {
         font-style: normal;
         min-width: 20px;
-    }
-
-    .acf-field-sp-responsive-select {
-        position: absolute;
-
-        .acf-input {
-            position: initial;
-        }
-
-        .acf-label {
-            margin-top: 10px !important;
-            margin-bottom: 10px !important;
-        }
-
-        .sp-responsive-select__variations {
-            position: absolute;
-            top: -2px;
-            right: 0;
-        }
     }
 
     .acf-block-body {
@@ -67,6 +44,7 @@
 
 /* Full Width Templates
 /* ----------------------------------------------- */
+.post-type-wp_block,
 .post-type-sp-template, 
 .sp-template-page-full-width, 
 .sp-template-post-full-width {

@@ -5,7 +5,6 @@ namespace Sitepilot\Extension;
 use Sitepilot\Module;
 use Sitepilot\Blocks\Block;
 use Sitepilot\Blocks\Fields\Field;
-use Sitepilot\Extension\Acf\Fields\ResponsiveSelect;
 
 class Acf extends Module
 {
@@ -22,7 +21,6 @@ class Acf extends Module
 
         /* Actions */
         add_action('acf/init', [$this, 'action_register_blocks']);
-        add_action('acf/include_field_types', [$this, 'action_include_field_types']);
     }
 
     /**
@@ -46,18 +44,10 @@ class Acf extends Module
             foreach (sitepilot()->blocks->get() as $block) {
                 if ($block instanceof Block) {
                     // Register block type
-                    $align = array();
-                    if ($block->supports_full_width) $align[] = 'full';
-                    if ($block->supports_wide_width) $align[] = 'wide';
-
                     if ($block->icon) {
                         $icon = $block->icon;
                     } else {
-                        $icon = [
-                            'src' => $block->icon ? $block->icon : 'insert',
-                            'foreground' => '#1062fe',
-                            'background' => '#fff'
-                        ];
+                        $icon = 'insert';
                     }
 
                     acf_register_block_type([
@@ -67,12 +57,13 @@ class Acf extends Module
                         'category' => $block->category,
                         'icon' => $block->icon,
                         'post_types' => $block->post_types,
-                        'align' => $block->default_width,
+                        'align' => $block->align,
                         'render_callback' => [$block, 'render_acf'],
                         'enqueue_assets' => [$block, 'enqueue_assets'],
                         'supports' => [
                             'jsx' => $block->supports_inner_blocks,
-                            'align' => count($align) ? $align : false
+                            'align' => $block->supports_align,
+                            'color' => $block->supports_color
                         ],
                         'icon' => $icon
                     ]);
@@ -106,23 +97,6 @@ class Acf extends Module
                     ]);
                 }
             }
-        }
-    }
-
-    /**
-     * Register custom ACF field types.
-     *
-     * @param int $version
-     * @return void
-     */
-    public function action_include_field_types($version): void
-    {
-        if ($version == 5) {
-            new ResponsiveSelect([
-                'version'    => '1.0.0',
-                'url'        => plugin_dir_url(__FILE__),
-                'path'        => plugin_dir_path(__FILE__)
-            ]);
         }
     }
 }
