@@ -68,6 +68,11 @@ final class Plugin
     public Dashboard $dashboard;
 
     /**
+     * The shortcodes instance.
+     */
+    public Shortcodes $shortcodes;
+
+    /**
      * The client role instance.
      */
     public ClientRole $client_role;
@@ -76,11 +81,6 @@ final class Plugin
      * The custom code instance.
      */
     public CustomCode $custom_code;
-
-    /**
-     * The cleanup dash instance.
-     */
-    public CleanupDash $cleanup_dash;
 
     /**
      * The acf extension instance.
@@ -141,9 +141,9 @@ final class Plugin
         $this->template = new Template;
         $this->branding = new Branding;
         $this->dashboard = new Dashboard;
+        $this->shortcodes = new Shortcodes;
         $this->client_role = new ClientRole;
         $this->custom_code = new CustomCode;
-        $this->cleanup_dash = new CleanupDash;
 
         /* Extensions */
         $this->ext_acf = new Acf;
@@ -168,7 +168,12 @@ final class Plugin
 
         /* Internal: Client Site */
         add_action('after_setup_theme', function () {
-            if (apply_filters('sp_client_website', true)) {
+            if (apply_filters('sp_client_website', false)) {
+                add_filter('sp_branding_login_enabled', '__return_true');
+                add_filter('sp_branding_wp_head_enabled', '__return_true');
+                add_filter('sp_branding_admin_bar_enabled', '__return_true');
+                add_filter('sp_branding_admin_footer_enabled', '__return_true');
+                add_filter('sp_hide_recaptcha_badge', '__return_true');
                 add_filter('sp_astra_branding', '__return_true');
                 add_filter('sp_beaver_builder_branding', '__return_true');
                 add_filter('sp_beaver_builder_filter_admin_settings_cap', '__return_true');
@@ -206,6 +211,7 @@ final class Plugin
         wp_register_style('plyr-3', 'https://cdn.plyr.io/3.6.4/plyr.css', [], '3.6.4');
         wp_register_style('owl-carousel-2', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.carousel.min.css', ['owl-carousel-2-theme'], '2.3.4');
         wp_register_style('owl-carousel-2-theme', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.theme.default.min.css', [], '2.3.4');
+        wp_register_style('twenty-twenty', SITEPILOT_URL . '/assets/dist/vendor/twenty-twenty/twentytwenty.css', [], $version);
 
         /* Register Inline Styles */
         wp_enqueue_style('sitepilot');
@@ -220,6 +226,8 @@ final class Plugin
         wp_register_script('font-awesome-5', 'https://kit.fontawesome.com/ec90000d1a.js');
         wp_register_script('plyr-3', 'https://cdn.plyr.io/3.6.4/plyr.js', array(), '3.6.4', true);
         wp_register_script('owl-carousel-2', SITEPILOT_URL . '/assets/dist/vendor/owl-carousel/owl.carousel.min.js', array(), '2.3.4', true);
+        wp_register_script('jquery-event-move', SITEPILOT_URL . '/assets/dist/vendor/twenty-twenty/jquery.event.move.js', ['jquery'], $version, true);
+        wp_register_script('twenty-twenty', SITEPILOT_URL . '/assets/dist/vendor/twenty-twenty/jquery.twentytwenty.js', ['jquery-event-move'], $version, true);
     }
 
     /**
@@ -257,6 +265,6 @@ final class Plugin
      */
     public function get_inline_css(): string
     {
-        return preg_replace("/\r|\n/", " ", $this->blade()->make('inline-css', ['plugin' => $this])->render());
+        return preg_replace("/\r|\n/", " ", $this->blade()->make('inline-css')->render());
     }
 }
