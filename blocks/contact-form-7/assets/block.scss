@@ -1,0 +1,33 @@
+.sp-block-cf7 {
+    .btn-center {
+        input[type="submit"] {
+            @apply mx-auto block;
+        }
+    }
+
+    .btn-left {
+        input[type="submit"] {
+            @apply float-left block;
+        }
+    }
+
+    .btn-right {
+        input[type="submit"] {
+            @apply float-right block;
+        }
+    }
+
+    .btn-full-width {
+        input[type="submit"] {
+            @apply w-full;
+        }
+    }
+
+    .ajax-loader {
+        display: none !important;
+
+        &.is-active {
+            display: block !important;
+        }
+    }
+}

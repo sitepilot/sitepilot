@@ -1,0 +1,13 @@
+.sp-block-accordion {
+    &__title-wrap {
+        @apply flex justify-between items-center select-none cursor-pointer;
+    }
+
+    &__content {
+        @apply hidden;
+
+        p:last-child {
+            @apply mb-0;
+        }
+    }
+}

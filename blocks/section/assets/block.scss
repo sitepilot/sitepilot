@@ -1,0 +1,33 @@
+.sp-block-section {
+    @apply relative p-8;
+
+    &__bg-image {
+        @apply inset-0 absolute bg-cover bg-center bg-no-repeat;
+    }
+
+    &__inner-container {
+        max-width: var(--sp-container-width);
+        @apply relative mx-auto;
+
+        .wp-block-columns, .wp-block-column {
+            &:first-child {
+                @apply mt-0 #{!important};
+            }
+
+            &:last-child {
+                @apply mb-0 #{!important};
+            }
+        }
+
+        .wp-block-column {
+            &>*:last-child {
+                @apply mb-0 #{!important};
+            }
+        }
+    }
+}
+
+.edit-post-visual-editor .sp-block-section {
+    border-radius: 4px;
+    outline: 2px dashed #eee;
+}
