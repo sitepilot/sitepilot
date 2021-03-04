@@ -3,7 +3,6 @@
 namespace Sitepilot\Blocks;
 
 use Sitepilot\Module;
-use Sitepilot\Blocks\Fields\Field;
 
 class Blocks extends Module
 {
@@ -22,20 +21,24 @@ class Blocks extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!sitepilot()->settings->enabled('blocks')) {
-            return;
-        }
+        add_action('after_setup_theme', function () {
+            if (!apply_filters('sp_blocks_enabled', false)) {
+                return;
+            }
 
-        /* Actions */
-        add_action('after_setup_theme', [$this, 'action_load_blocks']);
-        add_action('after_setup_theme', [$this, 'action_register_colors']);
-        add_action('after_setup_theme', [$this, 'action_register_block_shortcodes']);
-        add_action('admin_menu', [$this, 'action_load_blocks_menu'], 14);
-        add_action('wp_enqueue_scripts', [$this, 'action_enqueue_assets']);
-        add_action('enqueue_block_editor_assets', [$this, 'action_enqueue_editor_assets']);
+            $this->action_load_blocks();
+            $this->action_register_colors();
+            $this->action_register_block_shortcodes();
 
-        /* Filters */
-        add_filter('block_categories', [$this, 'filter_block_categories']);
+            /* Actions */
+            add_action('admin_menu', [$this, 'action_load_blocks_menu'], 14);
+            add_action('wp_enqueue_scripts', [$this, 'action_enqueue_assets']);
+            add_action('enqueue_block_editor_assets', [$this, 'action_enqueue_editor_assets']);
+            add_action('allowed_block_types', [$this, 'filter_allowed_block_types']);
+
+            /* Filters */
+            add_filter('block_categories', [$this, 'filter_block_categories']);
+        });
     }
 
     /**
@@ -207,7 +210,7 @@ class Blocks extends Module
         if ($color = sitepilot()->model->get_fourth_color()) {
             $colors[] = [
                 'name' => sitepilot()->model->get_fourth_color_name(),
-                'slug' => 'third',
+                'slug' => 'fourth',
                 'color' => $color
             ];
         }
@@ -247,7 +250,6 @@ class Blocks extends Module
      * Render a reusable block.
      *
      * @param string $slug
-     * @param array $data
      * @return string
      */
     public function wp_block(string $slug): string
@@ -261,17 +263,13 @@ class Blocks extends Module
 
         $blocks = get_posts($args);
 
-        if ($blocks) {
-            $block = $blocks[0];
-            return apply_filters('the_content', $block->post_content);
-        }
+        return apply_filters('the_content', $blocks[0]->post_content ?? '');
     }
 
     /**
      * Render multiple reusable blocks.
      *
-     * @param string $slug
-     * @param array $data
+     * @param array $blocks
      * @return string
      */
     public function wp_blocks(array $blocks): string
@@ -282,5 +280,67 @@ class Blocks extends Module
         }
 
         return $content;
+    }
+
+    /**
+     * Get the reusable block ID by slug.
+     *
+     * @param string $slug
+     * @return string
+     */
+    public function wp_block_id(string $slug): ?int
+    {
+        $args = array(
+            'name' => $slug,
+            'post_type'   => 'wp_block',
+            'post_status' => 'publish',
+            'numberposts' => 1
+        );
+
+        $blocks = get_posts($args);
+
+        return $blocks[0]->ID ?? null;
+    }
+
+    /**
+     * Filter allowed block types.
+     *
+     * @param array $allowed_blocks
+     * @return void
+     */
+    public function filter_allowed_block_types($allowed_blocks)
+    {
+        $sp_allowed_blocks = get_option('sitepilot_allowed_blocks', []);
+
+        if (count($sp_allowed_blocks)) {
+            if (!is_array($allowed_blocks)) $allowed_blocks = array();
+
+            return array_merge($allowed_blocks, $sp_allowed_blocks);
+        }
+
+        return $allowed_blocks;
+    }
+
+    /**
+     * Returns a list of registered blocks.
+     *
+     * @return void
+     */
+    public function get_all_registered_block_names()
+    {
+        // Javascript only blocks
+        $return = [
+            'core/cover' => 'core/cover'
+        ];
+
+        $block_registry = \WP_Block_Type_Registry::get_instance();
+
+        foreach ($block_registry->get_all_registered() as $block_name => $block_type) {
+            $return[$block_name] = $block_name;
+        }
+
+        asort($return);
+
+        return $return;
     }
 }

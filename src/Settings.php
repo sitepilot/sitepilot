@@ -87,12 +87,10 @@ class Settings extends Module
                 'branding_name' => sitepilot()->branding->get_name(),
                 'support_email' => sitepilot()->branding->get_support_email(),
                 'modules' => [
-                    'blocks' => sitepilot()->ext_acf->is_active()
+                    'blocks' => apply_filters('sp_blocks_enabled', false)
                 ],
                 'capabilities' => sitepilot()->client_role->get_all_capabilities(),
-                'primary_color' => sitepilot()->model->get_primary_color(),
-                'secondary_color' => sitepilot()->model->get_secondary_color(),
-                'container_width' => sitepilot()->model->get_container_width()
+                'allowed_blocks' => sitepilot()->blocks->get_all_registered_block_names()
             )
         );
     }
@@ -136,91 +134,11 @@ class Settings extends Module
 
         register_setting(
             'sitepilot_settings',
-            'sitepilot_branding_enabled',
-            array(
-                'type'         => 'boolean',
-                'show_in_rest' => true,
-                'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_blocks_enabled',
-            array(
-                'type'         => 'boolean',
-                'show_in_rest' => true,
-                'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_templates_enabled',
-            array(
-                'type'         => 'boolean',
-                'show_in_rest' => true,
-                'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
             'sitepilot_client_role_enabled',
             array(
                 'type'         => 'boolean',
                 'show_in_rest' => true,
                 'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_cleanup_dashboard_enabled',
-            array(
-                'type'         => 'boolean',
-                'show_in_rest' => true,
-                'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_hide_recaptcha_enabled',
-            array(
-                'type'         => 'boolean',
-                'show_in_rest' => true,
-                'default'      => false
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_primary_color',
-            array(
-                'type'         => 'string',
-                'show_in_rest' => true,
-                'default'      => ''
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_secondary_color',
-            array(
-                'type'         => 'string',
-                'show_in_rest' => true,
-                'default'      => ''
-            )
-        );
-
-        register_setting(
-            'sitepilot_settings',
-            'sitepilot_container_width',
-            array(
-                'type'         => 'string',
-                'show_in_rest' => true,
-                'default'      => ''
             )
         );
 
@@ -257,6 +175,23 @@ class Settings extends Module
         register_setting(
             'sitepilot_settings',
             'sitepilot_client_role_caps',
+            array(
+                'type' => 'array',
+                'show_in_rest' => array(
+                    'schema' => array(
+                        'type'  => 'array',
+                        'items' => array(
+                            'type' => 'string',
+                        ),
+                    ),
+                ),
+                'default' => []
+            )
+        );
+
+        register_setting(
+            'sitepilot_settings',
+            'sitepilot_allowed_blocks',
             array(
                 'type' => 'array',
                 'show_in_rest' => array(

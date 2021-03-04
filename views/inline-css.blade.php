@@ -1,22 +1,22 @@
 :root {
-@if($plugin->model->get_primary_color())
---plyr-color-main: {!! $plugin->model->get_primary_color() !!};
---sp-color-primary: {!! $plugin->model->get_primary_color() !!};
+@if($primary_color = sitepilot()->model->get_primary_color())
+--plyr-color-main: {!! $primary_color !!};
+--sp-color-primary: {!! $primary_color !!};
 @endif
-@if($plugin->model->get_secondary_color())
---sp-color-secondary: {!! $plugin->model->get_secondary_color() !!};
+@if($secondary_color = sitepilot()->model->get_secondary_color())
+--sp-color-secondary: {!! $secondary_color !!};
 @endif
-@if($plugin->model->get_third_color())
---sp-color-third: {!! $plugin->model->get_third_color() !!};
+@if($third_color = sitepilot()->model->get_third_color())
+--sp-color-third: {!! $third_color !!};
 @endif
-@if($plugin->model->get_fourth_color())
---sp-color-fourth: {!! $plugin->model->get_fourth_color() !!};
+@if($fourth_color = sitepilot()->model->get_fourth_color())
+--sp-color-fourth: {!! $fourth_color !!};
 @endif
-@if($plugin->model->get_container_width())
---sp-container-width: {!! $plugin->model->get_container_width() !!};
+@if($container_width = sitepilot()->model->get_container_width())
+--sp-container-width: {!! $container_width !!};
 @endif
 }
-@if($plugin->settings->enabled('hide_recaptcha'))
+@if(sitepilot()->model->get_hide_recaptcha_badge())
 .grecaptcha-badge {
 display: none !important;
 }

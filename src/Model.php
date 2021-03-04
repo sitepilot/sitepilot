@@ -80,15 +80,13 @@ class Model extends Module
      */
     public function get_primary_color(): ?string
     {
-        $color = get_option('sitepilot_primary_color', null);
-
-        if ($filter_color = apply_filters('sp_primary_color', null)) {
+        if ($filter_color = apply_filters('sp_color_primary', null)) {
             if (isset($filter_color['color'])) {
                 $color = $filter_color['color'];
             }
         }
 
-        return $color ? $color : '#1062fe';
+        return $color ?? '#1062fe';
     }
 
     /**
@@ -98,15 +96,13 @@ class Model extends Module
      */
     public function get_primary_color_name(): ?string
     {
-        $name = __('Primary', 'sitepilot');
-
-        if ($filter_color = apply_filters('sp_primary_color', null)) {
+        if ($filter_color = apply_filters('sp_color_primary', null)) {
             if (isset($filter_color['name'])) {
                 $name = $filter_color['name'];
             }
         }
 
-        return $name;
+        return $name ?? __('Primary', 'sitepilot');
     }
 
     /**
@@ -116,15 +112,13 @@ class Model extends Module
      */
     public function get_secondary_color(): ?string
     {
-        $color = get_option('sitepilot_secondary_color', null);
-
-        if ($filter_color = apply_filters('sp_secondary_color', null)) {
+        if ($filter_color = apply_filters('sp_color_secondary', null)) {
             if (isset($filter_color['color'])) {
                 $color = $filter_color['color'];
             }
         }
 
-        return $color ? $color : '#0156f4';
+        return $color ?? '#0156f4';
     }
 
     /**
@@ -134,15 +128,13 @@ class Model extends Module
      */
     public function get_secondary_color_name(): ?string
     {
-        $name = __('Secondary', 'sitepilot');
-
-        if ($filter_color = apply_filters('sp_secondary_color', null)) {
+        if ($filter_color = apply_filters('sp_color_secondary', null)) {
             if (isset($filter_color['name'])) {
                 $name = $filter_color['name'];
             }
         }
 
-        return $name;
+        return $name ?? __('Secondary', 'sitepilot');;
     }
 
     /** 
@@ -152,15 +144,13 @@ class Model extends Module
      */
     public function get_third_color(): ?string
     {
-        $color = get_option('sitepilot_third_color', null);
-
-        if ($filter_color = apply_filters('sp_third_color', null)) {
+        if ($filter_color = apply_filters('sp_color_third', null)) {
             if (isset($filter_color['color'])) {
                 $color = $filter_color['color'];
             }
         }
 
-        return $color;
+        return $color ?? null;
     }
 
     /**
@@ -170,15 +160,13 @@ class Model extends Module
      */
     public function get_third_color_name(): ?string
     {
-        $name = __('Third', 'sitepilot');
-
-        if ($filter_color = apply_filters('sp_third_color', null)) {
+        if ($filter_color = apply_filters('sp_color_third', null)) {
             if (isset($filter_color['name'])) {
                 $name = $filter_color['name'];
             }
         }
 
-        return $name;
+        return $name ?? __('Third', 'sitepilot');
     }
 
     /** 
@@ -188,15 +176,13 @@ class Model extends Module
      */
     public function get_fourth_color(): ?string
     {
-        $color = get_option('sitepilot_fourth_color', null);
-
-        if ($filter_color = apply_filters('sp_fourth_color', null)) {
+        if ($filter_color = apply_filters('sp_color_fourth', null)) {
             if (isset($filter_color['color'])) {
                 $color = $filter_color['color'];
             }
         }
 
-        return $color;
+        return $color ?? null;
     }
 
     /**
@@ -206,15 +192,13 @@ class Model extends Module
      */
     public function get_fourth_color_name(): ?string
     {
-        $name = __('Fourth', 'sitepilot');
-
-        if ($filter_color = apply_filters('sp_fourth_color', null)) {
+        if ($filter_color = apply_filters('sp_color_fourth', null)) {
             if (isset($filter_color['name'])) {
                 $name = $filter_color['name'];
             }
         }
 
-        return $name;
+        return $name ?? __('Fourth', 'sitepilot');;
     }
 
     /**
@@ -279,24 +263,17 @@ class Model extends Module
      */
     public function get_container_width(): ?string
     {
-        $container_width = get_option('sitepilot_container_width');
-
-        return apply_filters('sp_container_width', $container_width ? $container_width : '1200px');
+        return apply_filters('sp_container_width', '1200px');
     }
 
     /**
-     * Returns the block margin defaults.
+     * Returns wether the Google Recaptcha badge needs to be hidden.
      *
-     * @return array
+     * @return void
      */
-    public function get_block_margin(): ?array
+    public function get_hide_recaptcha_badge()
     {
-        return apply_filters('sp_block_margin', [
-            'top' => ['mobile' => 0],
-            'bottom' => ['mobile' => 4],
-            'left' => ['mobile' => 0],
-            'right' => ['mobile' => 0]
-        ]);
+        return apply_filters('sp_hide_recaptcha_badge', false);
     }
 
     /**
@@ -396,9 +373,7 @@ class Model extends Module
             return get_post($fallback_post_id);
         }
 
-        global $post;
-
-        return $post;
+        return $GLOBALS['post'];
     }
 
     /**

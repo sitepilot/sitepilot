@@ -58,25 +58,25 @@ abstract class Block
     public $supports_inner_blocks;
 
     /**
-     * Wether the block supports full width.
+     * Wether the block supports full and wide width.
      *
-     * @var string $supports_full_width
+     * @var array
      */
-    public $supports_full_width;
+    public $supports_align;
 
     /**
-     * Wether the block supports wide width.
+     * Wether the block supports colors.
      *
-     * @var string $supports_wide_width
+     * @var array
      */
-    public $supports_wide_width;
+    public $supports_color;
 
     /**
-     * The default block width.
+     * The default block alignment.
      *
-     * @var string $default_width
+     * @var string $align
      */
-    public $default_width;
+    public $align;
 
     /**
      * The post types where this block can be used.
@@ -135,12 +135,12 @@ abstract class Block
         $this->dir = dirname($reflectionClass->getFileName());
         $this->category = $params['category'] ?? 'sitepilot';
         $this->description = $params['description'] ?? '';
-        $this->supports_inner_blocks = $params['supports']['inner_blocks'] ?? false;
-        $this->supports_full_width = $params['supports']['full_width'] ?? false;
-        $this->supports_wide_width = $params['supports']['wide_width'] ?? false;
-        $this->default_width = $params['default']['width'] ?? null;
+        $this->align = $params['align'] ?? null;
         $this->post_types = $params['post_types'] ?? [];
-        $this->classes = array_merge($params['classes'] ?? [], ['sp-block', $this->slug]);
+        $this->supports_inner_blocks = $params['supports']['inner_blocks'] ?? false;
+        $this->supports_align = $params['supports']['align'] ?? false;
+        $this->supports_color = $params['supports']['color'] ?? false;
+        $this->classes = array_merge([$this->slug, 'sp-block'], $params['classes'] ?? []);
         $this->fields = $params['fields'] ?? [];
 
         sitepilot()->blocks->add($this);
@@ -328,6 +328,8 @@ abstract class Block
         if (!empty($block['className'])) $classes[] = $block['className'];
         if (!empty($block['align'])) $classes[] = 'align' . $block['align'];
         if (!empty($block['align_text'])) $classes[] = 'has-text-align-' . $block['align_text'];
+        if (!empty($block['backgroundColor'])) $classes[] = 'has-' . $block['backgroundColor'] . '-background-color';
+        if (!empty($block['textColor'])) $classes[] = 'has-' . $block['textColor'] . '-text-color';
 
         echo $this->render_view(get_fields(), $classes);
     }
@@ -343,7 +345,13 @@ abstract class Block
             $data = array();
         }
 
-        $data['slot'] = $content;
+        if ($json_data = json_decode($content, true)) {
+            $data = array_merge($data, $json_data);
+        } else {
+            $data['slot'] = $content;
+        }
+
+        $this->enqueue_assets();
 
         return $this->render_view($data);
     }

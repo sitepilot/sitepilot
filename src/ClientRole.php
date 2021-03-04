@@ -11,17 +11,9 @@ class ClientRole extends Module
      */
     public function init(): void
     {
-        /* Check if module is enabled */
-        if (!sitepilot()->settings->enabled('client_role')) {
-            add_action('admin_init', function () {
-                remove_role('sitepilot_user');
-            });
-
-            return;
-        }
-
         /* Actions */
         add_action('update_option_sitepilot_client_role_caps', [$this, 'action_update_role']);
+        add_action('update_option_sitepilot_client_role_enabled', [$this, 'action_update_role']);
     }
 
     /**
@@ -31,18 +23,23 @@ class ClientRole extends Module
      */
     public function action_update_role(): void
     {
+        if (!sitepilot()->settings->enabled('client_role')) {
+            remove_role('sitepilot_user');
+            return;
+        }
+
         remove_role('sitepilot_user');
 
         $capabilities = get_option('sitepilot_client_role_caps', []);
         $client_capabilities = array();
 
-        foreach($capabilities as $cap) {
+        foreach ($capabilities as $cap) {
             $client_capabilities[$cap] = true;
         }
 
         add_role(
             'sitepilot_user',
-            sitepilot()->branding->get_name() . ' Client',
+            sitepilot()->branding->get_name() . ' ' . __('Client', 'sitepilot'),
             $client_capabilities
         );
     }

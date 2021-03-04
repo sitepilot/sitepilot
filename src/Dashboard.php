@@ -71,10 +71,13 @@ class Dashboard extends Module
                 'plugin_url' => SITEPILOT_URL,
                 'branding_name' => sitepilot()->branding->get_name(),
                 'support_email' => sitepilot()->branding->get_support_email(),
+                'support_url' => sitepilot()->branding->get_support_url(),
                 'server_name' => gethostname(),
                 'php_version' => phpversion(),
                 'wp_version' => $wp_version,
-                'last_update_date' => $last_update ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_update) : '-'
+                'last_update_date' => $last_update ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_update) : '-',
+                'support_enabled' => sitepilot()->settings->enabled('support'),
+                'powered_by' => strip_tags(sitepilot()->branding->get_powered_by_text())
             )
         );
     }

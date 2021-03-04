@@ -48,6 +48,10 @@ class App extends Component {
             window.Trengo.Api.Widget.open('chat');
         }
 
+        function openHelp() {
+            window.Trengo.Api.Widget.open('help_center');
+        }
+
         return (
             <Fragment>
                 <div className="flex flex-wrap items-center justify-center w-full bg-white p-8 text-center mb-8">
@@ -109,13 +113,30 @@ class App extends Component {
                                 {sitepilot.last_update_date}
                             </td>
                         </tr>
+                        <tr>
+                            <td class="py-2 whitespace-nowrap">
+                                <strong>{__('Powered By', 'sitepilot')}</strong>
+                            </td>
+                            <td class="py-2 whitespace-nowrap pr-4">
+                                {sitepilot.powered_by}
+                            </td>
+                        </tr>
                     </table>
                 </PanelBody>
 
-                <PanelBody className="max-w-4xl mx-auto bg-white border border-gray-200">
+                <PanelBody className={!sitepilot.support_enabled ? 'hidden' : 'max-w-4xl mx-auto bg-white border border-gray-200'}>
                     <h2 class="mt-0">{__('Got a question for us?')}</h2>
 
                     <p>{__('We would love to help you out if you need any help.')}</p>
+
+                    <Button
+                        isPrimary
+                        isLarge
+                        onClick={openHelp}
+                        className="mr-2"
+                    >
+                        {__('Help Center')}
+                    </Button>
 
                     <Button
                         isDefault

@@ -26,17 +26,19 @@ class Template extends Module
     public function init(): void
     {
         /* Check if module is enabled */
-        if (!sitepilot()->settings->enabled('templates')) {
-            return;
-        }
+        add_action('after_setup_theme', function () {
+            if (!apply_filters('sp_templates_enabled', false)) {
+                return;
+            }
 
-        /* Actions */
-        add_action('init', [$this, 'action_register_template_post_type']);
-        add_action('admin_menu', [$this, 'action_load_template_menu'], 12);
-        add_action('admin_init', [$this, 'action_register_capabilities']);
+            /* Actions */
+            add_action('init', [$this, 'action_register_template_post_type']);
+            add_action('admin_menu', [$this, 'action_load_template_menu'], 12);
+            add_action('admin_init', [$this, 'action_register_capabilities']);
 
-        /* Filters */
-        add_filter('template_include', [$this, 'filter_template_include'], 999);
+            /* Filters */
+            add_filter('template_include', [$this, 'filter_template_include'], 999);
+        });
     }
 
     /**
@@ -109,7 +111,7 @@ class Template extends Module
             'sitepilot-menu',
             __('Templates', 'sitepilot'),
             'Templates',
-            'publish_posts',
+            $this->template_viewer_cap,
             'edit.php?post_type=sp-template'
         );
     }

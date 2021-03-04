@@ -11,18 +11,27 @@ class Branding extends Module
      */
     public function init(): void
     {
-        /* Check if module is enabled */
-        if (!sitepilot()->settings->enabled('branding')) {
-            return;
-        }
+        /** Client Websites */
+        add_action('after_setup_theme', function () {
+            if (apply_filters('sp_branding_wp_head_enabled', false)) {
+                add_action('wp_head', [$this, 'action_powered_by_head'], 0);
+            }
 
-        /* Actions */
-        add_action('wp_head', [$this, 'action_powered_by_head'], 0);
-        add_action('login_enqueue_scripts', [$this, 'action_login_style']);
+            if (apply_filters('sp_branding_login_enabled', false)) {
+                add_action('login_enqueue_scripts', [$this, 'action_login_style']);
+                add_filter('login_headerurl', [$this, 'filter_login_url']);
+            }
+
+            if (apply_filters('sp_branding_admin_footer_enabled', false)) {
+                add_filter('admin_footer_text', [$this, 'filter_admin_footer_text']);
+            }
+
+            if (apply_filters('sp_branding_admin_bar_enabled', false)) {
+                add_filter('wp_before_admin_bar_render', [$this, 'filter_admin_bar']);
+            }
+        });
 
         /* Filters */
-        add_filter('login_headerurl', [$this, 'filter_login_url']);
-        add_filter('admin_footer_text', [$this, 'filter_admin_footer_text']);
         add_filter('update_footer', [$this, 'filter_admin_footer_version'], 11);
     }
 
@@ -101,9 +110,41 @@ class Branding extends Module
      *
      * @return string
      */
-    public function get_powered_by_text(): string
+    public function get_powered_by_text($link = true): string
     {
-        return apply_filters('sp_branding_powered_by_text', sprintf(__('❤ Proudly managed and hosted by %s.', 'sitepilot'), '<a href="' . sitepilot()->branding->get_website() . '" target="_blank">Sitepilot</a>'));
+        return apply_filters('sp_branding_powered_by_text', sprintf(__('Powered by %s', 'sitepilot'), '<a href="' . $this->get_website() . '" target="_blank">' . $this->get_name() . '</a>'));
+    }
+
+    /**
+     * Returns the support widget script.
+     *
+     * @return string
+     */
+    public function get_support_widget_script(): string
+    {
+        $user = wp_get_current_user();
+
+        $user_data = [];
+        if (!empty($user->display_name)) {
+            $user_data['name'] = $user->display_name;
+        }
+
+        if (!empty($user->user_email)) {
+            $user_data['email'] = $user->user_email;
+        }
+
+        return apply_filters('sp_branding_support_widget', "<script type=\"text/javascript\">
+        window.Trengo = window.Trengo || {};
+        window.Trengo.contact_data = " . wp_json_encode($user_data) . ";
+        window.Trengo.key = 'IN6SAcEF9cjuK5HvP1TC';
+        (function(d, script, t) {
+            script = d.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.src = 'https://static.widget.trengo.eu/embed.js';
+            d.getElementsByTagName('head')[0].appendChild(script);
+        }(document));
+        </script>");
     }
 
     /**
@@ -113,7 +154,7 @@ class Branding extends Module
      */
     public function filter_admin_footer_text(): void
     {
-        echo $this->get_powered_by_text();
+        echo '❤ ' . $this->get_powered_by_text();
     }
 
     /**
@@ -146,7 +187,7 @@ class Branding extends Module
     public function action_powered_by_head(): void
     {
         echo "\n<!-- =================================================================== -->";
-        echo "\n<!-- " . $this->get_powered_by_text() . " -->";
+        echo "\n<!-- " . strip_tags($this->get_powered_by_text(false)) . " -->";
         echo "\n<!-- =================================================================== -->\n\n";
     }
 
@@ -170,5 +211,17 @@ class Branding extends Module
             }
         </style>
 <?php
+    }
+
+    /**
+     * Remove menu items from the admin bar.
+     *
+     * @return void
+     */
+    public function filter_admin_bar(): void
+    {
+        global $wp_admin_bar;
+
+        $wp_admin_bar->remove_node('wp-logo');
     }
 }
