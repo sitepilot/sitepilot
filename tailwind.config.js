@@ -23,13 +23,7 @@ module.exports = {
         primary: 'var(--sp-color-primary)',
         secondary: 'var(--sp-color-secondary)',
         third: 'var(--sp-color-third)',
-        fourth: 'var(--sp-color-fourth)',
-      },
-      spacing: {
-        '1/1': '100%',
-        '3/4': '75%',
-        '9/16': '56.25%',
-        '9/21': '42.8571%'
+        fourth: 'var(--sp-color-fourth)'
       }
     }
   }
