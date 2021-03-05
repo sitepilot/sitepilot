@@ -5,28 +5,35 @@ namespace Sitepilot;
 class Branding extends Module
 {
     /**
+     * The options cache.
+     *
+     * @return array
+     */
+    private $options;
+
+    /**
      * Initialize the template module.
      * 
      * @return void
      */
     public function init(): void
     {
-        /** Client Websites */
+        /* Branding */
         add_action('after_setup_theme', function () {
-            if (apply_filters('sp_branding_wp_head_enabled', false)) {
+            if ($this->get_option('wp_head_enabled')) {
                 add_action('wp_head', [$this, 'action_powered_by_head'], 0);
             }
 
-            if (apply_filters('sp_branding_login_enabled', false)) {
+            if ($this->get_option('login_enabled')) {
                 add_action('login_enqueue_scripts', [$this, 'action_login_style']);
                 add_filter('login_headerurl', [$this, 'filter_login_url']);
             }
 
-            if (apply_filters('sp_branding_admin_footer_enabled', false)) {
+            if ($this->get_option('admin_footer_enabled')) {
                 add_filter('admin_footer_text', [$this, 'filter_admin_footer_text']);
             }
 
-            if (apply_filters('sp_branding_admin_bar_enabled', false)) {
+            if ($this->get_option('admin_bar_enabled')) {
                 add_filter('wp_before_admin_bar_render', [$this, 'filter_admin_bar']);
             }
         });
@@ -36,13 +43,52 @@ class Branding extends Module
     }
 
     /**
+     * Returns the branding options.
+     *
+     * @return array
+     */
+    private function get_options(): array
+    {
+        if (!$this->options) {
+            $this->options = apply_filters('sp_branding_options', [
+                'name' => apply_filters('sp_branding_name', 'Sitepilot'),
+                'logo' => apply_filters('sp_branding_logo', SITEPILOT_URL . '/assets/dist/img/sitepilot-logo.png'),
+                'icon' => apply_filters('sp_branding_icon', SITEPILOT_URL . '/assets/dist/img/sitepilot-icon.png'),
+                'screenshot' => apply_filters('sp_branding_screenshot', SITEPILOT_URL . '/assets/dist/img/sitepilot-screenshot.jpg'),
+                'website' => apply_filters('sp_branding_website', 'https://sitepilot.io'),
+                'support_url' => apply_filters('sp_branding_support_url', 'https://help.sitepilot.io'),
+                'support_email' => apply_filters('sp_branding_support_email', 'support@sitepilot.io'),
+                'powered_by_text' => apply_filters('sp_branding_powered_by_text', sprintf(__('Powered by %s', 'sitepilot'), '<a href="https://sitepilot.io" target="_blank">Sitepilot</a>')),
+                'wp_head_enabled' => apply_filters('sp_branding_wp_head_enabled', false),
+                'login_enabled' => apply_filters('sp_branding_login_enabled', false),
+                'admin_footer_enabled' => apply_filters('sp_branding_admin_footer_enabled', false),
+                'admin_bar_enabled' => apply_filters('sp_branding_admin_bar_enabled', false)
+            ]);
+        }
+
+        return $this->options;
+    }
+
+    /**
+     * Returns a branding option by key.
+     *
+     * @return string
+     */
+    private function get_option($key): ?string
+    {
+        $options = $this->get_options();
+
+        return $options[$key] ?? null;
+    }
+
+    /**
      * Returns the branding name.
      *
      * @return string
      */
     public function get_name(): string
     {
-        return apply_filters('sp_branding_name', 'Sitepilot');
+        return $this->get_option('name');
     }
 
     /**
@@ -52,7 +98,7 @@ class Branding extends Module
      */
     public function get_logo(): string
     {
-        return apply_filters('sp_branding_logo', SITEPILOT_URL . '/assets/dist/img/sitepilot-logo.png');
+        return $this->get_option('logo');
     }
 
     /**
@@ -62,7 +108,7 @@ class Branding extends Module
      */
     public function get_icon(): string
     {
-        return apply_filters('sp_branding_icon', SITEPILOT_URL . '/assets/dist/img/sitepilot-icon.png');
+        return $this->get_option('icon');
     }
 
     /**
@@ -72,7 +118,7 @@ class Branding extends Module
      */
     public function get_screenshot(): string
     {
-        return apply_filters('sp_branding_screenshot', SITEPILOT_URL . '/assets/dist/img/sitepilot-screenshot.jpg');
+        return $this->get_option('screenshot');
     }
 
     /**
@@ -82,7 +128,7 @@ class Branding extends Module
      */
     public function get_website(): string
     {
-        return apply_filters('sp_branding_website', 'https://sitepilot.io');
+        return $this->get_option('website');
     }
 
     /**
@@ -92,7 +138,7 @@ class Branding extends Module
      */
     public function get_support_url(): string
     {
-        return apply_filters('sp_branding_support_url', 'https://help.sitepilot.io');
+        return $this->get_option('support_url');
     }
 
     /**
@@ -102,7 +148,7 @@ class Branding extends Module
      */
     public function get_support_email(): string
     {
-        return apply_filters('sp_branding_support_email', 'support@sitepilot.io');
+        return $this->get_option('support_email');
     }
 
     /**
@@ -112,7 +158,7 @@ class Branding extends Module
      */
     public function get_powered_by_text($link = true): string
     {
-        return apply_filters('sp_branding_powered_by_text', sprintf(__('Powered by %s', 'sitepilot'), '<a href="' . $this->get_website() . '" target="_blank">' . $this->get_name() . '</a>'));
+        return $this->get_option('powered_by_text');
     }
 
     /**
