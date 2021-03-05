@@ -182,36 +182,14 @@ class Blocks extends Module
      */
     public function action_register_colors()
     {
-        $colors = array();
-        if ($color = sitepilot()->model->get_primary_color()) {
-            $colors[] = [
-                'name' => sitepilot()->model->get_primary_color_name(),
-                'slug' => 'primary',
-                'color' => $color
-            ];
-        }
+        $colors = [];
+        $theme_colors = sitepilot()->model->get_theme_colors();
 
-        if ($color = sitepilot()->model->get_secondary_color()) {
+        foreach ($theme_colors as $key => $color) {
             $colors[] = [
-                'name' => sitepilot()->model->get_secondary_color_name(),
-                'slug' => 'secondary',
-                'color' => $color
-            ];
-        }
-
-        if ($color = sitepilot()->model->get_third_color()) {
-            $colors[] = [
-                'name' => sitepilot()->model->get_third_color_name(),
-                'slug' => 'third',
-                'color' => $color
-            ];
-        }
-
-        if ($color = sitepilot()->model->get_fourth_color()) {
-            $colors[] = [
-                'name' => sitepilot()->model->get_fourth_color_name(),
-                'slug' => 'fourth',
-                'color' => $color
+                'slug' => $key,
+                'name' => $color['name'],
+                'color' => $color['color']
             ];
         }
 

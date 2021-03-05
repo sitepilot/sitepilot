@@ -89,12 +89,19 @@ class Astra extends Module
      *
      * @return void
      */
-    public function filter_color_palettes(array $colors)
+    public function filter_color_palettes(array $astra_colors)
     {
-        if (apply_filters('sp_client_website', false)) {
-            return sitepilot()->model->get_colors();
+        $colors = array();
+        $theme_colors = sitepilot()->model->get_theme_colors();
+
+        foreach ($theme_colors as $color) {
+            $colors[] = $color['color'];
         }
 
-        return array_merge(sitepilot()->model->get_colors(), $colors);
+        if (apply_filters('sp_client_website', false)) {
+            return $colors;
+        }
+
+        return array_merge($colors, $astra_colors);
     }
 }

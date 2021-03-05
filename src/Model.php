@@ -74,196 +74,34 @@ class Model extends Module
     }
 
     /**
-     * Returns the primary color.
-     *
-     * @return string
-     */
-    public function get_primary_color(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_primary', null)) {
-            if (isset($filter_color['color'])) {
-                $color = $filter_color['color'];
-            }
-        }
-
-        return $color ?? '#1062fe';
-    }
-
-    /**
-     * Returns the primary color name.
-     *
-     * @return string
-     */
-    public function get_primary_color_name(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_primary', null)) {
-            if (isset($filter_color['name'])) {
-                $name = $filter_color['name'];
-            }
-        }
-
-        return $name ?? __('Primary', 'sitepilot');
-    }
-
-    /**
-     * Returns the secondary color.
-     *
-     * @return string
-     */
-    public function get_secondary_color(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_secondary', null)) {
-            if (isset($filter_color['color'])) {
-                $color = $filter_color['color'];
-            }
-        }
-
-        return $color ?? '#0156f4';
-    }
-
-    /**
-     * Returns the secondary color name.
-     *
-     * @return string
-     */
-    public function get_secondary_color_name(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_secondary', null)) {
-            if (isset($filter_color['name'])) {
-                $name = $filter_color['name'];
-            }
-        }
-
-        return $name ?? __('Secondary', 'sitepilot');;
-    }
-
-    /** 
-     * Returns the third color.
-     * 
-     * @return string
-     */
-    public function get_third_color(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_third', null)) {
-            if (isset($filter_color['color'])) {
-                $color = $filter_color['color'];
-            }
-        }
-
-        return $color ?? null;
-    }
-
-    /**
-     * Returns the third color name.
-     *
-     * @return string
-     */
-    public function get_third_color_name(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_third', null)) {
-            if (isset($filter_color['name'])) {
-                $name = $filter_color['name'];
-            }
-        }
-
-        return $name ?? __('Third', 'sitepilot');
-    }
-
-    /** 
-     * Returns the fourth color.
-     * 
-     * @return string
-     */
-    public function get_fourth_color(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_fourth', null)) {
-            if (isset($filter_color['color'])) {
-                $color = $filter_color['color'];
-            }
-        }
-
-        return $color ?? null;
-    }
-
-    /**
-     * Returns the fourth color name.
-     *
-     * @return string
-     */
-    public function get_fourth_color_name(): ?string
-    {
-        if ($filter_color = apply_filters('sp_color_fourth', null)) {
-            if (isset($filter_color['name'])) {
-                $name = $filter_color['name'];
-            }
-        }
-
-        return $name ?? __('Fourth', 'sitepilot');;
-    }
-
-    /**
-     * Returns an array with registered colors.
+     * Returns the theme colors.
      *
      * @return array
      */
-    public function get_colors(): array
+    public function get_theme_colors(): array
     {
-        $colors = array();
-        if ($primary_color = $this->get_primary_color()) {
-            $colors[] = $primary_color;
-        }
-
-        if ($secondary_color = $this->get_secondary_color()) {
-            $colors[] = $secondary_color;
-        }
-
-        if ($third_color = $this->get_third_color()) {
-            $colors[] = $third_color;
-        }
-
-        if ($fourth_color = $this->get_fourth_color()) {
-            $colors[] = $fourth_color;
-        }
-
-        return $colors;
-    }
-
-    /**
-     * Returns a list of registered colors.
-     *
-     * @return array
-     */
-    public function get_color_options(): array
-    {
-        $colors = [
-            'primary' => $this->get_primary_color_name(),
-            'secondary' => $this->get_secondary_color_name()
-        ];
-
-        if ($this->get_third_color()) {
-            $colors['third'] = $this->get_third_color_name();
-        }
-
-        if ($this->get_fourth_color()) {
-            $colors['fourth'] = $this->get_fourth_color_name();
-        }
-
-        $colors = array_merge($colors, [
-            'black' => __('Black', 'sitepilot'),
-            'white' => __('White', 'sitepilot')
+        return apply_filters('sp_theme_colors', [
+            'primary' => [
+                'name' => __('Primary', 'sitepilot'),
+                'color' => '#1062fe'
+            ],
+            'secondary' => [
+                'name' => __('Secondary', 'sitepilot'),
+                'color' => '#0156f4'
+            ],
         ]);
-
-        return $colors;
     }
 
     /**
-     * Returns the max container width.
+     * Returns the theme css vars.
      *
-     * @return string
+     * @return array
      */
-    public function get_container_width(): ?string
+    public function get_theme_vars(): array
     {
-        return apply_filters('sp_container_width', '1200px');
+        return apply_filters('sp_theme_vars', [
+            'sp-container-width' => '1200px'
+        ]);
     }
 
     /**
