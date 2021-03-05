@@ -20,7 +20,7 @@ class Section extends Block
         parent::__construct([
             'slug' => 'sp-block-section',
             'name' => __('Section', 'sitepilot'),
-            'align' => 'wide',
+            'align' => 'full',
             'supports' => [
                 'align' => [
                     'full',
