@@ -15,7 +15,7 @@ class Update extends Module
     {
         /* Actions */
         add_action('init', [$this, 'check_updates'], 99);
-        add_action('after_setup_theme', [$this, 'action_setup']);
+        add_action('admin_init', [$this, 'action_setup']);
 
         /* Filters */
         add_filter('sp_update_list', [$this, 'filter_update_list']);
