@@ -74,6 +74,8 @@ class Shortcodes extends Module
             $title = $data['not_found'];
         } elseif (function_exists('is_shop') && is_shop()) {
             $title = $data['shop'];
+        } elseif (is_archive()) {
+            $title = post_type_archive_title('', false);
         } else {
             $title = get_the_title();
         }
