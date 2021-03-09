@@ -25,20 +25,22 @@ class Image extends Field
      */
     public function format_value($value)
     {
-        if ($value) {
-            if ($image['full'] = wp_get_attachment_url($value)) {
-                foreach (get_intermediate_image_sizes() as $size) {
-                    $image[$size] = wp_get_attachment_image_url($value, $size);
-                }
-
-                return $image;
+        if ($value && $image['full'] = wp_get_attachment_url($value)) {
+            foreach (get_intermediate_image_sizes() as $size) {
+                $image[$size] = wp_get_attachment_image_url($value, $size);
             }
+
+            $image['html'] = '<img src="' . $image['full'] . '" srcset="' . wp_get_attachment_image_srcset($value) . '" />';
+
+            return $image;
         } elseif ($this->default) {
             $image['full'] = $this->default;
 
             foreach (get_intermediate_image_sizes() as $size) {
                 $image[$size] = $image['full'];
             }
+
+            $image['html'] = '<img src="' . $image['full'] . '" />';
 
             return $image;
         }
