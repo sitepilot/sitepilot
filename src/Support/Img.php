@@ -17,6 +17,8 @@ class Img
                 $image[$size] = wp_get_attachment_image_url($image_id, $size);
             }
 
+            $image['html'] = '<img src="' . $image['full'] . '" srcset="' . wp_get_attachment_image_srcset($image_id) . '" />';
+
             return $image;
         } elseif (filter_var($default, FILTER_VALIDATE_URL)) {
             $image['full'] = $default;
@@ -24,6 +26,8 @@ class Img
             foreach (get_intermediate_image_sizes() as $size) {
                 $image[$size] = $image['full'];
             }
+
+            $image['html'] = '<img src="' . $image['full'] . '" />';
 
             return $image;
         }
