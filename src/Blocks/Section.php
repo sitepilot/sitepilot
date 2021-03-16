@@ -2,6 +2,7 @@
 
 namespace Sitepilot\Blocks;
 
+use Sitepilot\Support\Img;
 use Sitepilot\Fields\Group;
 use Sitepilot\Fields\Image;
 use Sitepilot\Fields\TrueFalse;
@@ -98,7 +99,7 @@ class Section extends Block
     protected function view_data(array $data): array
     {
         if ($data['bg_image_featured'] && $featured_image_id = get_post_thumbnail_id()) {
-            $bg_image = (Image::make('', ''))->format_value($featured_image_id);
+            $bg_image = Img::sizes($featured_image_id);
         } else {
             $bg_image = $data['bg_image'];
         }
