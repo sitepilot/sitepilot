@@ -24,16 +24,6 @@ jobs:
 
           zip -r ./sitepilot.zip ./ -x '*.git*' -x '*.github*' -x '*node_modules*'
 
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./sitepilot.zip
-          asset_name: sitepilot.zip
-          asset_content_type: application/zip
-        if: github.event.release
-
       - uses: sitepilot/action-deploy@main
         env:
           RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
