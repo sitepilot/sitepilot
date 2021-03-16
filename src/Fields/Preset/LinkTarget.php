@@ -20,7 +20,6 @@ class LinkTarget extends Select
             '_blank' => __('New Window', 'sitepilot')
         ];
 
-        $this->type = 'select';
         $this->default = '_self';
         $this->options = $options;
     }
