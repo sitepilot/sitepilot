@@ -220,11 +220,10 @@ class Templates extends Module
             );
 
             $templates = get_posts($args);
-
-            if ($templates) {
-                return SITEPILOT_DIR . '/includes/templates/render.php';
-            } elseif ('sitepilot-full-width.php' === get_post_meta(get_the_ID(), '_wp_page_template', true)) {
+            if ('sitepilot-full-width.php' === get_post_meta(get_the_ID(), '_wp_page_template', true)) {
                 return SITEPILOT_DIR . '/includes/templates/full-width.php';
+            } elseif ($templates) {
+                return SITEPILOT_DIR . '/includes/templates/render.php';
             }
         }
 
