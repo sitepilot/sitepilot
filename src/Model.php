@@ -2,8 +2,6 @@
 
 namespace Sitepilot;
 
-use WP_Post;
-
 class Model extends Module
 {
     /**
@@ -12,13 +10,6 @@ class Model extends Module
      * @var int
      */
     protected $priority = 6;
-
-    /**
-     * The current post object.
-     *
-     * @var WP_Post
-     */
-    private $post;
 
     /**
      * Construct the model module.
@@ -43,16 +34,6 @@ class Model extends Module
     }
 
     /**
-     * Check if the plugin is in development mode.
-     *
-     * @return boolean
-     */
-    public function is_dev(): bool
-    {
-        return strpos($this->get_version(), '-dev') !== false ? true : false;
-    }
-
-    /**
      * Get saved plugin version.
      *
      * @return string
@@ -74,44 +55,13 @@ class Model extends Module
     }
 
     /**
-     * Returns the theme colors.
+     * Check if the plugin is in development mode.
      *
-     * @return array
+     * @return boolean
      */
-    public function get_theme_colors(): array
+    public function is_dev(): bool
     {
-        return apply_filters('sp_theme_colors', [
-            'primary' => [
-                'name' => __('Primary', 'sitepilot'),
-                'color' => '#1062fe'
-            ],
-            'secondary' => [
-                'name' => __('Secondary', 'sitepilot'),
-                'color' => '#0156f4'
-            ],
-        ]);
-    }
-
-    /**
-     * Returns the theme css vars.
-     *
-     * @return array
-     */
-    public function get_theme_vars(): array
-    {
-        return apply_filters('sp_theme_vars', [
-            'sp-container-width' => '1200px'
-        ]);
-    }
-
-    /**
-     * Returns wether the Google Recaptcha badge needs to be hidden.
-     *
-     * @return void
-     */
-    public function get_hide_recaptcha_badge()
-    {
-        return apply_filters('sp_hide_recaptcha_badge', false);
+        return strpos($this->get_version(), '-dev') !== false ? true : false;
     }
 
     /**
@@ -135,119 +85,12 @@ class Model extends Module
     }
 
     /**
-     * Returns custom head code.
+     * Checks if site is on the Sitepilot platform.
      *
-     * @return string|null
+     * @return bool
      */
-    public function get_code_wp_head(): ?string
+    public function is_sitepilot_platform(): bool
     {
-        $code = get_option('sitepilot_code_wp_head');
-
-        if (!empty(trim($code))) {
-            return $code;
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns custom body open code.
-     *
-     * @return string|null
-     */
-    public function get_code_wp_body_open(): ?string
-    {
-        $code = get_option('sitepilot_code_wp_body_open');
-
-        if (!empty(trim($code))) {
-            return $code;
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns custom footer code.
-     *
-     * @return string|null
-     */
-    public function get_code_wp_footer(): ?string
-    {
-        $code = get_option('sitepilot_code_wp_footer');
-
-        if (!empty(trim($code))) {
-            return $code;
-        }
-
-        return null;
-    }
-
-    /**
-     * Set the current post.
-     *
-     * @param WP_Post $post
-     * @return self
-     */
-    public function set_post(\WP_Post $post): self
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * Get the current post.
-     *
-     * @param int $fallback_post_id
-     * @return WP_Post
-     */
-    public function get_post($fallback_post_id = null): ?WP_Post
-    {
-        if ($this->post) {
-            return $this->post;
-        }
-
-        if ($fallback_post_id) {
-            return get_post($fallback_post_id);
-        }
-
-        return $GLOBALS['post'];
-    }
-
-    /**
-     * Get the current post ID.
-     *
-     * @param int $fallback_post_id
-     * @return int
-     */
-    public function get_post_id($fallback_post_id = null): ?int
-    {
-        $post = $this->get_post($fallback_post_id);
-
-        if ($post) {
-            return $post->ID;
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns an array with available post types.
-     *
-     * @param boolean $filtered
-     * @return array
-     */
-    public function get_post_types($filtered = false): array
-    {
-        $post_types = array();
-
-        foreach (get_post_types() as $post_type) {
-            if (!$filtered || (substr($post_type, 0, 3) == 'sp-' || in_array($post_type, ['post', 'page'])) && !in_array($post_type, ['sp-log', 'sp-template'])) {
-                $object = get_post_type_object($post_type);
-                $post_types[$post_type] = $object->labels->singular_name;
-            }
-        }
-
-        return $post_types;
+        return strpos(gethostname(), 'sitepilot.io') !== false || $this->is_dev() ? true : false;
     }
 }

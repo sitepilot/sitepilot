@@ -41,7 +41,7 @@ class Dashboard extends Module
             [$this, 'render_dashboard_page']
         );
 
-        add_action("admin_print_scripts-{$page_hook_suffix}", [$this, 'enqueue_assets']);
+        add_action("admin_print_scripts-{$page_hook_suffix}", [$this, 'action_enqueue_assets']);
     }
 
     /**
@@ -49,10 +49,9 @@ class Dashboard extends Module
      *
      * @return void
      */
-    function enqueue_assets(): void
+    function action_enqueue_assets(): void
     {
         /* Styles */
-        wp_enqueue_style('sp-blocks');
         wp_enqueue_style('sp-dashboard');
 
         /* Scripts */
@@ -76,8 +75,8 @@ class Dashboard extends Module
                 'php_version' => phpversion(),
                 'wp_version' => $wp_version,
                 'last_update_date' => $last_update ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_update) : '-',
-                'support_enabled' => sitepilot()->settings->enabled('support'),
-                'powered_by' => strip_tags(sitepilot()->branding->get_powered_by_text())
+                'powered_by' => strip_tags(sitepilot()->branding->get_powered_by_text()),
+                'support_enabled' => true
             )
         );
     }
@@ -89,6 +88,6 @@ class Dashboard extends Module
      */
     function render_dashboard_page()
     {
-        echo '<div class="sp-block" id="sitepilot-dashboard"></div>';
+        echo '<div class="sp-dashboard sitepilot" id="sitepilot-dashboard"></div>';
     }
 }

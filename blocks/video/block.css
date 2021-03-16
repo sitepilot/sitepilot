@@ -1,0 +1,5 @@
+.sp-block-video {
+    &__admin {
+        @apply absolute inset-0 z-50;
+    }
+}

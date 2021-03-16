@@ -1,0 +1,19 @@
+/* Dashboard
+/* ----------------------------------------------- */
+* {
+	box-sizing: inherit;
+}
+
+#wpcontent {
+	@apply pl-0;
+}
+
+.auto-fold { 
+	#wpcontent {
+		@apply pl-0;
+	}
+}
+
+.notice {
+	@apply hidden;
+}

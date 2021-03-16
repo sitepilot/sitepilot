@@ -1,5 +1,3 @@
-<div class="mt-8 mb-8 p-4 border border-dotted border-gray-200">
-    <div class="text-center not-found">
-        {{ $block_title }} @if($exception)- {{ $exception }}@endif
-    </div>
+<div class="sp-block-error">
+    {{ $block_title }} @if($exception)- {{ $exception }}@endif
 </div>

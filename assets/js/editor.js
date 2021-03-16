@@ -1,6 +1,5 @@
-window.spBlocksEditor = {
+module.exports = {
     pageTemplate: null,
-    activeDevice: 'mobile',
 
     /* Init
     /* ----------------------------------------------- */
@@ -15,7 +14,7 @@ window.spBlocksEditor = {
             let template = wp.data.select('core/editor').getEditedPostAttribute('template');
 
             if (template !== undefined && template) {
-                template = "sp-template-" + template.replace(".php", "");
+                template = "page-template-" + template.replace(".php", "");
             }
 
             if (this.pageTemplate === null) {
@@ -32,4 +31,4 @@ window.spBlocksEditor = {
     }
 }
 
-spBlocksEditor.init();
+module.exports.init();

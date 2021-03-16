@@ -1,30 +1,20 @@
 module.exports = {
-  important: '.sp-block',
+  important: '.sitepilot',
   future: {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true
   },
   purge: {
     content: [
-      '**/*.php',
-      '**/*.blade.php',
-      './assets/js/*.js',
+      'src/**/*.php',
+      'views/**/*.php',
+      'views/**/*.blade.php',
+      'includes/**/*.php',
+      'assets/**/*.js',
+      'assets/**/*.jsx'
     ],
     options: {
-      safelist: ['sp-block']
-    }
-  },
-  corePlugins: {
-    container: false
-  },
-  theme: {
-    extend: {
-      colors: {
-        primary: 'var(--sp-color-primary)',
-        secondary: 'var(--sp-color-secondary)',
-        third: 'var(--sp-color-third)',
-        fourth: 'var(--sp-color-fourth)'
-      }
+      safelist: ['sitepilot']
     }
   }
 }

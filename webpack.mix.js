@@ -1,27 +1,30 @@
 const mix = require('laravel-mix');
-const tailwindcss = require('tailwindcss');
 
 mix.setPublicPath('assets/dist')
-    .sass('assets/scss/blocks.scss', './assets/dist/css').options({
-        processCssUrls: false,
-        postCss: [tailwindcss('./tailwind.config.js')]
-    })
-    .sass('assets/scss/editor.scss', './assets/dist/css').options({
+    .postCss('assets/css/tailwind.css', './assets/dist/css', [
+        require('tailwindcss')
+    ])
+    .postCss('assets/css/admin.css', './assets/dist/css', [
+        require('tailwindcss'),
+        require('postcss-nested')
+    ]).options({
         processCssUrls: false
     })
-    .sass('assets/scss/settings.scss', './assets/dist/css').options({
-        processCssUrls: false
-    })
-    .sass('assets/scss/dashboard.scss', './assets/dist/css').options({
-        processCssUrls: false
-    })
-    .sass('assets/scss/admin.scss', './assets/dist/css').options({
-        processCssUrls: false
-    })
-    .js('assets/js/blocks.js', 'assets/dist/js')
-    .react('assets/js/editor.js', 'assets/dist/js')
-    .react('assets/js/settings.js', 'assets/dist/js')
-    .react('assets/js/dashboard.js', 'assets/dist/js')
+    .postCss('assets/css/frontend.css', './assets/dist/css', [
+        require('tailwindcss'),
+        require('postcss-nested')
+    ])
+    .postCss('assets/css/dashboard.css', './assets/dist/css', [
+        require('tailwindcss'),
+        require('postcss-nested')
+    ])
+    .postCss('assets/css/editor.css', './assets/dist/css', [
+        require('tailwindcss'),
+        require('postcss-nested')
+    ])
+    .js('assets/js/editor.js', 'assets/dist/js')
+    .js('assets/js/frontend.js', 'assets/dist/js')
+    .js('assets/js/dashboard.jsx', 'assets/dist/js').react()
     .webpackConfig({
         externals: {
             "react": "React",
