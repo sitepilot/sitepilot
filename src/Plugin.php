@@ -54,6 +54,7 @@ final class Plugin
             'support' => \Sitepilot\Modules\Support\Support::class,
             'branding' => \Sitepilot\Modules\Branding\Branding::class,
             'templates' => \Sitepilot\Modules\Templates\Templates::class,
+            'shortcodes' => \Sitepilot\Modules\Shortcodes\Shortcodes::class,
             'client_role' => \Sitepilot\Modules\ClientRole\ClientRole::class,
             'client_site' => \Sitepilot\Modules\ClientSite\ClientSite::class,
             'beaver_builder' => \Sitepilot\Modules\BeaverBuilder\BeaverBuilder::class
