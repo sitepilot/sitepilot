@@ -3,7 +3,7 @@
 --sp-color-{{ $color->key }}: {!! $color->value !!};
 @endforeach
 @foreach($theme->css_vars() as $var)
---sp-{{ $var->key }}: {!! $var->value !!};
+--{{ $var->key }}: {!! $var->value !!};
 @endforeach
 }
 
