@@ -6,6 +6,7 @@ use Sitepilot\Fields\Text;
 use Sitepilot\Fields\Group;
 use Sitepilot\Fields\Number;
 use Sitepilot\Fields\Select;
+use Sitepilot\Fields\FieldConditional;
 
 class Query extends Group
 {
@@ -16,10 +17,21 @@ class Query extends Group
      */
     public function __construct(...$arguments)
     {
-        parent::__construct(...$arguments);
+        $this->fillable = array_merge($this->fillable, ['post_types']);
+        $this->attributes = array_merge($this->attributes, ['post_types' => ['post' => __('Post', 'sitepilot')]]);
 
-        $this->fields([
-            Select::make([
+        parent::__construct(...$arguments);
+    }
+
+    /**
+     * Returns the field's fields.
+     *
+     * @return array
+     */
+    public function fields()
+    {
+        return [
+            Select::make('query_source', [
                 'name' => __('Source', 'sitepilot'),
                 'options' => [
                     'main_query' => __('Main Query', 'sitepilot'),
@@ -28,15 +40,21 @@ class Query extends Group
                 'default' => 'main_query'
             ]),
 
-            Select::make(__('Post Type', 'sitepilot'), 'query_post_type')
-                ->options([
-                    'post' => __('Post', 'sitepilot')
-                ])
-                ->default_value('post')
-                ->conditional_rule('query_source', '==', 'custom_query'),
+            Select::make('query_post_type', [
+                'name' => __('Post Type', 'sitepilot'),
+                'options' => $this->post_types,
+                'default' => 'post',
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Select::make(__('Order By', 'sitepilot'), 'query_order_by')
-                ->options([
+            Select::make('query_order_by', [
+                'name' => __('Order By', 'sitepilot'),
+                'options' => [
                     'date' => __('Date', 'sitepilot'),
                     'modified' => __('Date Last Modified', 'sitepilot'),
                     'title' => __('Title', 'sitepilot'),
@@ -46,52 +64,77 @@ class Query extends Group
                     'ID' => __('ID', 'sitepilot'),
                     'comment_count' => __('Comment Count', 'sitepilot'),
                     'none' => __('None', 'sitepilot'),
-                ])
-                ->default_value('date')
-                ->conditional_rule('query_source', '==', 'custom_query'),
+                ],
+                'default' => 'date',
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Select::make(__('Order Direction', 'sitepilot'), 'query_order')
-                ->options([
+            Select::make('query_order', [
+                'name' => __('Order Direction', 'sitepilot'),
+                'options' => [
                     'desc' => __('Descending', 'sitepilot'),
                     'asc' => __('Ascending', 'sitepilot')
-                ])
-                ->default_value('desc')
-                ->conditional_rule('query_source', '==', 'custom_query'),
+                ],
+                'default' => 'desc',
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Number::make(__('Posts Per Page', 'sitepilot'), 'query_posts_per_page')
-                ->conditional_rule('query_source', '==', 'custom_query'),
+            Number::make('query_posts_per_page', [
+                'name' => __('Posts Per Page', 'sitepilot'),
+                'default' => 0,
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Number::make(__('Offset', 'sitepilot'), 'query_offset')
-                ->default_value(0)
-                ->conditional_rule('query_source', '==', 'custom_query'),
+            Number::make('query_offset', [
+                'name' => __('Offset', 'sitepilot'),
+                'default' => 0,
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Select::make(__('Exclude Current Post', 'sitepilot'), 'query_exclude_self')
-                ->options([
+            Select::make('query_exclude_self', [
+                'name' => __('Exclude Current Post', 'sitepilot'),
+                'options' => [
                     'yes' => __('Yes', 'sitepilot'),
                     'no'  => __('No', 'sitepilot'),
-                ])
-                ->default_value('no')
-                ->conditional_rule('query_source', '==', 'custom_query'),
+                ],
+                'default' => 'no',
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
 
-            Text::make(__('Keyword', 'sitepilot'), 'query_keyword')
-                ->conditional_rule('query_source', '==', 'custom_query')
-        ]);
-    }
-
-    /**
-     * Set the query post types.
-     *
-     * @param array $post_types
-     * @return self
-     */
-    public function post_types(array $post_types): self
-    {
-        for ($i = 0; $i < count($this->fields); $i++) {
-            if ('query_post_type' == $this->fields[$i]->attribute) {
-                $this->fields[$i]->options($post_types);
-            }
-        }
-
-        return $this;
+            Text::make('query_keyword', [
+                'name' => __('Keyword', 'sitepilot'),
+                'conditionals' => [
+                    new FieldConditional('query_source', [
+                        'operator' => '==',
+                        'value' => 'custom_query'
+                    ])
+                ]
+            ]),
+        ];
     }
 }
