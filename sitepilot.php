@@ -14,6 +14,7 @@ use Sitepilot\Plugin;
 
 if (!defined('ABSPATH')) exit;
 
+define('SITEPILOT', true);
 define('SITEPILOT_DIR', __DIR__);
 define('SITEPILOT_FILE', __FILE__);
 define('SITEPILOT_URL', untrailingslashit(plugin_dir_url(__FILE__)));

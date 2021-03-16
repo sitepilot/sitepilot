@@ -1,0 +1,18 @@
+.sp-block-icon-slider {
+    &__item {
+        @apply flex flex-row justify-center;
+    }
+
+    &__icon {
+        @apply mr-4;
+    }
+}
+
+.block-editor {
+    .sp-block-icon-slider {
+        .owl-carousel {
+            max-width: 1200px;
+            @apply mx-auto;
+        }
+    }
+}
