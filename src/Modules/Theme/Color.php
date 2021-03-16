@@ -20,18 +20,17 @@ class Color extends Model
     protected $fillable = ['key', 'name', 'value'];
 
     /**
-     * Format key attribute.
-     *
-     * @param string $value
-     * @return string
+     * Create color instance.
+     * 
+     * @param string $key
+     * @param array $attributes
+     * @return void
      */
-    protected function get_key_attribute($value)
+    public function __construct(string $key, array $attributes = [])
     {
-        if (empty($value)) {
-            return Str::slug($this->name);
-        }
+        $this->key = $key;
 
-        return $value;
+        parent::__construct($attributes);
     }
 
     /**
@@ -43,7 +42,7 @@ class Color extends Model
     protected function get_name_attribute($value)
     {
         if (empty($value)) {
-            return Str::studly($this->key);
+            return Str::title($this->key);
         }
 
         return $value;
