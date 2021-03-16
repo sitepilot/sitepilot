@@ -79,6 +79,9 @@ abstract class Base extends Model
         add_action('enqueue_block_editor_assets', [$this, 'enqueue_assets']);
         add_action('after_setup_theme', [$this, 'register_blocks']);
 
+        /* Filters */
+        add_filter('astra_color_palettes', [$this, 'filter_astra_color_palettes']);
+
         /* Initialize */
         $this->init();
     }
@@ -304,6 +307,26 @@ abstract class Base extends Model
     {
         foreach ($this->blocks() as $block) {
             sitepilot()->blocks->register($block);
+        }
+    }
+
+    /**
+     * Filter Astra color palettes.
+     *
+     * @param array $astra_colors
+     * @return void
+     */
+    public function filter_astra_color_palettes(array $astra_colors)
+    {
+        if (count($this->colors())) {
+            $colors = array();
+            $theme_colors = $this->colors();
+
+            foreach ($theme_colors as $color) {
+                $colors[] = $color->value;
+            }
+
+            return $colors;
         }
     }
 }
