@@ -39,4 +39,4 @@ jobs:
           RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
         with:
           args: rclone copy ./sitepilot.zip remote:/sites/update-hrg7/public/public/v1/packages -v
-        #if: github.event.release
+        if: github.event.release
