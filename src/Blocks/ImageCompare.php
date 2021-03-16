@@ -50,15 +50,17 @@ class ImageCompare extends Block
     {
         return [
             Image::make('img_1', [
-                'name' => __('Image 1', 'sitepilot')
+                'name' => __('Image 1', 'sitepilot'),
+                'default' => 'https://picsum.photos/1024/600'
             ]),
 
             ImageSize::make('img_1_size', [
-                'name' => __('Image 1 Size', 'sitepilot')
+                'name' => __('Image 1 Size', 'sitepilot'),
             ]),
 
             Image::make('img_2', [
-                'name' => __('Image 2', 'sitepilot')
+                'name' => __('Image 2', 'sitepilot'),
+                'default' => 'https://picsum.photos/1024/600'
             ]),
 
             ImageSize::make('img_2_size', [
