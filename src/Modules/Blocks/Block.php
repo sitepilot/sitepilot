@@ -276,7 +276,7 @@ abstract class Block extends Model
         if (is_string($value)) {
             $this->attributes['type'] = [$value];
         } elseif (is_array($value)) {
-            $this->attribute['type'] = $value;
+            $this->attributes['type'] = $value;
         }
     }
 
