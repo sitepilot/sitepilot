@@ -23,7 +23,8 @@ jobs:
           sed -i "s/[0-9]*\.[0-9]*\.[0-9]*\-dev/${VERSION}/g" sitepilot.php
 
           mkdir sitepilot 
-          mv * sitepilot/
+          shopt -s extglob
+          mv !(sitepilot) sitepilot
 
           zip -r ./sitepilot.zip ./sitepilot -x '*.git*' -x '*.github*' -x '*node_modules*'
 
