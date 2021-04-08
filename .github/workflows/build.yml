@@ -34,3 +34,13 @@ jobs:
         with:
           args: rclone copy ./sitepilot.zip remote:/sites/update-hrg7/public/v1/packages -v
         if: github.event.release
+
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./sitepilot.zip
+          asset_name: sitepilot.zip
+          asset_content_type: application/zip
+        if: github.event.release
