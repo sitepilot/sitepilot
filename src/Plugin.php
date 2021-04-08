@@ -10,6 +10,7 @@ use Jenssegers\Blade\Blade;
  * @property \Sitepilot\Branding $branding
  * @property \Sitepilot\Dashboard $dashboard
  * @property \Sitepilot\Modules\Logs\Logs $logs
+ * @property \Sitepilot\Modules\Cache\Cache $cache
  * @property \Sitepilot\Modules\Blocks\Blocks $blocks
  * @property \Sitepilot\Modules\Support\Support $support
  * @property \Sitepilot\Modules\Templates\Templates $templates
@@ -50,6 +51,7 @@ final class Plugin
 
             /* Modules */
             'logs' => \Sitepilot\Modules\Logs\Logs::class,
+            'cache' => \Sitepilot\Modules\Cache\Cache::class,
             'blocks' => \Sitepilot\Modules\Blocks\Blocks::class,
             'support' => \Sitepilot\Modules\Support\Support::class,
             'branding' => \Sitepilot\Modules\Branding\Branding::class,
