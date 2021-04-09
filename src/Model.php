@@ -91,6 +91,6 @@ class Model extends Module
      */
     public function is_sitepilot_platform(): bool
     {
-        return strpos(gethostname(), 'sitepilot.io') !== false || $this->is_dev() ? true : false;
+        return !empty(getenv('SITEPILOT_CACHE_PATH')) ? true : false;
     }
 }
