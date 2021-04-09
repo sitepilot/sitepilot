@@ -28,6 +28,10 @@ class Model extends Module
      */
     public function get_version(): string
     {
+        if (!function_exists('get_plugin_data')) {
+            require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+        }
+
         $data = get_plugin_data(SITEPILOT_FILE);
 
         return $data['Version'];
@@ -91,6 +95,6 @@ class Model extends Module
      */
     public function is_sitepilot_platform(): bool
     {
-        return !empty(getenv('SITEPILOT_CACHE_PATH')) ? true : false;
+        return !empty(getenv('PLATFORM') && getenv('PLATFORM') == 'Sitepilot') ? true : false;
     }
 }
