@@ -48,7 +48,7 @@ class Shortcodes extends Module
      * 
      * @return string
      */
-    public function shortcode_date($data = []): string
+    public function shortcode_date($data = [])
     {
         $data = array_merge([
             'format' => 'Y-m-d'
@@ -62,7 +62,7 @@ class Shortcodes extends Module
      *
      * @return string
      */
-    public function shortcode_powered_by(): string
+    public function shortcode_powered_by()
     {
         return sitepilot()->branding->get_powered_by_text();
     }
@@ -72,7 +72,7 @@ class Shortcodes extends Module
      *
      * @return string
      */
-    public function shortcode_post_title($data): string
+    public function shortcode_post_title($data)
     {
         $object = get_queried_object();
 
@@ -106,7 +106,7 @@ class Shortcodes extends Module
      *
      * @return string
      */
-    public function shortcode_post_content(): string
+    public function shortcode_post_content()
     {
         global $post;
 
