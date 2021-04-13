@@ -15,6 +15,7 @@ use Jenssegers\Blade\Blade;
  * @property \Sitepilot\Modules\Support\Support $support
  * @property \Sitepilot\Modules\Templates\Templates $templates
  * @property \Sitepilot\Modules\BeaverBuilder\BeaverBuilder $beaver_builder
+ * @property \Sitepilot\Modules\PrimaryKeyFixer\PrimaryKeyFixer $primary_key_fixer
  */
 final class Plugin
 {
@@ -59,7 +60,8 @@ final class Plugin
             'shortcodes' => \Sitepilot\Modules\Shortcodes\Shortcodes::class,
             'client_role' => \Sitepilot\Modules\ClientRole\ClientRole::class,
             'client_site' => \Sitepilot\Modules\ClientSite\ClientSite::class,
-            'beaver_builder' => \Sitepilot\Modules\BeaverBuilder\BeaverBuilder::class
+            'beaver_builder' => \Sitepilot\Modules\BeaverBuilder\BeaverBuilder::class,
+            'primary_key_fixer' => \Sitepilot\Modules\PrimaryKeyFixer\PrimaryKeyFixer::class
         ];
 
         foreach ($modules as $key => $class) {
