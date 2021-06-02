@@ -30,7 +30,7 @@ if (!class_exists('FLBuilderWhiteLabel')) {
          */
         public static function get_branding()
         {
-            return sitepilot()->branding->get_name() . " Builder";
+            return sitepilot()->branding()->get_name() . " Builder";
         }
 
         /**
@@ -40,7 +40,7 @@ if (!class_exists('FLBuilderWhiteLabel')) {
          */
         public static function get_branding_icon()
         {
-            return sitepilot()->branding->get_icon();
+            return sitepilot()->branding()->get_icon();
         }
 
         /**

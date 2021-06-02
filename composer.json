@@ -6,7 +6,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "jenssegers/blade": "^1.4",
         "yahnis-elsts/plugin-update-checker": "^4.10"
     },
     "autoload": {

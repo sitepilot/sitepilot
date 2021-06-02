@@ -1,7 +1,5 @@
 <?php
 
-use Sitepilot\Plugin;
-
 /**
  * Plugin Name: Sitepilot
  * Plugin URI: https://sitepilot.io
@@ -23,16 +21,6 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-if (!function_exists('sitepilot')) {
-    /**
-     * Returns the Sitepilot plugin instance.
-     *
-     * @return Plugin
-     */
-    function sitepilot(): Plugin
-    {
-        return Plugin::make();
-    }
-}
+require_once __DIR__ . '/functions.php';
 
 sitepilot();

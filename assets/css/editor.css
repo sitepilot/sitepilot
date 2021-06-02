@@ -1,12 +1,5 @@
-/* Module: Blocks
-/* ----------------------------------------------- */
-.sp-block-error {
-    @apply mt-8 mb-8 p-4 border border-dotted border-gray-200 text-center;
-}
-
 /* Module: Templates
 /* ----------------------------------------------- */
-.post-type-sp-template,
 .page-template-sitepilot-full-width {
     .block-editor-writing-flow, .block-editor-block-list__block {
         max-width: 100% !important;

@@ -1,17 +1,10 @@
-/* Blocks
-/* ----------------------------------------------- */
-@import "../../blocks/video/block";
-@import "../../blocks/section/block";
-@import "../../blocks/accordion/block";
-@import "../../blocks/icon-text/block";
-@import "../../blocks/icon-slider/block";
-@import "../../blocks/contact-form-7/block";
-
 /* Module: Templates
 /* ----------------------------------------------- */
-.sp-template__full-width {
-    width: 100vw;
-    max-width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);        
+.sp-template {
+    &__full-width {
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);        
+    }
 }

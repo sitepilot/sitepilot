@@ -29,18 +29,18 @@ class Updater extends Module
     public function action_setup(): void
     {
         // Make sure the user is logged in or if this is a fresh install.
-        if (!is_user_logged_in() && sitepilot()->model->get_saved_version()) {
+        if (!is_user_logged_in() && sitepilot()->model()->get_saved_version()) {
             return;
         }
 
         // Get the saved version.
-        $saved_version = sitepilot()->model->get_saved_version();
+        $saved_version = sitepilot()->model()->get_saved_version();
 
         // Only run updates if the version numbers don't match.
-        if (!version_compare($saved_version, sitepilot()->model->get_version(), '=')) {
+        if (!version_compare($saved_version, sitepilot()->model()->get_version(), '=')) {
             $this->run($saved_version);
 
-            sitepilot()->model->set_saved_version(sitepilot()->model->get_version());
+            sitepilot()->model->set_saved_version(sitepilot()->model()->get_version());
         }
     }
 
@@ -75,7 +75,7 @@ class Updater extends Module
      */
     public function filter_update_list(array $list): array
     {
-        if (!sitepilot()->model->is_dev()) {
+        if (!sitepilot()->model()->is_dev()) {
             $plugin['file'] = SITEPILOT_FILE;
             $plugin['slug'] = 'sitepilot';
 
