@@ -47,7 +47,7 @@ class Logs extends Module
     protected function settings(): array
     {
         return apply_filters('sp_logs_settings', [
-            'enabled' => apply_filters('sp_logs_enabled', false),
+            'enabled' => apply_filters('sp_logs_enabled', get_theme_support('sp-logs')),
             'replace_names' => apply_filters('sp_logs_replace_names', [])
         ]);
     }

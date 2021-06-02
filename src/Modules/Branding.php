@@ -49,10 +49,10 @@ class Branding extends Module
             'support_url' => apply_filters('sp_branding_support_url', 'https://help.sitepilot.io'),
             'support_email' => apply_filters('sp_branding_support_email', 'support@sitepilot.io'),
             'powered_by_text' => apply_filters('sp_branding_powered_by_text', sprintf(__('Powered by %s', 'sitepilot'), '<a href="https://sitepilot.io" target="_blank">Sitepilot</a>')),
-            'wp_head_enabled' => apply_filters('sp_branding_wp_head_enabled', false),
-            'login_enabled' => apply_filters('sp_branding_login_enabled', false),
-            'admin_footer_enabled' => apply_filters('sp_branding_admin_footer_enabled', false),
-            'admin_bar_enabled' => apply_filters('sp_branding_admin_bar_enabled', false)
+            'wp_head_enabled' => apply_filters('sp_branding_wp_head_enabled', get_theme_support('sp-branding')),
+            'login_enabled' => apply_filters('sp_branding_login_enabled', get_theme_support('sp-branding')),
+            'admin_footer_enabled' => apply_filters('sp_branding_admin_footer_enabled', get_theme_support('sp-branding')),
+            'admin_bar_enabled' => apply_filters('sp_branding_admin_bar_enabled', get_theme_support('sp-branding'))
         ]);
     }
 

@@ -52,7 +52,7 @@ class ClientRole extends Module
     protected function settings(): array
     {
         return apply_filters('sp_client_role_settings', [
-            'enabled' => apply_filters('sp_client_role_enabled', false),
+            'enabled' => apply_filters('sp_client_role_enabled', get_theme_support('sp-client-role')),
             'exclude_capabilities' => apply_filters('sp_client_role_exclude_capabilities', [
                 'switch_themes',
                 'edit_themes',

@@ -53,7 +53,7 @@ class Templates extends Module
     protected function settings(): array
     {
         return apply_filters('sp_templates_settings', [
-            'enabled' => apply_filters('sp_templates_enabled', false)
+            'enabled' => apply_filters('sp_templates_enabled', get_theme_support('sp-templates'))
         ]);
     }
 

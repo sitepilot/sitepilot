@@ -49,7 +49,7 @@ class ClientSite extends Module
     protected function settings(): array
     {
         return apply_filters('sp_client_site_settings', [
-            'enabled' => apply_filters('sp_client_website', false)
+            'enabled' => apply_filters('sp_client_website', get_theme_support('sp-client-site'))
         ]);
     }
 }
