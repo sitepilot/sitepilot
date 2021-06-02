@@ -7,14 +7,9 @@ module.exports = {
   purge: {
     content: [
       'src/**/*.php',
-      'views/**/*.php',
-      'views/**/*.blade.php',
       'includes/**/*.php',
       'assets/**/*.js',
       'assets/**/*.jsx'
-    ],
-    options: {
-      safelist: ['sitepilot']
-    }
+    ]
   }
 }
