@@ -10,11 +10,11 @@
         "production": "mix --production"
     },
     "devDependencies": {
-        "@babel/preset-react": "^7.12.13",
-        "laravel-mix": "^6.0.6",
-        "postcss": "^8.1.14",
+        "@babel/preset-react": "^7.13.13",
+        "laravel-mix": "^6.0.19",
+        "postcss": "^8.3.0",
         "postcss-nested": "^5.0.5",
-        "tailwindcss": "^2.0.3",
-        "react": "^17.0.1"
+        "react": "^17.0.2",
+        "tailwindcss": "^2.1.3"
     }
 }
