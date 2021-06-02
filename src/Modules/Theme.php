@@ -13,7 +13,19 @@ class Theme extends Module
      */
     public function init(): void
     {
-        //
+        add_action('acf/init', [$this, 'action_register_acf_options']);
+    }
+
+    /**
+     * Returns the module's settings.
+     *
+     * @return array
+     */
+    protected function settings(): array
+    {
+        return apply_filters('sp_theme_settings', [
+            'taxonomy_featured_image_enabled' => apply_filters('sp_taxonomy_featured_image_enabled', get_theme_support('sp-taxonomy-featured-image'))
+        ]);
     }
 
     /**
@@ -195,5 +207,41 @@ class Theme extends Module
         }
 
         return do_blocks($html);
+    }
+
+    /**
+     * Register option groups.
+     *
+     * @return void
+     */
+    public function action_register_acf_options(): void
+    {
+        if (function_exists('acf_add_local_field_group')) {
+            if ($this->get_setting('taxonomy_featured_image_enabled')) {
+                acf_add_local_field_group(array(
+                    'key' => 'group_60b77aad4e409',
+                    'title' => 'Sitepilot',
+                    'fields' => array(
+                        array(
+                            'key' => 'field_60b77aae2ad48',
+                            'label' => __('Featured Image', 'sitepilot'),
+                            'name' => 'sp_featured_img',
+                            'type' => 'image',
+                            'return_format' => 'id',
+                            'preview_size' => 'medium',
+                        ),
+                    ),
+                    'location' => array(
+                        array(
+                            array(
+                                'param' => 'taxonomy',
+                                'operator' => '==',
+                                'value' => 'all',
+                            ),
+                        ),
+                    )
+                ));
+            }
+        }
     }
 }
