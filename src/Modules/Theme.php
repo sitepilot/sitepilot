@@ -47,18 +47,43 @@ class Theme extends Module
     }
 
     /**
-     * Returns the real post featured image url.
+     * Returns image sizes by image ID.
      *
-     * @param array $args
-     * @return string|null
+     * @param int|null $image_id
+     * @param string|int $default
+     * @return array|null
      */
-    public function featured_img(string $size = 'full'): ?string
+    public function img($image_id, $default = null, array $classes = []): ?array
     {
-        return wp_get_attachment_image_url($this->featured_img_id(), $size);
+        if (!$image_id && is_numeric($default)) {
+            $image_id = $default;
+        }
+
+        if ($image['full'] = wp_get_attachment_url($image_id)) {
+            foreach (get_intermediate_image_sizes() as $size) {
+                $image[$size] = wp_get_attachment_image_url($image_id, $size);
+            }
+
+            $image['html'] = '<img src="' . $image['full'] . '" srcset="' . wp_get_attachment_image_srcset($image_id) . '" class="' . implode(" ", $classes) . '" />';
+
+            return $image;
+        } elseif (filter_var($default, FILTER_VALIDATE_URL)) {
+            $image['full'] = $default;
+
+            foreach (get_intermediate_image_sizes() as $size) {
+                $image[$size] = $image['full'];
+            }
+
+            $image['html'] = '<img src="' . $image['full'] . '" class="' . implode(" ", $classes) . '" />';
+
+            return $image;
+        }
+
+        return null;
     }
 
     /**
-     * Returns the real post featured image id.
+     * Returns the real post featured image ID.
      *
      * @return integer|null
      */
@@ -73,6 +98,18 @@ class Theme extends Module
         }
 
         return !empty($id) ? $id : get_post_thumbnail_id();
+    }
+
+    /**
+     * Returns the real post featured image.
+     *
+     * @param string|int $default
+     * @param array $classes
+     * @return array|null
+     */
+    public function featured_img($default = null, array $classes = []): ?array
+    {
+        return $this->img($this->featured_img_id(), $default, $classes);
     }
 
     /**
@@ -98,7 +135,7 @@ class Theme extends Module
 
         $posts = get_posts($post_args);
 
-        return apply_filters('the_content', $posts[0]->post_content ?? '');
+        return do_shortcode(do_blocks($posts[0]->post_content ?? ''));
     }
 
     /**
@@ -147,37 +184,6 @@ class Theme extends Module
     public function html_encode($data): string
     {
         return esc_html(wp_json_encode($data));
-    }
-
-    /**
-     * Returns image sizes by image ID.
-     *
-     * @param int $image_id
-     * @return array|null
-     */
-    public function img($image_id, $default = null): ?array
-    {
-        if ($image['full'] = wp_get_attachment_url($image_id)) {
-            foreach (get_intermediate_image_sizes() as $size) {
-                $image[$size] = wp_get_attachment_image_url($image_id, $size);
-            }
-
-            $image['html'] = '<img src="' . $image['full'] . '" srcset="' . wp_get_attachment_image_srcset($image_id) . '" />';
-
-            return $image;
-        } elseif (filter_var($default, FILTER_VALIDATE_URL)) {
-            $image['full'] = $default;
-
-            foreach (get_intermediate_image_sizes() as $size) {
-                $image[$size] = $image['full'];
-            }
-
-            $image['html'] = '<img src="' . $image['full'] . '" />';
-
-            return $image;
-        }
-
-        return null;
     }
 
     /**
