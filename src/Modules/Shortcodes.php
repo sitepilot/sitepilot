@@ -13,27 +13,9 @@ class Shortcodes extends Module
      */
     public function init(): void
     {
-        add_shortcode('sitepilot', [$this, 'shortcode']);
-    }
-
-    /**
-     * Sitepilot shortcode.
-     *
-     * @param array $args
-     * @param string $content
-     * @return void
-     */
-    public function shortcode($args = [], $content = '')
-    {
-        $function = str_replace('-', '_', $args[0] ?? '');
-
-        $blocklist = ['shortcode'];
-
-        if (!empty($args[0]) && method_exists($this, $function) && !in_array($function, $blocklist)) {
-            return $this->$function($args);
-        }
-
-        return "Function [$function] does not exist.";
+        add_shortcode('sp_title', [$this, 'title']);
+        add_shortcode('sp_powered_by', [$this, 'powered_by']);
+        add_shortcode('sp_date', [$this, 'date']);
     }
 
     /**
@@ -60,17 +42,17 @@ class Shortcodes extends Module
      * @param array $args
      * @return string
      */
-    public function date(array $args = []): string
+    public function date($args = []): string
     {
         $args = array_merge([
             'format' => null
-        ], $args);
+        ], $args ?: []);
 
         if (!$args['format']) {
-            $format = get_option('date_format');
+            $args['format'] = get_option('date_format');
         }
 
-        return current_time($format);
+        return date($args['format']);
     }
 
     /**
