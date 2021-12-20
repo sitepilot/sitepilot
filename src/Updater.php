@@ -94,7 +94,7 @@ class Updater extends Module
     {
         foreach (apply_filters('sp_update_list', []) as $item) {
             if (isset($item['file']) && isset($item['slug'])) {
-                if (!isset($item['repo'])) $item['repo'] = 'https://update.sitepilot.io/v1/?action=get_metadata&slug=' . $item['slug'];
+                if (!isset($item['repo'])) $item['repo'] = 'https://wpupdate.sitepilot.io/v1/?action=get_metadata&slug=' . $item['slug'];
 
                 Puc_v4_Factory::buildUpdateChecker(
                     $item['repo'],
