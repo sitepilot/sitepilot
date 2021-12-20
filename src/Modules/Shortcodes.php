@@ -8,7 +8,7 @@ class Shortcodes extends Module
 {
     /**
      * Initialize the shortcodes module.
-     * 
+     *
      * @return void
      */
     public function init(): void
@@ -43,17 +43,15 @@ class Shortcodes extends Module
      */
     public function title(): string
     {
-        return sitepilot()->theme()->title();
-    }
+        if (is_home()) {
+            $title = get_the_title(get_option('page_for_posts'));
+        } elseif (function_exists('is_shop') && is_shop()) {
+            $title = get_the_title(get_option('woocommerce_shop_page_id'));
+        } elseif ($object = get_queried_object()) {
+            $title = $object->name;
+        }
 
-    /**
-     * Powered by shortcode.
-     *
-     * @return string
-     */
-    public function powered_by(): string
-    {
-        return sitepilot()->branding()->get_powered_by_text();
+        return !empty($title) ? $title : get_the_title();
     }
 
     /**
@@ -68,6 +66,20 @@ class Shortcodes extends Module
             'format' => null
         ], $args);
 
-        return sitepilot()->theme()->date($args['format']);
+        if (!$args['format']) {
+            $format = get_option('date_format');
+        }
+
+        return current_time($format);
+    }
+
+    /**
+     * Powered by shortcode.
+     *
+     * @return string
+     */
+    public function powered_by(): string
+    {
+        return sitepilot()->branding()->get_powered_by_text();
     }
 }

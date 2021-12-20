@@ -45,11 +45,13 @@ class App extends Component {
         }
 
         function openChat() {
-            window.Trengo.Api.Widget.open('chat');
+            window.Beacon('open');
+            window.Beacon('navigate', '/ask/');
         }
 
         function openHelp() {
-            window.Trengo.Api.Widget.open('help_center');
+            window.Beacon('open');
+            window.Beacon('navigate', '/answers/');
         }
 
         return (
@@ -103,6 +105,14 @@ class App extends Component {
                             </td>
                             <td class="py-2 whitespace-nowrap">
                                 {sitepilot.version}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 whitespace-nowrap pr-4">
+                                <strong>{__('Cache Status', 'sitepilot')}</strong>
+                            </td>
+                            <td class="py-2 whitespace-nowrap">
+                                {sitepilot.cache_status}
                             </td>
                         </tr>
                         <tr>

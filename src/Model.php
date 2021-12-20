@@ -12,8 +12,8 @@ class Model extends Module
     protected $priority = 6;
 
     /**
-     * Construct the model module.
-     * 
+     * Initialize the model module.
+     *
      * @return void
      */
     public function init(): void
@@ -80,7 +80,7 @@ class Model extends Module
 
     /**
      * Returns the last update date timestamp.
-     * 
+     *
      * @return int
      */
     public function get_last_update_date(): ?int

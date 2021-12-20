@@ -20,7 +20,7 @@ abstract class Module
 
     /**
      * Create a new module instance.
-     * 
+     *
      * @return void
      */
     public function __construct()

@@ -8,7 +8,7 @@ class Updater extends Module
 {
     /**
      * Construct the update module.
-     * 
+     *
      * @return void
      */
     public function init(): void

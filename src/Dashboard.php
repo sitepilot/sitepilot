@@ -5,8 +5,8 @@ namespace Sitepilot;
 class Dashboard extends Module
 {
     /**
-     * Construct the dashboard module.
-     * 
+     * Initialize the dashboard module.
+     *
      * @return void
      */
     public function init(): void
@@ -15,9 +15,9 @@ class Dashboard extends Module
         add_action('admin_menu', [$this, 'action_admin_menu']);
     }
 
-    /** 
-     * Register admin menu. 
-     * 
+    /**
+     * Register admin menu.
+     *
      * @return void
      */
     public function action_admin_menu(): void
@@ -76,7 +76,8 @@ class Dashboard extends Module
                 'wp_version' => $wp_version,
                 'last_update_date' => $last_update ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_update) : '-',
                 'powered_by' => strip_tags(sitepilot()->branding()->get_powered_by_text()),
-                'support_enabled' => true
+                'support_enabled' => true,
+                'cache_status' => getenv('SITEPILOT_CACHE_ENABLED') ? 'on' : 'off'
             )
         );
     }

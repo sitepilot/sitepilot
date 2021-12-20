@@ -8,15 +8,11 @@ class Branding extends Module
 {
     /**
      * Initialize the branding module.
-     * 
+     *
      * @return void
      */
     public function init(): void
     {
-        if ($this->get_setting('wp_head_enabled')) {
-            add_action('wp_head', [$this, 'action_powered_by_head'], 0);
-        }
-
         if ($this->get_setting('login_enabled')) {
             add_action('login_enqueue_scripts', [$this, 'action_login_style']);
             add_filter('login_headerurl', [$this, 'filter_login_url']);
@@ -49,7 +45,6 @@ class Branding extends Module
             'support_url' => apply_filters('sp_branding_support_url', 'https://help.sitepilot.io'),
             'support_email' => apply_filters('sp_branding_support_email', 'support@sitepilot.io'),
             'powered_by_text' => apply_filters('sp_branding_powered_by_text', sprintf(__('Powered by %s', 'sitepilot'), '<a href="https://sitepilot.io" target="_blank">Sitepilot</a>')),
-            'wp_head_enabled' => apply_filters('sp_branding_wp_head_enabled', get_theme_support('sp-branding')),
             'login_enabled' => apply_filters('sp_branding_login_enabled', get_theme_support('sp-branding')),
             'admin_footer_enabled' => apply_filters('sp_branding_admin_footer_enabled', get_theme_support('sp-branding')),
             'admin_bar_enabled' => apply_filters('sp_branding_admin_bar_enabled', get_theme_support('sp-branding'))
@@ -178,18 +173,6 @@ class Branding extends Module
         global $wp_admin_bar;
 
         $wp_admin_bar->remove_node('wp-logo');
-    }
-
-    /**
-     * Inject 'powered by' text into theme head.
-     *
-     * @return void
-     */
-    public function action_powered_by_head(): void
-    {
-        echo "\n<!-- =================================================================== -->";
-        echo "\n<!-- " . strip_tags($this->get_powered_by_text(false)) . " -->";
-        echo "\n<!-- =================================================================== -->\n\n";
     }
 
     /**

@@ -3,18 +3,14 @@
 namespace Sitepilot;
 
 use Sitepilot\Model;
-use Sitepilot\Modules\Acf;
-use Sitepilot\Modules\Logs;
-use Sitepilot\Modules\Theme;
+use Sitepilot\AdminBar;
 use Sitepilot\Modules\Branding;
-use Sitepilot\Modules\Templates;
-use Sitepilot\Modules\Extend\BeaverBuilder;
 
 final class Plugin
 {
     /**
      * Construct the plugin.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -24,21 +20,15 @@ final class Plugin
             'model' => \Sitepilot\Model::class,
             'updater' => \Sitepilot\Updater::class,
             'dashboard' => \Sitepilot\Dashboard::class,
+            'admin_bar' => \Sitepilot\AdminBar::class,
 
             /* Modules */
-            'acf' => \Sitepilot\Modules\Acf::class,
-            'logs' => \Sitepilot\Modules\Logs::class,
-            'theme' => \Sitepilot\Modules\Theme::class,
+            'cache' => \Sitepilot\Modules\Cache::class,
             'support' => \Sitepilot\Modules\Support::class,
             'branding' => \Sitepilot\Modules\Branding::class,
-            'templates' => \Sitepilot\Modules\Templates::class,
             'shortcodes' => \Sitepilot\Modules\Shortcodes::class,
             'client_role' => \Sitepilot\Modules\ClientRole::class,
-            'client_site' => \Sitepilot\Modules\ClientSite::class,
-            'primary_key_fixer' => \Sitepilot\Modules\PrimaryKeyFixer::class,
-
-            /* Extend */
-            'beaver_builder' => \Sitepilot\Modules\Extend\BeaverBuilder::class,
+            'client_site' => \Sitepilot\Modules\ClientSite::class
         ];
 
         foreach ($modules as $key => $class) {
@@ -68,7 +58,7 @@ final class Plugin
 
     /**
      * Register assets.
-     * 
+     *
      * @return void
      */
     public function action_register_assets(): void
@@ -94,33 +84,13 @@ final class Plugin
 
     /**
      * Enqueue admin assets.
-     * 
+     *
      * @return void
      */
     public function action_enqueue_admin_assets(): void
     {
         /* Styles */
         wp_enqueue_style('sp-admin');
-    }
-
-    /**
-     * Returns the ACF instance.
-     *
-     * @return Acf
-     */
-    public function acf(): Acf
-    {
-        return $this->acf;
-    }
-
-    /**
-     * Returns the theme instance.
-     *
-     * @return Theme
-     */
-    public function theme(): Theme
-    {
-        return $this->theme;
     }
 
     /**
@@ -144,32 +114,12 @@ final class Plugin
     }
 
     /**
-     * Returns the logs instance.
+     * Returns the admin bar instance.
      *
-     * @return Logs
+     * @return AdminBar
      */
-    public function logs(): Logs
+    public function admin_bar(): AdminBar
     {
-        return $this->logs;
-    }
-
-    /**
-     * Returns the tempalates instance.
-     *
-     * @return Templates
-     */
-    public function templates(): Templates
-    {
-        return $this->templates;
-    }
-
-    /**
-     * Returns the beaver builder instance.
-     *
-     * @return BeaverBuilder
-     */
-    public function beaver_builder(): BeaverBuilder
-    {
-        return $this->beaver_builder;
+        return $this->admin_bar;
     }
 }

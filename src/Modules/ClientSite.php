@@ -18,7 +18,7 @@ class ClientSite extends Module
 
     /**
      * Initialize the client site module.
-     * 
+     *
      * @return void
      */
     public function init(): void
@@ -28,17 +28,10 @@ class ClientSite extends Module
         }
 
         /* Actions */
-        add_filter('sp_logs_enabled', '__return_true');
         add_filter('sp_client_role_enabled', '__return_true');
         add_filter('sp_branding_login_enabled', '__return_true');
-        add_filter('sp_branding_wp_head_enabled', '__return_true');
         add_filter('sp_branding_admin_footer_enabled', '__return_true');
         add_filter('sp_branding_admin_bar_enabled', '__return_true');
-        add_filter('sp_beaver_builder_branding_enabled', '__return_true');
-        add_filter('sp_beaver_builder_remove_default_templates', '__return_true');
-        add_filter('sp_beaver_builder_filter_admin_settings_cap', '__return_true');
-        add_filter('sp_beaver_builder_power_pack_branding_enabled', '__return_true');
-        add_filter('sp_beaver_builder_ultimate_addons_branding_enabled', '__return_true');
     }
 
     /**

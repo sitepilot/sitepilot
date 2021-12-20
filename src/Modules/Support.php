@@ -8,7 +8,7 @@ class Support extends Module
 {
     /**
      * Initialize the support module.
-     * 
+     *
      * @return void
      */
     public function init(): void
@@ -54,18 +54,28 @@ class Support extends Module
         }
 
         if (!empty($screen->id) && in_array($screen->id, ['dashboard', 'sitepilot_page_sitepilot-settings', 'toplevel_page_sitepilot-menu'])) {
-            echo "<script type=\"text/javascript\">
-            window.Trengo = window.Trengo || {};
-            window.Trengo.contact_data = " . wp_json_encode($user_data) . ";
-            window.Trengo.key = 'IN6SAcEF9cjuK5HvP1TC';
-            (function(d, script, t) {
-                script = d.createElement('script');
-                script.type = 'text/javascript';
-                script.async = true;
-                script.src = 'https://static.widget.trengo.eu/embed.js';
-                d.getElementsByTagName('head')[0].appendChild(script);
-            }(document));
-            </script>";
+?>
+            <script type="text/javascript">
+                ! function(e, t, n) {
+                    function a() {
+                        var e = t.getElementsByTagName("script")[0],
+                            n = t.createElement("script");
+                        n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
+                    }
+                    if (e.Beacon = n = function(t, n, a) {
+                            e.Beacon.readyQueue.push({
+                                method: t,
+                                options: n,
+                                data: a
+                            })
+                        }, n.readyQueue = [], "complete" === t.readyState) return a();
+                    e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
+                }(window, document, window.Beacon || function() {});
+            </script>
+            <script type="text/javascript">
+                window.Beacon('init', '43962daf-3958-4eea-b3d8-b030020fb2ce')
+            </script>
+<?php
         }
     }
 }

@@ -8,7 +8,7 @@ class ClientRole extends Module
 {
     /**
      * Initialize the client role module.
-     * 
+     *
      * @return void
      */
     public function init(): void
@@ -70,9 +70,7 @@ class ClientRole extends Module
                 'update_core',
                 'remove_users',
                 'promote_users',
-                'delete_themes',
-                sitepilot()->logs()->log_admin_cap,
-                sitepilot()->beaver_builder()->admin_settings_cap
+                'delete_themes'
             ])
         ]);
     }
