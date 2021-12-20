@@ -32,7 +32,7 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         with:
-          args: rclone copy ./sitepilot.zip remote:sites/update/public/v1/packages --config="./sitepilot/deploy.conf"
+          args: rclone copy ./sitepilot.zip remote:public/v1/packages --config="./sitepilot/deploy.conf"
 #        if: github.event.release
 
       - uses: actions/upload-release-asset@v1
