@@ -5,7 +5,7 @@
  * Plugin URI: https://sitepilot.io
  * Author: Sitepilot
  * Author URI: https://sitepilot.io
- * Version: 2.0.0-dev
+ * Version: 3.0.0-dev
  * Description: Brings the powers of Sitepilot directly to your WordPress website.
  * Text Domain: sitepilot
  */
