@@ -28,11 +28,11 @@ jobs:
 
           zip -r ./sitepilot.zip ./sitepilot -x '*.git*' -x '*.github*' -x '*node_modules*'
 
-#      - uses: sitepilot/action-deploy@main
-#        env:
-#          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-#        with:
-#          args: rclone copy ./sitepilot.zip remote:sites/update/public/v1/packages --config="./sitepilot/deploy.conf"
+      - uses: sitepilot/action-deploy@main
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        with:
+          args: rclone copy ./sitepilot.zip remote:sites/update/public/v1/packages --config="./sitepilot/deploy.conf"
 #        if: github.event.release
 
       - uses: actions/upload-release-asset@v1
