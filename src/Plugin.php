@@ -4,6 +4,7 @@ namespace Sitepilot;
 
 use Sitepilot\Model;
 use Sitepilot\AdminBar;
+use Sitepilot\Modules\Cache;
 use Sitepilot\Modules\Branding;
 
 final class Plugin
@@ -121,5 +122,15 @@ final class Plugin
     public function admin_bar(): AdminBar
     {
         return $this->admin_bar;
+    }
+
+    /**
+     * Returns the admin bar instance.
+     *
+     * @return Cache
+     */
+    public function cache(): Cache
+    {
+        return $this->cache;
     }
 }

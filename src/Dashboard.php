@@ -77,7 +77,7 @@ class Dashboard extends Module
                 'last_update_date' => $last_update ? date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $last_update) : '-',
                 'powered_by' => strip_tags(sitepilot()->branding()->get_powered_by_text()),
                 'support_enabled' => true,
-                'cache_status' => getenv('SITEPILOT_CACHE_ENABLED') ? 'on' : 'off'
+                'cache_status' => sitepilot()->cache()->is_page_cache_enabled() ? __('On', 'sitepilot') : __('Off', 'sitepilot')
             )
         );
     }
