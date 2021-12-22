@@ -18,7 +18,7 @@ class Cache extends Module
      */
     public function init(): void
     {
-        if (!getenv('SITEPILOT_CACHE_ENABLED')) {
+        if (!$this->is_page_cache_enabled() && !$this->is_object_cache_enabled()) {
             return;
         }
 
@@ -219,7 +219,7 @@ class Cache extends Module
      */
     public function is_page_cache_enabled()
     {
-        return getenv('SITEPILOT_CACHE_ENABLED') && getenv('SITEPILOT_CACHE_PATH');
+        return getenv('SITEPILOT_CACHE_STATUS') && in_array(getenv('SITEPILOT_CACHE_STATUS'), ['Enabled', 'On']);
     }
 
     /**
